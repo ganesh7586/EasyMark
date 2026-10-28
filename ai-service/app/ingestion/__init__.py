@@ -6,6 +6,7 @@ from app.ingestion.pdf_extractor import (
     ExtractedDocument,
     ExtractedPage,
     calculate_sha256,
+    clean_extracted_text,
     extract_all_documents,
     extract_pdf_pages,
 )
@@ -14,6 +15,7 @@ __all__ = [
     "ExtractedDocument",
     "ExtractedPage",
     "calculate_sha256",
+    "clean_extracted_text",
     "extract_all_documents",
     "extract_pdf_pages",
 ]

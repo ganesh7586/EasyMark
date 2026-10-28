@@ -8,6 +8,7 @@ SHA-256 checksums to enable idempotent document ingestion in RAG pipelines.
 from dataclasses import dataclass
 import hashlib
 from pathlib import Path
+import re
 from typing import List, Union
 import fitz  # PyMuPDF
 
@@ -30,6 +31,34 @@ class ExtractedDocument:
     sha256: str
     total_pages: int
     pages: List[ExtractedPage]
+
+
+def clean_extracted_text(raw_text: str) -> str:
+    """
+    Sanitize and normalize extracted text from PDF documents.
+
+    Replaces unicode replacement characters (\ufffd) with standard readable bullet/dash,
+    normalizes whitespace, and strips unprintable control characters.
+
+    Args:
+        raw_text: Raw string extracted from PDF page.
+
+    Returns:
+        Normalized clean text string.
+    """
+    if not raw_text:
+        return ""
+
+    # Replace unicode replacement characters from font glyph encoding issues
+    text = raw_text.replace("\ufffd", "-")
+    # Normalize non-breaking spaces
+    text = text.replace("\u00a0", " ")
+    # Normalize carriage returns
+    text = text.replace("\r\n", "\n").replace("\r", "\n")
+    # Remove null bytes or invisible control chars (keep \n, \t)
+    text = re.sub(r"[\x00-\x08\x0b\x0c\x0e-\x1f\x7f]", "", text)
+
+    return text.strip()
 
 
 def calculate_sha256(file_path: Union[str, Path]) -> str:
@@ -89,13 +118,15 @@ def extract_pdf_pages(file_path: Union[str, Path]) -> ExtractedDocument:
             pages: List[ExtractedPage] = []
 
             for page_idx, page in enumerate(doc, start=1):
-                text = page.get_text("text").strip()
+                raw_text = page.get_text("text")
+                cleaned_text = clean_extracted_text(raw_text)
+
                 pages.append(
                     ExtractedPage(
                         doc_name=doc_name,
                         page_number=page_idx,
-                        text=text,
-                        char_count=len(text),
+                        text=cleaned_text,
+                        char_count=len(cleaned_text),
                         doc_sha256=file_sha256,
                     )
                 )
