@@ -39,11 +39,20 @@ company-intelligence-ai/
 ├── company-docs/               # Static Company Rules PDFs
 ├── frontend/                   # React Chat UI (Port 5173)
 ├── backend/                    # Node.js + Express Gateway (Port 5000)
+│   ├── package.json
+│   ├── .env
+│   └── src/
+│       ├── config/
+│       ├── controllers/
+│       ├── middleware/
+│       ├── models/
+│       ├── routes/
+│       └── server.js
 └── ai-service/                 # Python + FastAPI + LangGraph (Port 8000)
     ├── requirements.txt
     ├── .env
     ├── scripts/
-    │   ├── generate_sample_docs.py
+    │   ├── generate_company_reports.py
     │   ├── extract_pdfs.py
     │   └── ingest_static_docs.py
     ├── app/
@@ -55,13 +64,15 @@ company-intelligence-ai/
     │   ├── memory/
     │   └── main.py
     └── tests/
-        └── test_pdf_extractor.py
+        ├── test_pdf_extractor.py
+        └── test_health_and_security.py
 ```
 
 ---
 
-## Day 1 Milestone Status
+## Roadmap Progress
 
+### Day 1: Static Company Rules Foundation (Completed)
 - [x] Monorepo folder setup (`ai-service`, `backend`, `frontend`, `company-docs`)
 - [x] Root `.gitignore` configured
 - [x] Python virtual environment created and dependencies installed (`ai-service/requirements.txt`)
@@ -72,15 +83,13 @@ company-intelligence-ai/
 - [x] PyMuPDF page extractor with SHA-256 fingerprinting implemented in `app.ingestion.pdf_extractor`
 - [x] Pytest test suite verified (17 tests passing in `ai-service/tests/test_pdf_extractor.py`)
 
-### Day 1 Test Results & Verification
-
-- **Question 1:** *"If I ask you to read a file that doesn't exist, do you crash, or do you politely tell me 'File Not Found'?"*  
-  $\rightarrow$ **Passed!**
-- **Question 2:** *"Does the fingerprint stamper give the exact same code when run twice?"*  
-  $\rightarrow$ **Passed!**
-- **Question 3:** *"Did you successfully find all 3 books on the shelf?"*  
-  $\rightarrow$ **Passed!**
-- **Question 4:** *"Can you find the word 'SEV-1' in the SLA book?"*  
-  $\rightarrow$ **Passed!**
-
-**Final Score: 17 out of 17 passed (100%) in 0.46 seconds!**
+### Day 2: Dual-Tier Backend & Security Bridge (Completed)
+- [x] Node.js Express Gateway initialized (`backend/package.json`, `src/server.js` on Port 5000)
+- [x] Express fail-fast configuration & centralized error handling
+- [x] Python FastAPI AI Service initialized (`ai-service/app/main.py` on Port 8000)
+- [x] Shared `x-internal-key` security dependency with constant-time comparison (`secrets.compare_digest`)
+- [x] Public liveness probe (`/health`) and authenticated readiness probe (`/api/v1/health`)
+- [x] Express `/api/health` bridge controller orchestrating downstream FastAPI diagnostics
+- [x] Security test suite verified (6 tests passing for 401, 403, and 200 responses)
+- [x] Full test suite passing: **23 out of 23 tests passed in 1.55s**
+- [x] End-to-end live bridge handshake verified (`status: healthy`, `bridgeAuthenticated: true`)
