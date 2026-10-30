@@ -54,18 +54,23 @@ company-intelligence-ai/
     ├── scripts/
     │   ├── generate_company_reports.py
     │   ├── extract_pdfs.py
+    │   ├── test_chunking_embeddings.py
     │   └── ingest_static_docs.py
     ├── app/
     │   ├── api/
     │   ├── core/
     │   ├── ingestion/
+    │   │   ├── pdf_extractor.py
+    │   │   ├── chunker.py
+    │   │   └── embedder.py
     │   ├── agent/
     │   ├── mcp_server/
     │   ├── memory/
     │   └── main.py
     └── tests/
         ├── test_pdf_extractor.py
-        └── test_health_and_security.py
+        ├── test_health_and_security.py
+        └── test_chunker_and_embedder.py
 ```
 
 ---
@@ -93,3 +98,13 @@ company-intelligence-ai/
 - [x] Security test suite verified (6 tests passing for 401, 403, and 200 responses)
 - [x] Full test suite passing: **23 out of 23 tests passed in 1.55s**
 - [x] End-to-end live bridge handshake verified (`status: healthy`, `bridgeAuthenticated: true`)
+
+### Day 3: Document Chunking & Local Embeddings (Completed)
+- [x] Text chunking engine implemented (`app.ingestion.chunker.DocumentChunker`) using `RecursiveCharacterTextSplitter`
+- [x] Page-by-page chunking strictly preserving provenance metadata:
+  - `doc_name`, `page_number` (1-indexed), `chunk_index`, `doc_sha256`, and `chunk_sha256`
+- [x] Local embedding service (`app.ingestion.embedder.LocalEmbeddingService`) using HuggingFace `all-MiniLM-L6-v2`
+- [x] Verified 384-dimensional dense vectors generated offline with CPU normalization
+- [x] Cosine semantic similarity search verified across all 24 chunks generated from the 3 corporate PDFs
+- [x] Full test suite passing: **34 out of 34 tests passed in 15.95s**
+- [x] Demonstration script created: `python scripts/test_chunking_embeddings.py`
