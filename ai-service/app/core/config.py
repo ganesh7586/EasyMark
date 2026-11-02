@@ -49,6 +49,16 @@ class Settings(BaseSettings):
         description="Atlas Vector Search index name on document_chunks collection",
     )
 
+    # Groq LLM Configuration (Day 5)
+    GROQ_API_KEY: Optional[str] = Field(
+        default=None,
+        description="Groq Cloud API Key",
+    )
+    GROQ_MODEL: str = Field(
+        default="llama-3.3-70b-versatile",
+        description="Groq LLM model identifier",
+    )
+
     model_config = SettingsConfigDict(
         env_file=str(ENV_FILE),
         env_file_encoding="utf-8",

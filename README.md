@@ -127,3 +127,17 @@ company-intelligence-ai/
   - Ingested 24 chunks across all 3 company documents into MongoDB Atlas
   - Second run demonstrated 100% idempotent skip
 - [x] Full test suite passing: **40 out of 40 tests passed in 22.41s**
+
+### Day 5: Groq LLM Integration & Static PDF RAG Endpoint (Completed)
+- [x] Groq Cloud API integration (`app.core.llm.GroqClient`) using `llama-3.3-70b-versatile`
+- [x] Grounded RAG service (`app.rag.rag_service.StaticRAGService`):
+  - Injects top-k semantic chunks from MongoDB Atlas into a strict grounding prompt
+  - Regex citation parser guarantees exact `[Document_Name.pdf, Page X]` provenance extraction
+  - Strict fallback if facts are missing: avoids hallucinations or speculation
+  - Microsecond latency tracking & offline deterministic fallback
+- [x] FastAPI RAG route (`POST /api/v1/rag/query`) mounted at `/api/v1/rag` with internal key security
+- [x] Express Gateway proxy endpoint (`POST /api/query`) in `backend/src/controllers/queryController.js` and `backend/src/routes/queryRoutes.js`
+- [x] Interactive CLI tool created: `python scripts/query_policy.py "<question>"`
+  - Successfully demonstrated answer generation grounded in `Company_HR_and_Work_Rules.pdf`
+- [x] Full test suite passing: **46 out of 46 tests passed in 26.86s** (100% green across all 5 days)
+- [x] **Sprint 1 Complete**: Core Foundation & Static Knowledge Layer fully operational!

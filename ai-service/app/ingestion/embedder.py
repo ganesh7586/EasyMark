@@ -6,8 +6,13 @@ completely locally on CPU, without external API calls or network egress.
 """
 
 from dataclasses import asdict, dataclass
+import os
 from typing import Any, Dict, List, Optional
 import numpy as np
+
+# Prioritize local cached weights for fast, offline-resilient embedding initialization
+os.environ.setdefault("HF_HUB_OFFLINE", "1")
+os.environ.setdefault("TRANSFORMERS_OFFLINE", "1")
 
 from app.ingestion.chunker import DocumentChunk
 
@@ -69,7 +74,11 @@ class LocalEmbeddingService:
         if self._model is None:
             from sentence_transformers import SentenceTransformer
             print(f"Loading local embedding model: '{self.model_name}' (dim={self.dimension})...")
-            self._model = SentenceTransformer(self.model_name)
+            try:
+                # Try loading from local HuggingFace cache first to avoid hub network calls/retries
+                self._model = SentenceTransformer(self.model_name, local_files_only=True)
+            except Exception:
+                self._model = SentenceTransformer(self.model_name)
             print(f"Model '{self.model_name}' loaded successfully.")
         return self._model
 

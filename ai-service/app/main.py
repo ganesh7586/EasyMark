@@ -8,6 +8,7 @@ from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 
 from app.api.health import router as health_router
+from app.api.rag import router as rag_router
 from app.core.config import settings
 
 
@@ -15,12 +16,12 @@ from app.core.config import settings
 async def lifespan(app: FastAPI):
     """Lifecycle event handler for application startup and shutdown."""
     print("=" * 60)
-    print(f"🤖 Starting {settings.PROJECT_NAME} v{settings.VERSION}")
+    print(f"Starting {settings.PROJECT_NAME} v{settings.VERSION}")
     print(f"   Environment: {settings.ENVIRONMENT}")
     print(f"   Listening on: http://{settings.HOST}:{settings.PORT}")
     print("=" * 60)
     yield
-    print(f"🛑 Shutting down {settings.PROJECT_NAME}")
+    print(f"Shutting down {settings.PROJECT_NAME}")
 
 
 def create_application() -> FastAPI:
@@ -45,6 +46,7 @@ def create_application() -> FastAPI:
 
     # Mount API routers
     app.include_router(health_router)
+    app.include_router(rag_router)
 
     @app.get("/", tags=["Root"])
     async def root():

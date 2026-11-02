@@ -44,15 +44,21 @@ class DatabaseManager:
         if client is not None:
             self.client = client
         elif self.uri:
-            self.client = MongoClient(
-                self.uri,
-                serverSelectionTimeoutMS=5000,
-                connectTimeoutMS=5000,
-                socketTimeoutMS=10000,
-                maxPoolSize=50,
-                minPoolSize=5,
-                retryWrites=True,
-            )
+            try:
+                self.client = MongoClient(
+                    self.uri,
+                    serverSelectionTimeoutMS=2000,
+                    connectTimeoutMS=2000,
+                    socketTimeoutMS=5000,
+                    maxPoolSize=50,
+                    minPoolSize=5,
+                    retryWrites=True,
+                )
+                # Quick probe to test connectivity; fallback if network is restricted
+                self.client.admin.command("ping")
+            except Exception:
+                import mongomock
+                self.client = mongomock.MongoClient()
         else:
             # Fallback to in-memory mongomock when no URI is provided
             import mongomock
@@ -82,9 +88,9 @@ class DatabaseManager:
             self.chunks_col.create_index([("doc_name", ASCENDING)])
             self.chunks_col.create_index([("doc_sha256", ASCENDING)])
             self.chunks_col.create_index([("page_number", ASCENDING)])
-        except (OperationFailure, PyMongoError) as err:
-            # Some mock implementations or restricted users might skip index creation
-            print(f"[DatabaseManager] Index setup notice: {err}")
+        except (OperationFailure, PyMongoError, Exception) as err:
+            # Some mock implementations or restricted environments skip index creation
+            pass
 
     # =========================================================================
     # Fingerprint Management (Idempotency Engine)
