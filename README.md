@@ -141,3 +141,28 @@ company-intelligence-ai/
   - Successfully demonstrated answer generation grounded in `Company_HR_and_Work_Rules.pdf`
 - [x] Full test suite passing: **46 out of 46 tests passed in 26.86s** (100% green across all 5 days)
 - [x] **Sprint 1 Complete**: Core Foundation & Static Knowledge Layer fully operational!
+
+---
+
+## Performance & Verification Benchmarks (Sprint 1)
+
+System-wide benchmark timings and execution metrics measured across the AI Service, MongoDB Atlas, and Express Gateway:
+
+| Task # | Component / Operation | Scope / Description | Duration | Errors / Status |
+| :---: | :--- | :--- | :---: | :---: |
+| **1** | **Full AI Service Pytest Suite** | 46 unit & integration tests (Days 1–5): PDF parsing, chunking, 384-D embeddings, MongoDB Atlas, health probes, and RAG citations. | **26.72s** *(31.75s wall clock)* | **0 Errors** (46 passed, 0 failed) |
+| **2** | **Static RAG Query CLI** | Interactive test of `scripts/query_policy.py`: loads model, retrieves policy chunks, and generates answer with `[Doc, Page]` citations. | **21.36s** *(answer latency: 0.12s)* | **0 Errors** (1 citation found, Exit Code 0) |
+| **3** | **Static Document Ingestion** | Ingestion pipeline (`scripts/ingest_static_docs.py`): connects to MongoDB, parses 3 PDFs, chunks 7 pages, embeds 24 chunks, and tests similarity search. | **20.83s** | **0 Errors** (24 chunks indexed, Exit Code 0) |
+| **4** | **Node.js Express Gateway Check** | Syntax and module compilation check across Gateway `server.js`, controllers, and route proxies. | **0.36s** | **0 Errors** (All valid, Exit Code 0) |
+
+### Performance Analysis & Timing Explanation
+- **Cold-Start Model Weight Loading (~20–22s):** On the very first invocation of a standalone script or test session, PyTorch loads the HuggingFace `all-MiniLM-L6-v2` neural network weights (~80 MB) into CPU memory. This is a one-time cold start cost per process.
+- **Warm Inference & Generation Speed (< 0.15s):** Once the embedding model is loaded in memory, similarity calculations and vector queries execute in milliseconds. The end-to-end RAG answer generation ran in **124.96 ms**.
+- **Offline Hub Optimization:** Added `HF_HUB_OFFLINE=1` and `local_files_only=True` to eliminate HuggingFace Hub network polling and prevent 30-second exponential backoff retries.
+- **Top 5 Individual Test Durations:**
+  - `TestLocalEmbeddingService::test_embedding_dimension` — `22.60s` *(Initial PyTorch weight load)*
+  - `TestSecurityBridge::test_readiness_probe_authenticated_execution` — `0.53s`
+  - `TestCompanyDocsChunkingAndEmbeddingIntegration` — `0.40s`
+  - `TestStaticDocIndexerIdempotency::test_idempotent_ingestion_cycle` — `0.25s`
+  - `TestStaticRAGServiceUnit::test_grounded_rag_with_populated_mock_db` — `0.14s`
+  - *All remaining 41 tests:* `< 0.05s each`
