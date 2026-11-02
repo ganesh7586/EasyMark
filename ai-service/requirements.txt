@@ -8,3 +8,6 @@ pytest==8.3.4
 httpx==0.28.1
 langchain-text-splitters>=0.3.0
 sentence-transformers>=3.0.0
+pymongo>=4.8.0
+dnspython>=2.6.0
+mongomock>=4.1.0

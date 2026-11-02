@@ -59,10 +59,14 @@ company-intelligence-ai/
     ├── app/
     │   ├── api/
     │   ├── core/
+    │   │   ├── config.py
+    │   │   ├── database.py
+    │   │   └── security.py
     │   ├── ingestion/
     │   │   ├── pdf_extractor.py
     │   │   ├── chunker.py
-    │   │   └── embedder.py
+    │   │   ├── embedder.py
+    │   │   └── indexer.py
     │   ├── agent/
     │   ├── mcp_server/
     │   ├── memory/
@@ -70,7 +74,8 @@ company-intelligence-ai/
     └── tests/
         ├── test_pdf_extractor.py
         ├── test_health_and_security.py
-        └── test_chunker_and_embedder.py
+        ├── test_chunker_and_embedder.py
+        └── test_mongo_ingestion.py
 ```
 
 ---
@@ -108,3 +113,17 @@ company-intelligence-ai/
 - [x] Cosine semantic similarity search verified across all 24 chunks generated from the 3 corporate PDFs
 - [x] Full test suite passing: **34 out of 34 tests passed in 15.95s**
 - [x] Demonstration script created: `python scripts/test_chunking_embeddings.py`
+
+### Day 4: MongoDB Atlas Vector Search & Idempotent Ingestion (Completed)
+- [x] MongoDB Atlas client and collection manager (`app.core.database.DatabaseManager`)
+- [x] Collections initialized:
+  - `document_fingerprints`: SHA-256 registry for idempotent change detection
+  - `document_chunks`: 384-D dense vectors with document and page citations
+- [x] Native Atlas `$vectorSearch` pipeline with in-memory cosine fallback
+- [x] Idempotent ingestion pipeline (`app.ingestion.indexer.StaticDocIndexer`)
+  - Skips unchanged PDFs in 0.4s without re-embedding
+  - Replaces outdated chunks automatically when document contents change
+- [x] CLI Ingestion tool implemented: `python scripts/ingest_static_docs.py`
+  - Ingested 24 chunks across all 3 company documents into MongoDB Atlas
+  - Second run demonstrated 100% idempotent skip
+- [x] Full test suite passing: **40 out of 40 tests passed in 22.41s**

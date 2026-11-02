@@ -1,6 +1,6 @@
 """
 Document ingestion module for Company Intelligence AI.
-Contains PDF extraction, text sanitization, recursive chunking, and local embeddings.
+Contains PDF extraction, text sanitization, recursive chunking, local embeddings, and indexing.
 """
 
 from app.ingestion.chunker import (
@@ -12,6 +12,9 @@ from app.ingestion.embedder import (
     EMBEDDING_DIMENSION,
     EmbeddedChunk,
     LocalEmbeddingService,
+)
+from app.ingestion.indexer import (
+    StaticDocIndexer,
 )
 from app.ingestion.pdf_extractor import (
     ExtractedDocument,
@@ -38,4 +41,6 @@ __all__ = [
     "EMBEDDING_DIMENSION",
     "EmbeddedChunk",
     "LocalEmbeddingService",
+    # Indexer
+    "StaticDocIndexer",
 ]

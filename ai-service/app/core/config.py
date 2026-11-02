@@ -4,7 +4,7 @@ Configuration settings for the AI Service using Pydantic Settings.
 
 from functools import lru_cache
 from pathlib import Path
-from typing import List, Union
+from typing import List, Optional, Union
 from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
@@ -34,6 +34,20 @@ class Settings(BaseSettings):
         "http://127.0.0.1:5000",
         "http://127.0.0.1:5173",
     ]
+
+    # MongoDB Atlas Database Configuration (Day 4)
+    MONGODB_URI: Optional[str] = Field(
+        default=None,
+        description="MongoDB Atlas connection string (mongodb+srv://...)",
+    )
+    MONGODB_DB_NAME: str = Field(
+        default="company_intelligence",
+        description="Target MongoDB database name",
+    )
+    VECTOR_INDEX_NAME: str = Field(
+        default="vector_index",
+        description="Atlas Vector Search index name on document_chunks collection",
+    )
 
     model_config = SettingsConfigDict(
         env_file=str(ENV_FILE),

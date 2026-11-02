@@ -13,6 +13,7 @@ from fastapi import APIRouter, Depends, status
 from pydantic import BaseModel, Field
 
 from app.core.config import settings
+from app.core.database import get_db
 from app.core.security import verify_internal_key
 
 router = APIRouter(tags=["Health & Diagnostics"])
@@ -35,6 +36,7 @@ class ReadinessResponse(BaseModel):
     uptime_seconds: int
     timestamp: str
     authenticated: bool = True
+    database: Dict[str, Any] = Field(default_factory=dict)
     system: Dict[str, Any] = Field(default_factory=dict)
 
 
@@ -66,6 +68,19 @@ async def readiness_probe(
 ) -> ReadinessResponse:
     uptime = int(time.time() - SERVICE_START_TIME)
 
+    db_info = {"connected": False}
+    try:
+        db = get_db()
+        is_connected = db.ping()
+        db_info = {
+            "connected": is_connected,
+            "database_name": db.db_name,
+            "total_documents_indexed": len(db.get_all_fingerprints()),
+            "total_chunks_stored": db.get_total_chunks(),
+        }
+    except Exception as err:
+        db_info["error"] = str(err)
+
     return ReadinessResponse(
         status="healthy",
         service=settings.PROJECT_NAME,
@@ -74,6 +89,7 @@ async def readiness_probe(
         uptime_seconds=uptime,
         timestamp=datetime.now(timezone.utc).isoformat(),
         authenticated=True,
+        database=db_info,
         system={
             "python_version": sys.version.split()[0],
             "platform": platform.platform(),
