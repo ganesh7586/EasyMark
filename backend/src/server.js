@@ -8,6 +8,7 @@ const cors = require('cors');
 const config = require('./config/environment');
 const healthRoutes = require('./routes/healthRoutes');
 const queryRoutes = require('./routes/queryRoutes');
+const mcpRoutes = require('./routes/mcpRoutes');
 const { notFoundHandler, globalErrorHandler } = require('./middleware/errorHandler');
 
 const app = express();
@@ -50,6 +51,7 @@ app.get('/', (req, res) => {
 // Mount Routes
 app.use('/api/health', healthRoutes);
 app.use('/api/query', queryRoutes);
+app.use('/api/mcp', mcpRoutes);
 
 // Fallthrough 404 & Global Error Handling
 app.use(notFoundHandler);

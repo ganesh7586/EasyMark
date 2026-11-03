@@ -10,6 +10,7 @@ import uvicorn
 from app.api.health import router as health_router
 from app.api.rag import router as rag_router
 from app.core.config import settings
+from app.mcp_server.transport import create_mcp_router
 
 
 @asynccontextmanager
@@ -47,6 +48,7 @@ def create_application() -> FastAPI:
     # Mount API routers
     app.include_router(health_router)
     app.include_router(rag_router)
+    app.include_router(create_mcp_router())
 
     @app.get("/", tags=["Root"])
     async def root():
