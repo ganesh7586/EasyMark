@@ -31,6 +31,54 @@ async function listTools(req, res, next) {
 }
 
 /**
+ * Get all MCP tools formatted as OpenAI/Groq function calling schema.
+ */
+async function getSchema(req, res, next) {
+  try {
+    const response = await axios.get(`${config.aiServiceUrl}/api/v1/mcp/schema`, {
+      headers: {
+        'x-internal-key': config.internalApiKey,
+      },
+      timeout: 5000,
+    });
+
+    return res.status(200).json({
+      status: 'success',
+      ...response.data,
+    });
+  } catch (error) {
+    if (error.response) {
+      return res.status(error.response.status).json(error.response.data);
+    }
+    return next(error);
+  }
+}
+
+/**
+ * Get all MCP tools grouped by application domain category.
+ */
+async function getCategories(req, res, next) {
+  try {
+    const response = await axios.get(`${config.aiServiceUrl}/api/v1/mcp/categories`, {
+      headers: {
+        'x-internal-key': config.internalApiKey,
+      },
+      timeout: 5000,
+    });
+
+    return res.status(200).json({
+      status: 'success',
+      categories: response.data,
+    });
+  } catch (error) {
+    if (error.response) {
+      return res.status(error.response.status).json(error.response.data);
+    }
+    return next(error);
+  }
+}
+
+/**
  * Execute a specific MCP tool with parameters.
  */
 async function callTool(req, res, next) {
@@ -72,5 +120,7 @@ async function callTool(req, res, next) {
 
 module.exports = {
   listTools,
+  getSchema,
+  getCategories,
   callTool,
 };

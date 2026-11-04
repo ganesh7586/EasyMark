@@ -92,6 +92,42 @@ def create_mcp_router(server: Optional[MCPServer] = None) -> APIRouter:
             "tools": [t.model_dump() for t in tools],
         }
 
+    @router.get(
+        "/schema",
+        summary="OpenAI / Groq LLM Function Calling Schema",
+        description="Returns all registered MCP tools transformed into standard OpenAI / Groq tool specification format for agent function calling.",
+    )
+    async def get_openai_function_schema(
+        _auth: str = Depends(verify_internal_key),
+    ):
+        from app.mcp_server.aggregator import get_mcp_aggregator
+        aggregator = get_mcp_aggregator()
+        specs = aggregator.to_openai_function_specs()
+        return {
+            "count": len(specs),
+            "tools": specs,
+        }
+
+    @router.get(
+        "/categories",
+        summary="List Tools by Category",
+        description="Inspect tool breakdown categorized by domain (jira, notion, gmail, diagnostic).",
+    )
+    async def get_tools_by_category(
+        _auth: str = Depends(verify_internal_key),
+    ):
+        from app.mcp_server.aggregator import get_mcp_aggregator
+        aggregator = get_mcp_aggregator()
+        summaries = aggregator.get_tool_summaries()
+        breakdown: Dict[str, list] = {"jira": [], "notion": [], "gmail": [], "diagnostic": []}
+        for s in summaries:
+            breakdown.setdefault(s.category, []).append({
+                "name": s.name,
+                "description": s.description,
+                "required_parameters": s.required_parameters,
+            })
+        return breakdown
+
     @router.post(
         "/tools/call",
         response_model=CallToolResult,

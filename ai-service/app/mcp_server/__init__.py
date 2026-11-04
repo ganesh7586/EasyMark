@@ -22,8 +22,14 @@ from app.mcp_server.registry import (
 )
 from app.mcp_server.server import MCPServer, get_mcp_server
 from app.mcp_server.transport import StdioTransport, create_mcp_router
+from app.mcp_server.aggregator import (
+    AggregatedToolSummary,
+    UnifiedMCPAggregator,
+    get_mcp_aggregator,
+)
 
 __all__ = [
+    "AggregatedToolSummary",
     "CallToolResult",
     "ContentBlock",
     "JSONRPCError",
@@ -35,8 +41,10 @@ __all__ = [
     "ToolDefinition",
     "ToolInputSchema",
     "ToolRegistry",
+    "UnifiedMCPAggregator",
     "create_mcp_router",
     "default_registry",
+    "get_mcp_aggregator",
     "get_mcp_server",
     "mcp_tool",
 ]

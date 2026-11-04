@@ -55,27 +55,52 @@ company-intelligence-ai/
     │   ├── generate_company_reports.py
     │   ├── extract_pdfs.py
     │   ├── test_chunking_embeddings.py
-    │   └── ingest_static_docs.py
+    │   ├── ingest_static_docs.py
+    │   ├── test_mcp_cli.py
+    │   ├── test_jira_tools.py
+    │   ├── test_notion_tools.py
+    │   ├── test_gmail_tools.py
+    │   └── test_mcp_aggregator.py
     ├── app/
     │   ├── api/
     │   ├── core/
     │   │   ├── config.py
     │   │   ├── database.py
+    │   │   ├── llm.py
     │   │   └── security.py
     │   ├── ingestion/
     │   │   ├── pdf_extractor.py
     │   │   ├── chunker.py
     │   │   ├── embedder.py
     │   │   └── indexer.py
+    │   ├── rag/
+    │   │   ├── rag_service.py
+    │   │   └── router.py
     │   ├── agent/
     │   ├── mcp_server/
+    │   │   ├── diagnostic_tools.py
+    │   │   ├── models.py
+    │   │   ├── registry.py
+    │   │   ├── server.py
+    │   │   ├── transport.py
+    │   │   ├── aggregator.py
+    │   │   └── tools/
+    │   │       ├── jira_tool.py
+    │   │       ├── notion_tool.py
+    │   │       └── gmail_tool.py
     │   ├── memory/
     │   └── main.py
     └── tests/
         ├── test_pdf_extractor.py
         ├── test_health_and_security.py
         ├── test_chunker_and_embedder.py
-        └── test_mongo_ingestion.py
+        ├── test_mongo_ingestion.py
+        ├── test_rag_endpoint.py
+        ├── test_mcp_server.py
+        ├── test_jira_mcp.py
+        ├── test_notion_mcp.py
+        ├── test_gmail_mcp.py
+        └── test_mcp_aggregator.py
 ```
 
 ---
@@ -175,6 +200,50 @@ company-intelligence-ai/
 - [x] Interactive CLI verification tool: `python scripts/test_jira_tools.py`
   - Successfully demonstrated sprint filtering, blocker identification, detail fetching, and JSON-RPC execution
 - [x] Test suite expanded: **78 out of 78 tests passing** (14 new unit tests in `tests/test_jira_mcp.py`)
+
+### Day 8: Live App #2 — Notion MCP Tool (Completed)
+- [x] Read-only Notion MCP tool suite implemented (`app.mcp_server.tools.notion_tool`):
+  - `notion_get_page`: Retrieve page content and markdown by ID or title substring
+  - `notion_search_pages`: Search across technical specifications, PRDs, and architecture docs
+  - `notion_get_meeting_notes`: Fetch sprint sync, post-mortem, and retrospective notes with tag filters
+  - `notion_get_action_items`: Extract pending action items and ownership assignments
+- [x] Dual-mode architecture (`NotionClient`):
+  - **Live Mode**: Official Notion API (`NOTION_API_KEY`, `NOTION_DATABASE_ID`)
+  - **Dataset Mode**: Project Alpha enterprise workspace correlating with Jira blocker `ALPHA-101`
+- [x] Interactive CLI verification tool: `python scripts/test_notion_tools.py`
+  - Successfully demonstrated page retrieval, keyword search, meeting notes extraction, and action item tracking
+- [x] Test suite expanded: **92 out of 92 tests passing** (14 new unit tests in `tests/test_notion_mcp.py`)
+
+### Day 9: Live App #3 — Gmail MCP Tool (Completed)
+- [x] Read-only Gmail MCP tool suite implemented (`app.mcp_server.tools.gmail_tool`):
+  - `gmail_get_thread`: Fetch complete email conversation threads and message bodies
+  - `gmail_search_emails`: Search inbox messages by sender, subject, or content
+  - `gmail_get_customer_escalations`: Retrieve enterprise customer escalation threads by severity
+  - `gmail_check_pending_approvals`: Query pending architecture, security, and deployment sign-offs
+- [x] Dual-mode architecture (`GmailClient`):
+  - **Live Mode**: Google Workspace API OAuth2 (`GMAIL_CLIENT_ID`, `GMAIL_CLIENT_SECRET`, `GMAIL_REFRESH_TOKEN`)
+  - **Dataset Mode**: Project Alpha customer escalation threads correlating with Acme Corp 504 errors
+- [x] Interactive CLI verification tool: `python scripts/test_gmail_tools.py`
+  - Successfully verified customer escalations, message threading, and pending approval workflows
+- [x] Test suite expanded: **104 out of 104 tests passing** (12 new unit tests in `tests/test_gmail_mcp.py`)
+
+### Day 10: Unified MCP Client & Tool Aggregator (Completed)
+- [x] Unified MCP aggregator implemented (`app.mcp_server.aggregator.UnifiedMCPAggregator`):
+  - Aggregates all **15 enterprise tools** across Jira, Notion, Gmail, and Diagnostics into a single execution engine
+  - Automatic conversion of all tool definitions into standard OpenAI / Groq tool specification format for agent function calling (`to_openai_function_specs()`)
+  - Heuristic natural language query tool discovery (`find_relevant_tools()`)
+  - Microsecond latency profiling and execution metrics
+- [x] Multi-domain cross-tool storyline execution verified:
+  - Jira `jira_get_blockers` -> Notion `notion_get_page` -> Gmail `gmail_get_customer_escalations` tracing `ALPHA-101`
+- [x] FastAPI transport expanded:
+  - `GET /api/v1/mcp/schema`: Returns Groq/OpenAI compatible function calling tool definitions
+  - `GET /api/v1/mcp/categories`: Grouped tool categorization breakdown
+- [x] Express Gateway proxy integration:
+  - `GET /api/mcp/schema` and `GET /api/mcp/categories` proxies added to `backend/src/controllers/mcpController.js` and `backend/src/routes/mcpRoutes.js`
+- [x] Interactive CLI verification tool: `python scripts/test_mcp_aggregator.py`
+  - Successfully verified all 4 phases of aggregation, schema generation, discovery, and cross-tool execution
+- [x] Full regression test suite passing: **119 out of 119 tests passing with 0 failures** (15 new tests in `tests/test_mcp_aggregator.py`)
+- [x] **Sprint 2 Complete: Dynamic MCP Tools & Live Applications Layer Operational!**
 
 ---
 

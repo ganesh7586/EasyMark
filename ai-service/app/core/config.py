@@ -77,6 +77,30 @@ class Settings(BaseSettings):
         description="Default target Jira project key",
     )
 
+    # Notion MCP Integration (Day 8)
+    NOTION_API_KEY: Optional[str] = Field(
+        default=None,
+        description="Notion internal integration token (secret_...)",
+    )
+    NOTION_DATABASE_ID: Optional[str] = Field(
+        default=None,
+        description="Notion target database ID for specs and meeting notes",
+    )
+
+    # Gmail MCP Integration (Day 9)
+    GMAIL_CLIENT_ID: Optional[str] = Field(
+        default=None,
+        description="Google Workspace OAuth Client ID",
+    )
+    GMAIL_CLIENT_SECRET: Optional[str] = Field(
+        default=None,
+        description="Google Workspace OAuth Client Secret",
+    )
+    GMAIL_REFRESH_TOKEN: Optional[str] = Field(
+        default=None,
+        description="Google Workspace OAuth Refresh Token",
+    )
+
     model_config = SettingsConfigDict(
         env_file=str(ENV_FILE),
         env_file_encoding="utf-8",
