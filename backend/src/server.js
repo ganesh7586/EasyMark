@@ -38,13 +38,21 @@ app.use((req, res, next) => {
   next();
 });
 
-// Root welcome route
+// Root welcome & liveness route
 app.get('/', (req, res) => {
   res.json({
     name: 'Company Intelligence AI Gateway',
     version: '1.0.0',
     status: 'running',
     docs: '/api/health',
+  });
+});
+
+app.get('/health', (req, res) => {
+  res.status(200).json({
+    status: 'healthy',
+    service: 'gateway',
+    timestamp: new Date().toISOString(),
   });
 });
 

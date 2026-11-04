@@ -36,7 +36,7 @@ async function handlePolicyQuery(req, res, next) {
         'x-internal-key': config.internalApiKey,
         'Content-Type': 'application/json',
       },
-      timeout: 30000, // 30-second budget for LLM inference
+      timeout: 60000, // 60-second budget for LLM inference & neural embedding
     });
 
     return res.status(200).json({
