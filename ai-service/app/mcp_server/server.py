@@ -27,8 +27,9 @@ from app.mcp_server.models import (
 )
 from app.mcp_server.registry import ToolRegistry, default_registry
 
-# Ensure built-in diagnostic tools are registered upon server import
+# Ensure built-in diagnostic tools and enterprise tools are registered upon server import
 import app.mcp_server.diagnostic_tools  # noqa: F401
+import app.mcp_server.tools.jira_tool  # noqa: F401
 
 
 class MCPServer:

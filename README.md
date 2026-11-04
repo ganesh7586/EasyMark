@@ -162,6 +162,20 @@ company-intelligence-ai/
   - Successfully verified all 6 phases of MCP protocol interaction
 - [x] Test suite expanded: **64 out of 64 tests passing** (18 new MCP tests in `tests/test_mcp_server.py`)
 
+### Day 7: Live App #1 — Jira MCP Tool (Completed)
+- [x] Read-only Jira MCP tool suite implemented (`app.mcp_server.tools.jira_tool`):
+  - `jira_get_sprint_issues`: Queries active sprint issues with status and assignee filters
+  - `jira_get_blockers`: Identifies critical SEV-1/SEV-2 blockers and impeded tasks
+  - `jira_get_issue_details`: Retrieves comprehensive issue metadata, priority, and descriptions
+  - `jira_search_issues`: Flexible keyword and JQL search across summaries, descriptions, and labels
+- [x] Dual-mode architecture (`JiraClient`):
+  - **Live Mode**: Real Atlassian Jira Cloud REST API via `JIRA_BASE_URL` + `JIRA_API_TOKEN`
+  - **Dataset Mode**: High-fidelity Project Alpha enterprise dataset matching Day 1 SLA policies
+- [x] Schema reflection verified: 4 Jira tools automatically exposed to LLM via `tools/list`
+- [x] Interactive CLI verification tool: `python scripts/test_jira_tools.py`
+  - Successfully demonstrated sprint filtering, blocker identification, detail fetching, and JSON-RPC execution
+- [x] Test suite expanded: **78 out of 78 tests passing** (14 new unit tests in `tests/test_jira_mcp.py`)
+
 ---
 
 ## Performance & Verification Benchmarks (Sprint 1)

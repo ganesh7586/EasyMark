@@ -59,6 +59,24 @@ class Settings(BaseSettings):
         description="Groq LLM model identifier",
     )
 
+    # Jira MCP Integration (Day 7)
+    JIRA_BASE_URL: Optional[str] = Field(
+        default=None,
+        description="Atlassian Jira Cloud URL (e.g. https://your-domain.atlassian.net)",
+    )
+    JIRA_EMAIL: Optional[str] = Field(
+        default=None,
+        description="Atlassian account email address",
+    )
+    JIRA_API_TOKEN: Optional[str] = Field(
+        default=None,
+        description="Atlassian API token for REST API authentication",
+    )
+    JIRA_PROJECT_KEY: str = Field(
+        default="ALPHA",
+        description="Default target Jira project key",
+    )
+
     model_config = SettingsConfigDict(
         env_file=str(ENV_FILE),
         env_file_encoding="utf-8",

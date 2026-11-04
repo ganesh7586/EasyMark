@@ -8,7 +8,7 @@ and automatically generates JSON Schema parameter definitions for LLM tool selec
 import asyncio
 from dataclasses import dataclass
 import inspect
-from typing import Any, Callable, Dict, List, Optional, get_type_hints
+from typing import Any, Callable, Dict, List, Optional, Union, get_type_hints
 
 from app.mcp_server.models import (
     CallToolResult,
