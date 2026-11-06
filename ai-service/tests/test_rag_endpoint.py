@@ -17,7 +17,7 @@ from app.core.config import settings
 from app.core.database import DatabaseManager
 from app.core.llm import GroqClient
 from app.core.security import verify_internal_key
-from app.ingestion.embedder import EmbeddedChunk
+from app.ingestion.embedder import EmbeddedChunk, LocalEmbeddingService
 from app.rag.rag_service import StaticRAGService
 
 
@@ -36,17 +36,23 @@ def populated_mock_db():
     db = DatabaseManager(uri=None, db_name="test_company_intelligence", client=mock_client)
     db.init_indexes()
 
+    embedder = LocalEmbeddingService.get_instance()
+    t1 = "Core collaboration hours are 10:00 to 16:00 IST Monday through Friday. Teams agree on schedules with their manager."
+    t2 = "SEV-1 critical incidents require acknowledgement within 15 minutes 24x7 with updates every 30 minutes."
+    emb1 = embedder.embed_text(t1)
+    emb2 = embedder.embed_text(t2)
+
     chunk1 = EmbeddedChunk(
         chunk_id="hr::p1::c000",
         doc_name="Company_HR_and_Work_Rules.pdf",
         page_number=1,
         chunk_index=0,
-        text="Core collaboration hours are 10:00 to 16:00 IST Monday through Friday. Teams agree on schedules with their manager.",
-        char_count=113,
+        text=t1,
+        char_count=len(t1),
         doc_sha256="hr_hash",
         chunk_sha256="c1_hash",
-        embedding=[1.0, 0.0] + [0.0] * 382,
-        embedding_dim=384,
+        embedding=emb1,
+        embedding_dim=len(emb1),
         embedding_model="all-MiniLM-L6-v2",
         metadata={"source": "Company_HR_and_Work_Rules.pdf", "page": 1},
     )
@@ -55,12 +61,12 @@ def populated_mock_db():
         doc_name="Engineering_SLA_and_Blocker_Policy.pdf",
         page_number=1,
         chunk_index=0,
-        text="SEV-1 critical incidents require acknowledgement within 15 minutes 24x7 with updates every 30 minutes.",
-        char_count=104,
+        text=t2,
+        char_count=len(t2),
         doc_sha256="sla_hash",
         chunk_sha256="c2_hash",
-        embedding=[0.0, 1.0] + [0.0] * 382,
-        embedding_dim=384,
+        embedding=emb2,
+        embedding_dim=len(emb2),
         embedding_model="all-MiniLM-L6-v2",
         metadata={"source": "Engineering_SLA_and_Blocker_Policy.pdf", "page": 1},
     )

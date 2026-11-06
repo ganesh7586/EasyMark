@@ -55,7 +55,7 @@ class Settings(BaseSettings):
         description="Groq Cloud API Key",
     )
     GROQ_MODEL: str = Field(
-        default="llama-3.3-70b-versatile",
+        default="openai/gpt-oss-120b",
         description="Groq LLM model identifier",
     )
 

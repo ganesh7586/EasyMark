@@ -58,10 +58,24 @@ class StaticRAGService:
         db_manager: Optional[DatabaseManager] = None,
         embedder: Optional[LocalEmbeddingService] = None,
         llm_client: Optional[GroqClient] = None,
+        min_relevance_score: float = 0.26,
     ):
         self.db = db_manager or get_db()
         self.embedder = embedder or LocalEmbeddingService.get_instance()
         self.llm = llm_client or get_groq_client()
+        self.min_relevance_score = min_relevance_score
+
+        # Auto-populate dataset if underlying database store is unpopulated
+        if self.db.get_total_chunks() == 0:
+            try:
+                from pathlib import Path
+                from app.ingestion.indexer import StaticDocIndexer
+                docs_dir = Path(__file__).resolve().parents[3] / "company-docs"
+                if docs_dir.exists():
+                    indexer = StaticDocIndexer(db_manager=self.db, embedder=self.embedder)
+                    indexer.ingest_all_documents(docs_dir)
+            except Exception as exc:
+                print(f"[StaticRAGService] Notice during dataset initialization: {exc}")
 
     def _extract_citations_from_text(self, text: str) -> List[Dict[str, Any]]:
         """Extract all [Doc_Name.pdf, Page X] citation patterns from text."""
@@ -84,6 +98,7 @@ class StaticRAGService:
         query_text: str,
         top_k: int = 4,
         doc_filter: Optional[str] = None,
+        search_metric: str = "cosine",
     ) -> RAGResult:
         """
         Execute grounded RAG workflow for a user query.
@@ -118,7 +133,12 @@ class StaticRAGService:
             query_vector=query_vector,
             limit=top_k,
             doc_filter=doc_filter,
+            search_metric=search_metric,
+            query_text=clean_query,
         )
+
+        # Anti-hallucination relevance threshold: prune distant/out-of-domain chunks
+        retrieved_chunks = [c for c in retrieved_chunks if c.get("score", 1.0) >= self.min_relevance_score]
 
         if not retrieved_chunks:
             return RAGResult(

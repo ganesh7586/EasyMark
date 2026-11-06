@@ -203,6 +203,8 @@ class DatabaseManager:
         query_vector: List[float],
         limit: int = 5,
         doc_filter: Optional[str] = None,
+        search_metric: str = "cosine",
+        query_text: Optional[str] = None,
     ) -> List[Dict[str, Any]]:
         """
         Execute vector search for nearest chunks.
@@ -279,7 +281,20 @@ class DatabaseManager:
             if d_norm == 0.0:
                 continue
 
-            similarity = float(np.dot(q_vec, d_vec) / (q_norm * d_norm))
+            if search_metric == "dot":
+                similarity = float(np.dot(q_vec / q_norm, d_vec / d_norm))
+            elif search_metric == "euclidean":
+                dist = float(np.linalg.norm(q_vec - d_vec))
+                similarity = float(1.0 / (1.0 + dist))
+            elif search_metric == "hybrid" and query_text:
+                dense_sim = float(np.dot(q_vec, d_vec) / (q_norm * d_norm))
+                import re
+                q_words = set(re.findall(r"\w+", query_text.lower()))
+                d_words = set(re.findall(r"\w+", doc.get("text", "").lower()))
+                overlap = len(q_words.intersection(d_words)) / max(len(q_words), 1)
+                similarity = float(0.75 * dense_sim + 0.25 * overlap)
+            else:
+                similarity = float(np.dot(q_vec, d_vec) / (q_norm * d_norm))
 
             doc_copy = dict(doc)
             doc_copy["score"] = similarity

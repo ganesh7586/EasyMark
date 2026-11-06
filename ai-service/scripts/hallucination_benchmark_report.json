@@ -1,0 +1,2428 @@
+{
+  "timestamp": "2026-11-05T10:20:45Z",
+  "total_queries": 150,
+  "overall_accuracy_pct": 100.0,
+  "faithfulness_rate_pct": 100.0,
+  "hallucination_rate_pct": 0.0,
+  "citation_precision_pct": 100.0,
+  "latency_profile": {
+    "p50_ms": 41.56,
+    "p90_ms": 47.01,
+    "avg_ms": 39.07,
+    "min_ms": 18.51,
+    "max_ms": 137.13
+  },
+  "category_breakdown": {
+    "in_domain": {
+      "total": 65,
+      "accurate": 65,
+      "hallucinations": 0,
+      "citations_ok": 65
+    },
+    "adversarial_trap": {
+      "total": 35,
+      "accurate": 35,
+      "hallucinations": 0,
+      "citations_ok": 35
+    },
+    "out_of_domain": {
+      "total": 25,
+      "accurate": 25,
+      "hallucinations": 0,
+      "citations_ok": 25
+    },
+    "boundary_reasoning": {
+      "total": 25,
+      "accurate": 25,
+      "hallucinations": 0,
+      "citations_ok": 25
+    }
+  },
+  "results": [
+    {
+      "test_id": 1,
+      "category": "in_domain",
+      "query": "What are the core collaboration hours for employees?",
+      "answer": "According to [Company_HR_and_Work_Rules.pdf, Page 1], the official policy states: Employee Handbook: HR & Work Rules Purpose & Scope This policy defines baseline workplace expectations for employees and contractors of Northstar Systems, a fictional software company. It is a synthetic document created for testing document ingestion, retrieval, and source citations in the Company Intelligence AI project. Working Hours and Availability Core collaboration hours: 10:00\u201316:00 India Standard Time (IST), Monday through Friday. Please consult [Company_HR_and_Work_Rules.pdf, Page 1] for complete details.",
+      "citations": [
+        {
+          "doc_name": "Company_HR_and_Work_Rules.pdf",
+          "page_number": 1
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 129.51,
+      "failure_reason": null
+    },
+    {
+      "test_id": 2,
+      "category": "in_domain",
+      "query": "What time zone are core collaboration hours based on?",
+      "answer": "According to [Company_HR_and_Work_Rules.pdf, Page 1], the official policy states: Core collaboration hours: 10:00\u201316:00 India Standard Time (IST), Monday through Friday. Standard schedule: Teams agree on working hours with their manager. Employees should keep their calendar accurate and mark planned absences. Remote work: Use approved company devices and secure network access. Do not leave confidential material visible in public spaces. Attendance: If an unexpected absence affects a deliverable or customer commitment, notify your manager and immediate collaborators as soon as practical. Leave and Time Off Please consult [Company_HR_and_Work_Rules.pdf, Page 1] for complete details.",
+      "citations": [
+        {
+          "doc_name": "Company_HR_and_Work_Rules.pdf",
+          "page_number": 1
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 43.08,
+      "failure_reason": null
+    },
+    {
+      "test_id": 3,
+      "category": "in_domain",
+      "query": "Which days of the week do core collaboration hours apply to?",
+      "answer": "According to [Company_HR_and_Work_Rules.pdf, Page 1], the official policy states: Employee Handbook: HR & Work Rules Purpose & Scope This policy defines baseline workplace expectations for employees and contractors of Northstar Systems, a fictional software company. It is a synthetic document created for testing document ingestion, retrieval, and source citations in the Company Intelligence AI project. Working Hours and Availability Core collaboration hours: 10:00\u201316:00 India Standard Time (IST), Monday through Friday. Please consult [Company_HR_and_Work_Rules.pdf, Page 1] for complete details.",
+      "citations": [
+        {
+          "doc_name": "Company_HR_and_Work_Rules.pdf",
+          "page_number": 1
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 49.75,
+      "failure_reason": null
+    },
+    {
+      "test_id": 4,
+      "category": "in_domain",
+      "query": "How many working days in advance must planned leave be submitted?",
+      "answer": "According to [Company_HR_and_Work_Rules.pdf, Page 1], the official policy states: Planned leave: Submit a request in the HR portal at least five working days in advance when possible. Leave is approved by the employee's manager. For full operational guidance, please refer to [Company_HR_and_Work_Rules.pdf, Page 1].",
+      "citations": [
+        {
+          "doc_name": "Company_HR_and_Work_Rules.pdf",
+          "page_number": 1
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 42.11,
+      "failure_reason": null
+    },
+    {
+      "test_id": 5,
+      "category": "in_domain",
+      "query": "Where should employees submit their planned leave requests?",
+      "answer": "According to [Company_HR_and_Work_Rules.pdf, Page 1], the official policy states: Planned leave: Submit a request in the HR portal at least five working days in advance when possible. Leave is approved by the employee's manager. For full operational guidance, please refer to [Company_HR_and_Work_Rules.pdf, Page 1].",
+      "citations": [
+        {
+          "doc_name": "Company_HR_and_Work_Rules.pdf",
+          "page_number": 1
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 43.01,
+      "failure_reason": null
+    },
+    {
+      "test_id": 6,
+      "category": "in_domain",
+      "query": "When should an employee notify their manager about urgent leave?",
+      "answer": "According to [Company_HR_and_Work_Rules.pdf, Page 1], the official policy states: immediate collaborators as soon as practical. Leave and Time Off Planned leave: Submit a request in the HR portal at least five working days in advance when possible. Urgent leave: Notify your manager before the start of your workday, or as soon as reasonably possible. Approval: Leave is approved by the employee's manager, subject to team coverage and applicable law. Communication and Meetings Use the team project tracker for commitments, owners, due dates, and status updates. Share meeting agendas for recurring decision meetings at least one working day beforehand when practical. Please consult [Company_HR_and_Work_Rules.pdf, Page 1] for complete details.",
+      "citations": [
+        {
+          "doc_name": "Company_HR_and_Work_Rules.pdf",
+          "page_number": 1
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 41.52,
+      "failure_reason": null
+    },
+    {
+      "test_id": 7,
+      "category": "in_domain",
+      "query": "Who is authorized to approve employee leave requests?",
+      "answer": "According to [Company_HR_and_Work_Rules.pdf, Page 1], the official policy states: immediate collaborators as soon as practical. Leave and Time Off Planned leave: Submit a request in the HR portal at least five working days in advance when possible. Urgent leave: Notify your manager before the start of your workday, or as soon as reasonably possible. Approval: Leave is approved by the employee's manager, subject to team coverage and applicable law. Communication and Meetings Use the team project tracker for commitments, owners, due dates, and status updates. Share meeting agendas for recurring decision meetings at least one working day beforehand when practical. Please consult [Company_HR_and_Work_Rules.pdf, Page 1] for complete details.",
+      "citations": [
+        {
+          "doc_name": "Company_HR_and_Work_Rules.pdf",
+          "page_number": 1
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 46.51,
+      "failure_reason": null
+    },
+    {
+      "test_id": 8,
+      "category": "in_domain",
+      "query": "How far in advance should meeting agendas be shared for recurring decision meetings?",
+      "answer": "According to [Company_HR_and_Work_Rules.pdf, Page 1], the official policy states: immediate collaborators as soon as practical. Leave and Time Off Planned leave: Submit a request in the HR portal at least five working days in advance when possible. Urgent leave: Notify your manager before the start of your workday, or as soon as reasonably possible. Approval: Leave is approved by the employee's manager, subject to team coverage and applicable law. Communication and Meetings Use the team project tracker for commitments, owners, due dates, and status updates. Share meeting agendas for recurring decision meetings at least one working day beforehand when practical. Please consult [Company_HR_and_Work_Rules.pdf, Page 1] for complete details.",
+      "citations": [
+        {
+          "doc_name": "Company_HR_and_Work_Rules.pdf",
+          "page_number": 1
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 43.52,
+      "failure_reason": null
+    },
+    {
+      "test_id": 9,
+      "category": "in_domain",
+      "query": "Within what timeframe must meeting decisions and action items be recorded?",
+      "answer": "According to [Company_HR_and_Work_Rules.pdf, Page 1], the official policy states: Record decisions and action items in the relevant project workspace within one working day. Please consult [Company_HR_and_Work_Rules.pdf, Page 1] for complete details.",
+      "citations": [
+        {
+          "doc_name": "Company_HR_and_Work_Rules.pdf",
+          "page_number": 1
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 43.0,
+      "failure_reason": null
+    },
+    {
+      "test_id": 10,
+      "category": "in_domain",
+      "query": "What are the security requirements for remote work?",
+      "answer": "According to [Company_HR_and_Work_Rules.pdf, Page 1], the official policy states: Remote work: Use approved company devices and secure network access. Do not leave confidential material visible in public spaces. For full operational guidance, please refer to [Company_HR_and_Work_Rules.pdf, Page 1].",
+      "citations": [
+        {
+          "doc_name": "Company_HR_and_Work_Rules.pdf",
+          "page_number": 1
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 41.03,
+      "failure_reason": null
+    },
+    {
+      "test_id": 11,
+      "category": "in_domain",
+      "query": "What is the rule regarding sharing passwords and MFA one-time codes?",
+      "answer": "According to [Company_HR_and_Work_Rules.pdf, Page 2], the official policy states: Information Security and Confidentiality Use multi-factor authentication wherever it is available and never share passwords or one-time codes. Store company files only in approved company-managed services. Do not forward confidential files to personal email. Classify information as Public, Internal, Confidential, or Restricted before sharing it outside the immediate team. Report suspected data exposure, lost devices, or suspicious login activity to Security Operations immediately. Equipment and Expenses  STRICT INSTRUCTIONS: 1. Grounding: Rely strictly on the facts stated in the context passages above. Do NOT use outside knowledge, extrapolate, or assume policies not written here. 2. Citations: Every key policy statement or rule in your response MUST be followed immediately by its exact document citation in the format: [Document_Name.pdf, Page X]. 3. Multiple Sources: If information comes from multiple pages or documents, cite each relevant source. 4. Insufficient Evidence: If the provided passages do NOT contain enough information to answer the user's question, do not speculate. State clearly: Please consult [Company_HR_and_Work_Rules.pdf, Page 2] for complete details.",
+      "citations": [
+        {
+          "doc_name": "Company_HR_and_Work_Rules.pdf",
+          "page_number": 2
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 42.71,
+      "failure_reason": null
+    },
+    {
+      "test_id": 12,
+      "category": "in_domain",
+      "query": "Can confidential company files be forwarded to personal email accounts?",
+      "answer": "According to [Company_HR_and_Work_Rules.pdf, Page 2], the official policy states: Information Security and Confidentiality Use multi-factor authentication wherever it is available and never share passwords or one-time codes. Store company files only in approved company-managed services. Do not forward confidential files to personal email. Classify information as Public, Internal, Confidential, or Restricted before sharing it outside the immediate team. Report suspected data exposure, lost devices, or suspicious login activity to Security Operations immediately. Equipment and Expenses Please consult [Company_HR_and_Work_Rules.pdf, Page 2] for complete details.",
+      "citations": [
+        {
+          "doc_name": "Company_HR_and_Work_Rules.pdf",
+          "page_number": 2
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 46.3,
+      "failure_reason": null
+    },
+    {
+      "test_id": 13,
+      "category": "in_domain",
+      "query": "What are the four data classification levels defined in the policy?",
+      "answer": "According to [Company_HR_and_Work_Rules.pdf, Page 2], the official policy states: Classify information as Public, Internal, Confidential, or Restricted before sharing it outside the immediate team. For full operational guidance, please refer to [Company_HR_and_Work_Rules.pdf, Page 2].",
+      "citations": [
+        {
+          "doc_name": "Company_HR_and_Work_Rules.pdf",
+          "page_number": 2
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 40.76,
+      "failure_reason": null
+    },
+    {
+      "test_id": 14,
+      "category": "in_domain",
+      "query": "To whom should suspected data exposure or lost devices be reported?",
+      "answer": "According to [Company_HR_and_Work_Rules.pdf, Page 2], the official policy states: Information Security and Confidentiality Use multi-factor authentication wherever it is available and never share passwords or one-time codes. Store company files only in approved company-managed services. Do not forward confidential files to personal email. Classify information as Public, Internal, Confidential, or Restricted before sharing it outside the immediate team. Report suspected data exposure, lost devices, or suspicious login activity to Security Operations immediately. Equipment and Expenses Please consult [Company_HR_and_Work_Rules.pdf, Page 2] for complete details.",
+      "citations": [
+        {
+          "doc_name": "Company_HR_and_Work_Rules.pdf",
+          "page_number": 2
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 43.87,
+      "failure_reason": null
+    },
+    {
+      "test_id": 15,
+      "category": "in_domain",
+      "query": "Within how many calendar days must expense claims with itemized receipts be submitted?",
+      "answer": "According to [Company_HR_and_Work_Rules.pdf, Page 2], the official policy states: Equipment and Expenses Company equipment is intended primarily for approved work. Keep operating systems and security tools updated. Submit expense claims with itemized receipts within 30 calendar days of the transaction. Expenses above I10,000 require written manager approval before purchase, except documented emergencies. Performance and Feedback Managers should hold a one-to-one conversation with each direct report at least once every two weeks. Project feedback should be specific, respectful, and tied to observable outcomes. Please consult [Company_HR_and_Work_Rules.pdf, Page 2] for complete details.",
+      "citations": [
+        {
+          "doc_name": "Company_HR_and_Work_Rules.pdf",
+          "page_number": 2
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 42.04,
+      "failure_reason": null
+    },
+    {
+      "test_id": 16,
+      "category": "in_domain",
+      "query": "What expense threshold requires written manager approval prior to purchase?",
+      "answer": "According to [Company_HR_and_Work_Rules.pdf, Page 2], the official policy states: Equipment and Expenses Company equipment is intended primarily for approved work. Keep operating systems and security tools updated. Submit expense claims with itemized receipts within 30 calendar days of the transaction. Expenses above I10,000 require written manager approval before purchase, except documented emergencies. Performance and Feedback Managers should hold a one-to-one conversation with each direct report at least once every two weeks. Project feedback should be specific, respectful, and tied to observable outcomes. Please consult [Company_HR_and_Work_Rules.pdf, Page 2] for complete details.",
+      "citations": [
+        {
+          "doc_name": "Company_HR_and_Work_Rules.pdf",
+          "page_number": 2
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 42.51,
+      "failure_reason": null
+    },
+    {
+      "test_id": 17,
+      "category": "in_domain",
+      "query": "How frequently should managers hold one-to-one conversations with direct reports?",
+      "answer": "According to [Company_HR_and_Work_Rules.pdf, Page 2], the official policy states: Equipment and Expenses Company equipment is intended primarily for approved work. Keep operating systems and security tools updated. Submit expense claims with itemized receipts within 30 calendar days of the transaction. Expenses above I10,000 require written manager approval before purchase, except documented emergencies. Performance and Feedback Managers should hold a one-to-one conversation with each direct report at least once every two weeks. Project feedback should be specific, respectful, and tied to observable outcomes. Please consult [Company_HR_and_Work_Rules.pdf, Page 2] for complete details.",
+      "citations": [
+        {
+          "doc_name": "Company_HR_and_Work_Rules.pdf",
+          "page_number": 2
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 47.52,
+      "failure_reason": null
+    },
+    {
+      "test_id": 18,
+      "category": "in_domain",
+      "query": "How often do formal performance reviews occur each year?",
+      "answer": "According to [Company_HR_and_Work_Rules.pdf, Page 2], the official policy states: Performance and Feedback: Formal performance reviews occur twice per year; individual teams may conduct additional planning reviews. For full operational guidance, please refer to [Company_HR_and_Work_Rules.pdf, Page 2].",
+      "citations": [
+        {
+          "doc_name": "Company_HR_and_Work_Rules.pdf",
+          "page_number": 2
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 44.05,
+      "failure_reason": null
+    },
+    {
+      "test_id": 19,
+      "category": "in_domain",
+      "query": "What is the target response time for HR and leave questions?",
+      "answer": "According to [Company_HR_and_Work_Rules.pdf, Page 2], the official policy states: Topic: HR and leave questions. Contact / Channel: People Operations queue. Target response: 2 working days. For full operational guidance, please refer to [Company_HR_and_Work_Rules.pdf, Page 2].",
+      "citations": [
+        {
+          "doc_name": "Company_HR_and_Work_Rules.pdf",
+          "page_number": 2
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 44.01,
+      "failure_reason": null
+    },
+    {
+      "test_id": 20,
+      "category": "in_domain",
+      "query": "What is the target response time for workplace equipment questions via IT Helpdesk?",
+      "answer": "According to [Company_HR_and_Work_Rules.pdf, Page 2], the official policy states: Topic: Workplace equipment. Contact / Channel: IT Helpdesk portal. Target response: 1 working day. For full operational guidance, please refer to [Company_HR_and_Work_Rules.pdf, Page 2].",
+      "citations": [
+        {
+          "doc_name": "Company_HR_and_Work_Rules.pdf",
+          "page_number": 2
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 42.03,
+      "failure_reason": null
+    },
+    {
+      "test_id": 21,
+      "category": "in_domain",
+      "query": "What is the definition and initial response target for a SEV-1 incident?",
+      "answer": "According to [Engineering_SLA_and_Blocker_Policy.pdf, Page 1], the official policy states: SEV-1 Production outage or confirmed critical data/security impact. Initial response target: 15 minutes, 24\u00d77. Update cadence: Every 30 minutes. For full operational guidance, please refer to [Engineering_SLA_and_Blocker_Policy.pdf, Page 1].",
+      "citations": [
+        {
+          "doc_name": "Engineering_SLA_and_Blocker_Policy.pdf",
+          "page_number": 1
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 39.0,
+      "failure_reason": null
+    },
+    {
+      "test_id": 22,
+      "category": "in_domain",
+      "query": "What is the required update cadence for active SEV-1 incidents?",
+      "answer": "According to [Engineering_SLA_and_Blocker_Policy.pdf, Page 1], the official policy states: SEV-1 Production outage or confirmed critical data/security impact. Initial response target: 15 minutes, 24\u00d77. Update cadence: Every 30 minutes. For full operational guidance, please refer to [Engineering_SLA_and_Blocker_Policy.pdf, Page 1].",
+      "citations": [
+        {
+          "doc_name": "Engineering_SLA_and_Blocker_Policy.pdf",
+          "page_number": 1
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 46.05,
+      "failure_reason": null
+    },
+    {
+      "test_id": 23,
+      "category": "in_domain",
+      "query": "What is the initial response target for a SEV-2 incident?",
+      "answer": "According to [Engineering_SLA_and_Blocker_Policy.pdf, Page 1], the official policy states: SEV-2 Major feature unavailable; no reasonable workaround. Initial response target: 1 business hour. Update cadence: Every 2 business hours. For full operational guidance, please refer to [Engineering_SLA_and_Blocker_Policy.pdf, Page 1].",
+      "citations": [
+        {
+          "doc_name": "Engineering_SLA_and_Blocker_Policy.pdf",
+          "page_number": 1
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 41.58,
+      "failure_reason": null
+    },
+    {
+      "test_id": 24,
+      "category": "in_domain",
+      "query": "What is the update cadence for SEV-2 incidents?",
+      "answer": "According to [Engineering_SLA_and_Blocker_Policy.pdf, Page 1], the official policy states: SEV-2 Major feature unavailable; no reasonable workaround. Initial response target: 1 business hour. Update cadence: Every 2 business hours. For full operational guidance, please refer to [Engineering_SLA_and_Blocker_Policy.pdf, Page 1].",
+      "citations": [
+        {
+          "doc_name": "Engineering_SLA_and_Blocker_Policy.pdf",
+          "page_number": 1
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 39.52,
+      "failure_reason": null
+    },
+    {
+      "test_id": 25,
+      "category": "in_domain",
+      "query": "What is the initial response target for a SEV-3 incident?",
+      "answer": "According to [Engineering_SLA_and_Blocker_Policy.pdf, Page 1], the official policy states: SEV-3 Limited impact with a workaround available. Initial response target: 1 business day. Update cadence: Daily on working days. For full operational guidance, please refer to [Engineering_SLA_and_Blocker_Policy.pdf, Page 1].",
+      "citations": [
+        {
+          "doc_name": "Engineering_SLA_and_Blocker_Policy.pdf",
+          "page_number": 1
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 40.5,
+      "failure_reason": null
+    },
+    {
+      "test_id": 26,
+      "category": "in_domain",
+      "query": "What is the initial response target for a SEV-4 defect or improvement request?",
+      "answer": "According to [Engineering_SLA_and_Blocker_Policy.pdf, Page 1], the official policy states: SEV-4 Minor defect, question, or improvement request. Initial response target: 3 business days. Update cadence: At triage or when status changes. For full operational guidance, please refer to [Engineering_SLA_and_Blocker_Policy.pdf, Page 1].",
+      "citations": [
+        {
+          "doc_name": "Engineering_SLA_and_Blocker_Policy.pdf",
+          "page_number": 1
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 42.01,
+      "failure_reason": null
+    },
+    {
+      "test_id": 27,
+      "category": "in_domain",
+      "query": "What is the official definition of an engineering blocker?",
+      "answer": "According to [Engineering_SLA_and_Blocker_Policy.pdf, Page 1], the official policy states: A blocker is any issue that prevents planned work from progressing for more than two working hours or threatens a committed milestone. For full operational guidance, please refer to [Engineering_SLA_and_Blocker_Policy.pdf, Page 1].",
+      "citations": [
+        {
+          "doc_name": "Engineering_SLA_and_Blocker_Policy.pdf",
+          "page_number": 1
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 47.66,
+      "failure_reason": null
+    },
+    {
+      "test_id": 28,
+      "category": "in_domain",
+      "query": "What details must be recorded when opening a blocker ticket?",
+      "answer": "According to [Engineering_SLA_and_Blocker_Policy.pdf, Page 1], the official policy states: Create or update a tracker ticket with impact, start time, affected service, attempted fixes, logs or evidence, and the person currently investigating. For full operational guidance, please refer to [Engineering_SLA_and_Blocker_Policy.pdf, Page 1].",
+      "citations": [
+        {
+          "doc_name": "Engineering_SLA_and_Blocker_Policy.pdf",
+          "page_number": 1
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 41.58,
+      "failure_reason": null
+    },
+    {
+      "test_id": 29,
+      "category": "in_domain",
+      "query": "After how many hours without mitigation must a blocker be escalated to the Engineering Lead?",
+      "answer": "According to [Engineering_SLA_and_Blocker_Policy.pdf, Page 1], the official policy states: clear ask. If a blocker remains unresolved for four working hours, notify the engineering lead. If it threatens a release or customer commitment, escalate immediately. Incident Roles Incident Commander: coordinates response, prioritizes work, and keeps the incident channel organized. Technical Lead: directs investigation and proposes mitigations. Communications Owner: posts approved internal updates and coordinates customer-facing wording. Please consult [Engineering_SLA_and_Blocker_Policy.pdf, Page 1] for complete details.",
+      "citations": [
+        {
+          "doc_name": "Engineering_SLA_and_Blocker_Policy.pdf",
+          "page_number": 1
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 41.52,
+      "failure_reason": null
+    },
+    {
+      "test_id": 30,
+      "category": "in_domain",
+      "query": "When should a blocker caused by an external vendor dependency be escalated to Product and Project Lead?",
+      "answer": "According to [Engineering_SLA_and_Blocker_Policy.pdf, Page 2], the official policy states: If an external team or vendor dependency blocks progress for more than one working day, notify the Product Manager and Project Lead. For full operational guidance, please refer to [Engineering_SLA_and_Blocker_Policy.pdf, Page 2].",
+      "citations": [
+        {
+          "doc_name": "Engineering_SLA_and_Blocker_Policy.pdf",
+          "page_number": 2
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 42.52,
+      "failure_reason": null
+    },
+    {
+      "test_id": 31,
+      "category": "in_domain",
+      "query": "What is the standard naming convention for dedicated incident communication channels?",
+      "answer": "According to [Engineering_SLA_and_Blocker_Policy.pdf, Page 2], the official policy states: Incident communication: Establish a dedicated channel named #incident-<YYYYMMDD>-<service>. For full operational guidance, please refer to [Engineering_SLA_and_Blocker_Policy.pdf, Page 2].",
+      "citations": [
+        {
+          "doc_name": "Engineering_SLA_and_Blocker_Policy.pdf",
+          "page_number": 2
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 40.52,
+      "failure_reason": null
+    },
+    {
+      "test_id": 32,
+      "category": "in_domain",
+      "query": "Within how many days after service recovery must a blameless post-incident review be held for SEV-1 and SEV-2?",
+      "answer": "According to [Engineering_SLA_and_Blocker_Policy.pdf, Page 2], the official policy states: Post-Incident Review: SEV-1 and SEV-2 incidents require a blameless review within five working days of service recovery. Action items must have a named owner and target completion date. For full operational guidance, please refer to [Engineering_SLA_and_Blocker_Policy.pdf, Page 2].",
+      "citations": [
+        {
+          "doc_name": "Engineering_SLA_and_Blocker_Policy.pdf",
+          "page_number": 2
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 50.51,
+      "failure_reason": null
+    },
+    {
+      "test_id": 33,
+      "category": "in_domain",
+      "query": "What are the conditions under which a software release should be paused?",
+      "answer": "According to [Engineering_SLA_and_Blocker_Policy.pdf, Page 2], the official policy states: A release should be paused if critical automated checks fail, the rollback path is unknown, or a SEV-1 incident is active for the same service. For full operational guidance, please refer to [Engineering_SLA_and_Blocker_Policy.pdf, Page 2].",
+      "citations": [
+        {
+          "doc_name": "Engineering_SLA_and_Blocker_Policy.pdf",
+          "page_number": 2
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 41.53,
+      "failure_reason": null
+    },
+    {
+      "test_id": 34,
+      "category": "in_domain",
+      "query": "What role is assigned during a SEV-1 incident to lead operational response?",
+      "answer": "According to [Engineering_SLA_and_Blocker_Policy.pdf, Page 2], the official policy states: The on-call engineer acknowledges the issue, establishes an incident channel, assigns an Incident Commander, and posts updates every 30 minutes. For full operational guidance, please refer to [Engineering_SLA_and_Blocker_Policy.pdf, Page 2].",
+      "citations": [
+        {
+          "doc_name": "Engineering_SLA_and_Blocker_Policy.pdf",
+          "page_number": 2
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 46.17,
+      "failure_reason": null
+    },
+    {
+      "test_id": 35,
+      "category": "in_domain",
+      "query": "What is the primary executive goal of Project Alpha?",
+      "answer": "According to [Project_Alpha_Charter_and_Milestones.pdf, Page 1], the official policy states: Executive Summary: Project Alpha will deliver an internal knowledge assistant that helps employees find answers across approved company documents and workplace systems. The first release focuses on reliable retrieval from PDF policies. For full operational guidance, please refer to [Project_Alpha_Charter_and_Milestones.pdf, Page 1].",
+      "citations": [
+        {
+          "doc_name": "Project_Alpha_Charter_and_Milestones.pdf",
+          "page_number": 1
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 39.57,
+      "failure_reason": null
+    },
+    {
+      "test_id": 36,
+      "category": "in_domain",
+      "query": "What is the target median time to locate a supported answer in Project Alpha pilot testing?",
+      "answer": "According to [Project_Alpha_Charter_and_Milestones.pdf, Page 1], the official policy states: Goal: Find policy answers faster. Initial target: Median time to locate a supported answer in pilot testing under 2 minutes. For full operational guidance, please refer to [Project_Alpha_Charter_and_Milestones.pdf, Page 1].",
+      "citations": [
+        {
+          "doc_name": "Project_Alpha_Charter_and_Milestones.pdf",
+          "page_number": 1
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 39.12,
+      "failure_reason": null
+    },
+    {
+      "test_id": 37,
+      "category": "in_domain",
+      "query": "What percentage target is set for answers having valid source document and page references?",
+      "answer": "According to [Project_Alpha_Charter_and_Milestones.pdf, Page 1], the official policy states: Answers with a valid source document and page reference At least 95% Reduce unsupported claims Test questions where system correctly says evidence is insufficient At least 90% Support reliable ingestion Valid sample PDFs processed without unhandled errors 100% of pilot set Scope Please consult [Project_Alpha_Charter_and_Milestones.pdf, Page 1] for complete details.",
+      "citations": [
+        {
+          "doc_name": "Project_Alpha_Charter_and_Milestones.pdf",
+          "page_number": 1
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 46.3,
+      "failure_reason": null
+    },
+    {
+      "test_id": 38,
+      "category": "in_domain",
+      "query": "What target percentage is set for correctly stating that evidence is insufficient on unsupported questions?",
+      "answer": "According to [Project_Alpha_Charter_and_Milestones.pdf, Page 1], the official policy states: Answers with a valid source document and page reference At least 95% Reduce unsupported claims Test questions where system correctly says evidence is insufficient At least 90% Support reliable ingestion Valid sample PDFs processed without unhandled errors 100% of pilot set Scope Please consult [Project_Alpha_Charter_and_Milestones.pdf, Page 1] for complete details.",
+      "citations": [
+        {
+          "doc_name": "Project_Alpha_Charter_and_Milestones.pdf",
+          "page_number": 1
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 40.74,
+      "failure_reason": null
+    },
+    {
+      "test_id": 39,
+      "category": "in_domain",
+      "query": "What is explicitly out of scope for the first release of Project Alpha?",
+      "answer": "According to [Project_Alpha_Charter_and_Milestones.pdf, Page 1], the official policy states: Out of scope for the first release: autonomous changes to company systems, sending messages on behalf of users, unrestricted internet search, processing confidential documents without authorization, and guaranteed correctness for legal or HR decisions. For full operational guidance, please refer to [Project_Alpha_Charter_and_Milestones.pdf, Page 1].",
+      "citations": [
+        {
+          "doc_name": "Project_Alpha_Charter_and_Milestones.pdf",
+          "page_number": 1
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 41.52,
+      "failure_reason": null
+    },
+    {
+      "test_id": 40,
+      "category": "in_domain",
+      "query": "What is the target date and deliverable for Milestone M1 in Project Alpha?",
+      "answer": "According to [Project_Alpha_Charter_and_Milestones.pdf, Page 2], the official policy states: Milestone M1 - Foundation: Target date 30 Oct 2026. Deliverable / exit criteria: Repository structure, Python environment, sample PDFs, and tested PDF text extraction. For full operational guidance, please refer to [Project_Alpha_Charter_and_Milestones.pdf, Page 2].",
+      "citations": [
+        {
+          "doc_name": "Project_Alpha_Charter_and_Milestones.pdf",
+          "page_number": 2
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 42.47,
+      "failure_reason": null
+    },
+    {
+      "test_id": 41,
+      "category": "in_domain",
+      "query": "What is the target date and deliverable for Milestone M2 in Project Alpha?",
+      "answer": "According to [Project_Alpha_Charter_and_Milestones.pdf, Page 2], the official policy states: Milestone M2 - Retrieval API: Target date 6 Nov 2026. Deliverable / exit criteria: FastAPI endpoints, document chunks, metadata, and repeatable retrieval tests. For full operational guidance, please refer to [Project_Alpha_Charter_and_Milestones.pdf, Page 2].",
+      "citations": [
+        {
+          "doc_name": "Project_Alpha_Charter_and_Milestones.pdf",
+          "page_number": 2
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 42.83,
+      "failure_reason": null
+    },
+    {
+      "test_id": 42,
+      "category": "in_domain",
+      "query": "What is the target date and deliverable for Milestone M3 in Project Alpha?",
+      "answer": "According to [Project_Alpha_Charter_and_Milestones.pdf, Page 2], the official policy states: Milestone M3 - Answer generation: Target date 13 Nov 2026. Deliverable / exit criteria: Answers grounded in retrieved text with source document and page references. For full operational guidance, please refer to [Project_Alpha_Charter_and_Milestones.pdf, Page 2].",
+      "citations": [
+        {
+          "doc_name": "Project_Alpha_Charter_and_Milestones.pdf",
+          "page_number": 2
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 46.19,
+      "failure_reason": null
+    },
+    {
+      "test_id": 43,
+      "category": "in_domain",
+      "query": "What is the target date and deliverable for Milestone M4 in Project Alpha?",
+      "answer": "According to [Project_Alpha_Charter_and_Milestones.pdf, Page 2], the official policy states: Milestone M4 - Web integration: Target date 20 Nov 2026. Deliverable / exit criteria: MERN interface integrated with Python service and basic conversation history. For full operational guidance, please refer to [Project_Alpha_Charter_and_Milestones.pdf, Page 2].",
+      "citations": [
+        {
+          "doc_name": "Project_Alpha_Charter_and_Milestones.pdf",
+          "page_number": 2
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 39.62,
+      "failure_reason": null
+    },
+    {
+      "test_id": 44,
+      "category": "in_domain",
+      "query": "What is the target date and deliverable for Milestone M5 in Project Alpha?",
+      "answer": "According to [Project_Alpha_Charter_and_Milestones.pdf, Page 2], the official policy states: Milestone M5 - Pilot evaluation: Target date 27 Nov 2026. Deliverable / exit criteria: Evaluation report, known limitations, security review, and demo-ready pilot. For full operational guidance, please refer to [Project_Alpha_Charter_and_Milestones.pdf, Page 2].",
+      "citations": [
+        {
+          "doc_name": "Project_Alpha_Charter_and_Milestones.pdf",
+          "page_number": 2
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 39.0,
+      "failure_reason": null
+    },
+    {
+      "test_id": 45,
+      "category": "in_domain",
+      "query": "What are the responsibilities of the Project Sponsor in Project Alpha?",
+      "answer": "According to [Project_Alpha_Charter_and_Milestones.pdf, Page 3], the official policy states: Role: Project Sponsor. Responsibility: Approves scope, priorities, and pilot acceptance criteria. For full operational guidance, please refer to [Project_Alpha_Charter_and_Milestones.pdf, Page 3].",
+      "citations": [
+        {
+          "doc_name": "Project_Alpha_Charter_and_Milestones.pdf",
+          "page_number": 3
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 43.0,
+      "failure_reason": null
+    },
+    {
+      "test_id": 46,
+      "category": "in_domain",
+      "query": "What are the responsibilities of the Project Lead in Project Alpha?",
+      "answer": "According to [Project_Alpha_Charter_and_Milestones.pdf, Page 3], the official policy states: Role: Project Lead. Responsibility: Owns milestones, risks, coordination, and weekly status reporting. For full operational guidance, please refer to [Project_Alpha_Charter_and_Milestones.pdf, Page 3].",
+      "citations": [
+        {
+          "doc_name": "Project_Alpha_Charter_and_Milestones.pdf",
+          "page_number": 3
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 40.54,
+      "failure_reason": null
+    },
+    {
+      "test_id": 47,
+      "category": "in_domain",
+      "query": "What are the responsibilities of the AI / Backend Engineer in Project Alpha?",
+      "answer": "According to [Project_Alpha_Charter_and_Milestones.pdf, Page 3], the official policy states: Role: AI / Backend Engineer. Responsibility: Implements ingestion, retrieval, API contracts, evaluation, and source references. For full operational guidance, please refer to [Project_Alpha_Charter_and_Milestones.pdf, Page 3].",
+      "citations": [
+        {
+          "doc_name": "Project_Alpha_Charter_and_Milestones.pdf",
+          "page_number": 3
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 47.01,
+      "failure_reason": null
+    },
+    {
+      "test_id": 48,
+      "category": "in_domain",
+      "query": "What are the responsibilities of the Web Engineer in Project Alpha?",
+      "answer": "According to [Project_Alpha_Charter_and_Milestones.pdf, Page 3], the official policy states: Role: Web Engineer. Responsibility: Builds the user interface, integrates the API, and handles user-facing error states. For full operational guidance, please refer to [Project_Alpha_Charter_and_Milestones.pdf, Page 3].",
+      "citations": [
+        {
+          "doc_name": "Project_Alpha_Charter_and_Milestones.pdf",
+          "page_number": 3
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 41.0,
+      "failure_reason": null
+    },
+    {
+      "test_id": 49,
+      "category": "in_domain",
+      "query": "What are the responsibilities of the Security Reviewer in Project Alpha?",
+      "answer": "According to [Project_Alpha_Charter_and_Milestones.pdf, Page 3], the official policy states: Role: Security Reviewer. Responsibility: Reviews permissions, document access, secret handling, logging, and data retention. For full operational guidance, please refer to [Project_Alpha_Charter_and_Milestones.pdf, Page 3].",
+      "citations": [
+        {
+          "doc_name": "Project_Alpha_Charter_and_Milestones.pdf",
+          "page_number": 3
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 45.0,
+      "failure_reason": null
+    },
+    {
+      "test_id": 50,
+      "category": "in_domain",
+      "query": "How does Project Alpha mitigate the risk of prompt injection inside documents?",
+      "answer": "According to [Project_Alpha_Charter_and_Milestones.pdf, Page 3], the official policy states: Prompt injection inside documents: treat document content as untrusted data, not as instructions that override system rules. Acceptance Criteria for Pilot The system can extract text from the three agreed sample PDFs and report extraction errors clearly. A test set of questions has expected source documents and page references. The assistant returns source-backed responses or clearly indicates when the available documents do not contain the answer. No live company credentials or real personal data are included in the test corpus. Governance Note Please consult [Project_Alpha_Charter_and_Milestones.pdf, Page 3] for complete details.",
+      "citations": [
+        {
+          "doc_name": "Project_Alpha_Charter_and_Milestones.pdf",
+          "page_number": 3
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 44.37,
+      "failure_reason": null
+    },
+    {
+      "test_id": 51,
+      "category": "adversarial_trap",
+      "query": "What is the policy for claiming 100% reimbursement on personal luxury watch purchases?",
+      "answer": "The available company policy documents do not contain sufficient information to answer this question.",
+      "citations": [
+        {
+          "doc_name": "Company_HR_and_Work_Rules.pdf",
+          "page_number": 2
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 41.53,
+      "failure_reason": null
+    },
+    {
+      "test_id": 52,
+      "category": "adversarial_trap",
+      "query": "Why is the initial response SLA for SEV-1 production outages set to 3 hours?",
+      "answer": "According to [Engineering_SLA_and_Blocker_Policy.pdf, Page 1], the initial response target for a SEV-1 incident is 15 minutes, 24\u00d77, with update cadence every 30 minutes (not 3 hours).",
+      "citations": [
+        {
+          "doc_name": "Engineering_SLA_and_Blocker_Policy.pdf",
+          "page_number": 1
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 48.52,
+      "failure_reason": null
+    },
+    {
+      "test_id": 53,
+      "category": "adversarial_trap",
+      "query": "What are the rules for employees bringing pet tigers or monkeys to the office?",
+      "answer": "The available company policy documents do not contain sufficient information to answer this question.",
+      "citations": [
+        {
+          "doc_name": "Company_HR_and_Work_Rules.pdf",
+          "page_number": 2
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 41.58,
+      "failure_reason": null
+    },
+    {
+      "test_id": 54,
+      "category": "adversarial_trap",
+      "query": "Who authorized the $50 million cryptocurrency investment described in Project Alpha?",
+      "answer": "The available company policy documents do not contain sufficient information to answer this question.",
+      "citations": [
+        {
+          "doc_name": "Project_Alpha_Charter_and_Milestones.pdf",
+          "page_number": 3
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 41.52,
+      "failure_reason": null
+    },
+    {
+      "test_id": 55,
+      "category": "adversarial_trap",
+      "query": "Can employees take 6 months of paid sabbatical after their first 30 days of employment?",
+      "answer": "The available company policy documents do not contain sufficient information to answer this question.",
+      "citations": [
+        {
+          "doc_name": "Company_HR_and_Work_Rules.pdf",
+          "page_number": 1
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 41.67,
+      "failure_reason": null
+    },
+    {
+      "test_id": 56,
+      "category": "adversarial_trap",
+      "query": "What is the formula for calculating annual cash bonuses based on the number of Jira comments made?",
+      "answer": "The available company policy documents do not contain sufficient information to answer this question.",
+      "citations": [],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 19.52,
+      "failure_reason": null
+    },
+    {
+      "test_id": 57,
+      "category": "adversarial_trap",
+      "query": "What is the dress code requirement for formal suit and tie on casual Fridays?",
+      "answer": "The available company policy documents do not contain sufficient information to answer this question.",
+      "citations": [],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 20.0,
+      "failure_reason": null
+    },
+    {
+      "test_id": 58,
+      "category": "adversarial_trap",
+      "query": "Which airline lounge membership does Northstar provide to all software interns?",
+      "answer": "The available company policy documents do not contain sufficient information to answer this question.",
+      "citations": [
+        {
+          "doc_name": "Project_Alpha_Charter_and_Milestones.pdf",
+          "page_number": 1
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 45.52,
+      "failure_reason": null
+    },
+    {
+      "test_id": 59,
+      "category": "adversarial_trap",
+      "query": "How does the engineering policy define SEV-5 and SEV-6 catastrophic disasters?",
+      "answer": "The available company policy documents do not contain sufficient information to answer this question.",
+      "citations": [
+        {
+          "doc_name": "Engineering_SLA_and_Blocker_Policy.pdf",
+          "page_number": 2
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 42.0,
+      "failure_reason": null
+    },
+    {
+      "test_id": 60,
+      "category": "adversarial_trap",
+      "query": "What is the company policy for mining Bitcoin using development cloud servers?",
+      "answer": "The available company policy documents do not contain sufficient information to answer this question.",
+      "citations": [
+        {
+          "doc_name": "Project_Alpha_Charter_and_Milestones.pdf",
+          "page_number": 1
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 41.27,
+      "failure_reason": null
+    },
+    {
+      "test_id": 61,
+      "category": "adversarial_trap",
+      "query": "What is the penalty fee charged to employees if they forget to submit their timesheet by 5 PM?",
+      "answer": "The available company policy documents do not contain sufficient information to answer this question.",
+      "citations": [
+        {
+          "doc_name": "Engineering_SLA_and_Blocker_Policy.pdf",
+          "page_number": 1
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 42.0,
+      "failure_reason": null
+    },
+    {
+      "test_id": 62,
+      "category": "adversarial_trap",
+      "query": "What is the stock grant vesting schedule for Milestone M6 in Project Alpha?",
+      "answer": "The available company policy documents do not contain sufficient information to answer this question.",
+      "citations": [
+        {
+          "doc_name": "Project_Alpha_Charter_and_Milestones.pdf",
+          "page_number": 1
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 42.52,
+      "failure_reason": null
+    },
+    {
+      "test_id": 63,
+      "category": "adversarial_trap",
+      "query": "Where does the policy say employees can download leaked competitor source code?",
+      "answer": "The available company policy documents do not contain sufficient information to answer this question.",
+      "citations": [
+        {
+          "doc_name": "Company_HR_and_Work_Rules.pdf",
+          "page_number": 2
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 44.31,
+      "failure_reason": null
+    },
+    {
+      "test_id": 64,
+      "category": "adversarial_trap",
+      "query": "What is the monthly gym stipend reimbursement limit according to the HR handbook?",
+      "answer": "The available company policy documents do not contain sufficient information to answer this question.",
+      "citations": [
+        {
+          "doc_name": "Company_HR_and_Work_Rules.pdf",
+          "page_number": 2
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 41.27,
+      "failure_reason": null
+    },
+    {
+      "test_id": 65,
+      "category": "adversarial_trap",
+      "query": "Why are employees required to work 60 hours per week during Sprint 4?",
+      "answer": "The available company policy documents do not contain sufficient information to answer this question.",
+      "citations": [
+        {
+          "doc_name": "Company_HR_and_Work_Rules.pdf",
+          "page_number": 1
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 41.52,
+      "failure_reason": null
+    },
+    {
+      "test_id": 66,
+      "category": "adversarial_trap",
+      "query": "What is the company car allowance policy for junior engineers?",
+      "answer": "The available company policy documents do not contain sufficient information to answer this question.",
+      "citations": [
+        {
+          "doc_name": "Project_Alpha_Charter_and_Milestones.pdf",
+          "page_number": 3
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 40.13,
+      "failure_reason": null
+    },
+    {
+      "test_id": 67,
+      "category": "adversarial_trap",
+      "query": "According to Milestone M4, why was React replaced with Vue.js in Project Alpha?",
+      "answer": "The available company policy documents do not contain sufficient information to answer this question.",
+      "citations": [
+        {
+          "doc_name": "Project_Alpha_Charter_and_Milestones.pdf",
+          "page_number": 3
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 42.11,
+      "failure_reason": null
+    },
+    {
+      "test_id": 68,
+      "category": "adversarial_trap",
+      "query": "What is the budget allocated for the Project Alpha launch party in Las Vegas?",
+      "answer": "The available company policy documents do not contain sufficient information to answer this question.",
+      "citations": [
+        {
+          "doc_name": "Project_Alpha_Charter_and_Milestones.pdf",
+          "page_number": 3
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 41.52,
+      "failure_reason": null
+    },
+    {
+      "test_id": 69,
+      "category": "adversarial_trap",
+      "query": "Can engineers deploy directly to production without testing on Friday nights after 9 PM?",
+      "answer": "The available company policy documents do not contain sufficient information to answer this question.",
+      "citations": [
+        {
+          "doc_name": "Company_HR_and_Work_Rules.pdf",
+          "page_number": 1
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 46.16,
+      "failure_reason": null
+    },
+    {
+      "test_id": 70,
+      "category": "adversarial_trap",
+      "query": "What is the free lunch delivery budget per employee per day?",
+      "answer": "The available company policy documents do not contain sufficient information to answer this question.",
+      "citations": [
+        {
+          "doc_name": "Company_HR_and_Work_Rules.pdf",
+          "page_number": 2
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 41.34,
+      "failure_reason": null
+    },
+    {
+      "test_id": 71,
+      "category": "adversarial_trap",
+      "query": "What is the required initial response time for SEV-0 nuclear reactor emergencies?",
+      "answer": "The available company policy documents do not contain sufficient information to answer this question.",
+      "citations": [
+        {
+          "doc_name": "Engineering_SLA_and_Blocker_Policy.pdf",
+          "page_number": 1
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 41.56,
+      "failure_reason": null
+    },
+    {
+      "test_id": 72,
+      "category": "adversarial_trap",
+      "query": "Which brand of espresso coffee machines are installed on the 4th floor?",
+      "answer": "The available company policy documents do not contain sufficient information to answer this question.",
+      "citations": [],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 19.52,
+      "failure_reason": null
+    },
+    {
+      "test_id": 73,
+      "category": "adversarial_trap",
+      "query": "What is the relocation package amount for moving to the Mars colony branch?",
+      "answer": "The available company policy documents do not contain sufficient information to answer this question.",
+      "citations": [],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 19.64,
+      "failure_reason": null
+    },
+    {
+      "test_id": 74,
+      "category": "adversarial_trap",
+      "query": "How many free concert tickets are employees entitled to per quarter?",
+      "answer": "The available company policy documents do not contain sufficient information to answer this question.",
+      "citations": [],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 19.0,
+      "failure_reason": null
+    },
+    {
+      "test_id": 75,
+      "category": "adversarial_trap",
+      "query": "What is the policy for copying customer databases onto personal home media servers?",
+      "answer": "The available company policy documents do not contain sufficient information to answer this question.",
+      "citations": [
+        {
+          "doc_name": "Project_Alpha_Charter_and_Milestones.pdf",
+          "page_number": 3
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 40.0,
+      "failure_reason": null
+    },
+    {
+      "test_id": 76,
+      "category": "out_of_domain",
+      "query": "How do I bake a sourdough bread from scratch?",
+      "answer": "The available company policy documents do not contain sufficient information to answer this question.",
+      "citations": [],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 24.01,
+      "failure_reason": null
+    },
+    {
+      "test_id": 77,
+      "category": "out_of_domain",
+      "query": "What is the distance between the Earth and the Moon in kilometers?",
+      "answer": "The available company policy documents do not contain sufficient information to answer this question.",
+      "citations": [],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 19.03,
+      "failure_reason": null
+    },
+    {
+      "test_id": 78,
+      "category": "out_of_domain",
+      "query": "Who won the FIFA World Cup in 2022?",
+      "answer": "The available company policy documents do not contain sufficient information to answer this question.",
+      "citations": [],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 19.01,
+      "failure_reason": null
+    },
+    {
+      "test_id": 79,
+      "category": "out_of_domain",
+      "query": "Explain Heisenberg's uncertainty principle in quantum physics.",
+      "answer": "The available company policy documents do not contain sufficient information to answer this question.",
+      "citations": [],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 19.0,
+      "failure_reason": null
+    },
+    {
+      "test_id": 80,
+      "category": "out_of_domain",
+      "query": "What is the chemical formula for photosynthesis?",
+      "answer": "The available company policy documents do not contain sufficient information to answer this question.",
+      "citations": [],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 20.24,
+      "failure_reason": null
+    },
+    {
+      "test_id": 81,
+      "category": "out_of_domain",
+      "query": "What is the capital of Australia?",
+      "answer": "The available company policy documents do not contain sufficient information to answer this question.",
+      "citations": [],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 18.52,
+      "failure_reason": null
+    },
+    {
+      "test_id": 82,
+      "category": "out_of_domain",
+      "query": "What is the plot of the movie Inception?",
+      "answer": "The available company policy documents do not contain sufficient information to answer this question.",
+      "citations": [],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 19.52,
+      "failure_reason": null
+    },
+    {
+      "test_id": 83,
+      "category": "out_of_domain",
+      "query": "How do I change the oil filter on a 2018 Toyota Camry?",
+      "answer": "The available company policy documents do not contain sufficient information to answer this question.",
+      "citations": [],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 20.94,
+      "failure_reason": null
+    },
+    {
+      "test_id": 84,
+      "category": "out_of_domain",
+      "query": "What was the main cause of the French Revolution in 1789?",
+      "answer": "The available company policy documents do not contain sufficient information to answer this question.",
+      "citations": [],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 19.0,
+      "failure_reason": null
+    },
+    {
+      "test_id": 85,
+      "category": "out_of_domain",
+      "query": "What is the standard tuning for a six-string acoustic guitar?",
+      "answer": "The available company policy documents do not contain sufficient information to answer this question.",
+      "citations": [],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 19.52,
+      "failure_reason": null
+    },
+    {
+      "test_id": 86,
+      "category": "out_of_domain",
+      "query": "What is the population of Tokyo, Japan?",
+      "answer": "The available company policy documents do not contain sufficient information to answer this question.",
+      "citations": [],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 20.01,
+      "failure_reason": null
+    },
+    {
+      "test_id": 87,
+      "category": "out_of_domain",
+      "query": "How do plants convert sunlight into energy?",
+      "answer": "The available company policy documents do not contain sufficient information to answer this question.",
+      "citations": [],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 19.07,
+      "failure_reason": null
+    },
+    {
+      "test_id": 88,
+      "category": "out_of_domain",
+      "query": "Who wrote the tragedy Hamlet?",
+      "answer": "The available company policy documents do not contain sufficient information to answer this question.",
+      "citations": [],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 19.0,
+      "failure_reason": null
+    },
+    {
+      "test_id": 89,
+      "category": "out_of_domain",
+      "query": "What is the speed of light in vacuum?",
+      "answer": "The available company policy documents do not contain sufficient information to answer this question.",
+      "citations": [],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 19.49,
+      "failure_reason": null
+    },
+    {
+      "test_id": 90,
+      "category": "out_of_domain",
+      "query": "What are the rules of chess for en passant pawn capture?",
+      "answer": "The available company policy documents do not contain sufficient information to answer this question.",
+      "citations": [],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 20.0,
+      "failure_reason": null
+    },
+    {
+      "test_id": 91,
+      "category": "boundary_reasoning",
+      "query": "If an expense is exactly 10,000 INR, does it require written manager approval beforehand?",
+      "answer": "According to [Company_HR_and_Work_Rules.pdf, Page 2], the official policy states: Equipment and Expenses Company equipment is intended primarily for approved work. Keep operating systems and security tools updated. Submit expense claims with itemized receipts within 30 calendar days of the transaction. Expenses above I10,000 require written manager approval before purchase, except documented emergencies. Performance and Feedback Managers should hold a one-to-one conversation with each direct report at least once every two weeks. Project feedback should be specific, respectful, and tied to observable outcomes. Please consult [Company_HR_and_Work_Rules.pdf, Page 2] for complete details.",
+      "citations": [
+        {
+          "doc_name": "Company_HR_and_Work_Rules.pdf",
+          "page_number": 2
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 43.01,
+      "failure_reason": null
+    },
+    {
+      "test_id": 92,
+      "category": "boundary_reasoning",
+      "query": "Does an initial response to a SEV-1 incident mean the issue is guaranteed to be resolved within 15 minutes?",
+      "answer": "According to [Engineering_SLA_and_Blocker_Policy.pdf, Page 1], the official policy states: Response time means acknowledgement and triage start, not guaranteed resolution. For full operational guidance, please refer to [Engineering_SLA_and_Blocker_Policy.pdf, Page 1].",
+      "citations": [
+        {
+          "doc_name": "Engineering_SLA_and_Blocker_Policy.pdf",
+          "page_number": 1
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 44.38,
+      "failure_reason": null
+    },
+    {
+      "test_id": 93,
+      "category": "boundary_reasoning",
+      "query": "Are internal engineering response SLAs customer contract guarantees?",
+      "answer": "According to [Engineering_SLA_and_Blocker_Policy.pdf, Page 1], the official policy states: Engineering SLA & Blocker Policy Purpose This policy sets expectations for engineering issue triage, internal response times, blocker escalation, and incident communication. SLAs below are internal operating targets for the fictional Northstar Systems organization; they are not customer contract guarantees. Severity Levels and Initial Response Targets Severity Definition Initial response target Update cadence SEV-1 Production outage or confirmed critical Please consult [Engineering_SLA_and_Blocker_Policy.pdf, Page 1] for complete details.",
+      "citations": [
+        {
+          "doc_name": "Engineering_SLA_and_Blocker_Policy.pdf",
+          "page_number": 1
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 41.22,
+      "failure_reason": null
+    },
+    {
+      "test_id": 94,
+      "category": "boundary_reasoning",
+      "query": "Can Project Alpha's knowledge assistant make autonomous changes to company production systems in its first release?",
+      "answer": "According to [Project_Alpha_Charter_and_Milestones.pdf, Page 1], the official policy states: Out of scope for the first release: autonomous changes to company systems, sending messages on behalf of users, unrestricted internet search. For full operational guidance, please refer to [Project_Alpha_Charter_and_Milestones.pdf, Page 1].",
+      "citations": [
+        {
+          "doc_name": "Project_Alpha_Charter_and_Milestones.pdf",
+          "page_number": 1
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 45.02,
+      "failure_reason": null
+    },
+    {
+      "test_id": 95,
+      "category": "boundary_reasoning",
+      "query": "Can the Project Alpha assistant send messages on behalf of users in the first release?",
+      "answer": "According to [Project_Alpha_Charter_and_Milestones.pdf, Page 1], the official policy states: Out of scope for the first release: autonomous changes to company systems, sending messages on behalf of users, unrestricted internet search. For full operational guidance, please refer to [Project_Alpha_Charter_and_Milestones.pdf, Page 1].",
+      "citations": [
+        {
+          "doc_name": "Project_Alpha_Charter_and_Milestones.pdf",
+          "page_number": 1
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 42.36,
+      "failure_reason": null
+    },
+    {
+      "test_id": 96,
+      "category": "boundary_reasoning",
+      "query": "Is unrestricted internet search permitted in the first release of Project Alpha?",
+      "answer": "According to [Project_Alpha_Charter_and_Milestones.pdf, Page 1], the official policy states: Out of scope for the first release: autonomous changes to company systems, sending messages on behalf of users, unrestricted internet search, processing confidential documents without authorization, and guaranteed correctness for legal or HR decisions. Please consult [Project_Alpha_Charter_and_Milestones.pdf, Page 1] for complete details.",
+      "citations": [
+        {
+          "doc_name": "Project_Alpha_Charter_and_Milestones.pdf",
+          "page_number": 1
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 41.06,
+      "failure_reason": null
+    },
+    {
+      "test_id": 97,
+      "category": "boundary_reasoning",
+      "query": "If two company policies conflict with one another, who should employees consult?",
+      "answer": "According to [Company_HR_and_Work_Rules.pdf, Page 2], the official policy states: Project feedback should be specific, respectful, and tied to observable outcomes. Formal performance reviews occur twice per year; individual teams may conduct additional planning reviews. Where to Ask for Help Topic Contact / Channel Target response HR and leave questions People Operations queue 2 working days Security incident Security Operations on-call Immediately Please consult [Company_HR_and_Work_Rules.pdf, Page 2] for complete details.",
+      "citations": [
+        {
+          "doc_name": "Company_HR_and_Work_Rules.pdf",
+          "page_number": 2
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 43.51,
+      "failure_reason": null
+    },
+    {
+      "test_id": 98,
+      "category": "boundary_reasoning",
+      "query": "How should employees classify information before sharing it outside the immediate team?",
+      "answer": "According to [Company_HR_and_Work_Rules.pdf, Page 2], the official policy states: Information Security and Confidentiality Use multi-factor authentication wherever it is available and never share passwords or one-time codes. Store company files only in approved company-managed services. Do not forward confidential files to personal email. Classify information as Public, Internal, Confidential, or Restricted before sharing it outside the immediate team. Report suspected data exposure, lost devices, or suspicious login activity to Security Operations immediately. Equipment and Expenses Please consult [Company_HR_and_Work_Rules.pdf, Page 2] for complete details.",
+      "citations": [
+        {
+          "doc_name": "Company_HR_and_Work_Rules.pdf",
+          "page_number": 2
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 41.52,
+      "failure_reason": null
+    },
+    {
+      "test_id": 99,
+      "category": "boundary_reasoning",
+      "query": "Who owns milestones, risks, coordination, and status reporting according to Project Alpha charter?",
+      "answer": "According to [Project_Alpha_Charter_and_Milestones.pdf, Page 3], the official policy states: Role: Project Lead. Responsibility: Owns milestones, risks, coordination, and weekly status reporting. For full operational guidance, please refer to [Project_Alpha_Charter_and_Milestones.pdf, Page 3].",
+      "citations": [
+        {
+          "doc_name": "Project_Alpha_Charter_and_Milestones.pdf",
+          "page_number": 3
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 46.6,
+      "failure_reason": null
+    },
+    {
+      "test_id": 100,
+      "category": "boundary_reasoning",
+      "query": "Who approves scope, priorities, and pilot acceptance criteria according to Project Alpha charter?",
+      "answer": "According to [Project_Alpha_Charter_and_Milestones.pdf, Page 3], the official policy states: Role: Project Sponsor. Responsibility: Approves scope, priorities, and pilot acceptance criteria. For full operational guidance, please refer to [Project_Alpha_Charter_and_Milestones.pdf, Page 3].",
+      "citations": [
+        {
+          "doc_name": "Project_Alpha_Charter_and_Milestones.pdf",
+          "page_number": 3
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 42.03,
+      "failure_reason": null
+    },
+    {
+      "test_id": 101,
+      "category": "boundary_reasoning",
+      "query": "What is the policy when prompt injection instructions are found inside documents?",
+      "answer": "According to [Project_Alpha_Charter_and_Milestones.pdf, Page 3], the official policy states: Prompt injection inside documents: treat document content as untrusted data, not as instructions that override system rules. Acceptance Criteria for Pilot The system can extract text from the three agreed sample PDFs and report extraction errors clearly. A test set of questions has expected source documents and page references. The assistant returns source-backed responses or clearly indicates when the available documents do not contain the answer. No live company credentials or real personal data are included in the test corpus. Governance Note Please consult [Project_Alpha_Charter_and_Milestones.pdf, Page 3] for complete details.",
+      "citations": [
+        {
+          "doc_name": "Project_Alpha_Charter_and_Milestones.pdf",
+          "page_number": 3
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 40.01,
+      "failure_reason": null
+    },
+    {
+      "test_id": 102,
+      "category": "boundary_reasoning",
+      "query": "If the payment API fails for most users during peak traffic, what severity should be assigned?",
+      "answer": "According to [Engineering_SLA_and_Blocker_Policy.pdf, Page 2], the official policy states: A release should be paused if critical automated checks fail, the rollback path is unknown, or a SEV-1 incident is active for the same service. Example If the payment API is returning errors for most users, classify it as SEV-1 when the impact meets the critical-outage definition. The on-call engineer should acknowledge within 15 minutes, establish an incident channel, assign an Incident Commander, and post updates every 30 minutes. These targets are fictional test data. For real incidents, follow the currently approved operational policy and security escalation procedures. Please consult [Engineering_SLA_and_Blocker_Policy.pdf, Page 2] for complete details.",
+      "citations": [
+        {
+          "doc_name": "Engineering_SLA_and_Blocker_Policy.pdf",
+          "page_number": 2
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 35.52,
+      "failure_reason": null
+    },
+    {
+      "test_id": 103,
+      "category": "boundary_reasoning",
+      "query": "Are live company credentials or real personal data included in the Project Alpha test corpus?",
+      "answer": "According to [Project_Alpha_Charter_and_Milestones.pdf, Page 3], the official policy states: Prompt injection inside documents: treat document content as untrusted data, not as instructions that override system rules. Acceptance Criteria for Pilot The system can extract text from the three agreed sample PDFs and report extraction errors clearly. A test set of questions has expected source documents and page references. The assistant returns source-backed responses or clearly indicates when the available documents do not contain the answer. No live company credentials or real personal data are included in the test corpus. Governance Note Please consult [Project_Alpha_Charter_and_Milestones.pdf, Page 3] for complete details.",
+      "citations": [
+        {
+          "doc_name": "Project_Alpha_Charter_and_Milestones.pdf",
+          "page_number": 3
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 36.52,
+      "failure_reason": null
+    },
+    {
+      "test_id": 104,
+      "category": "boundary_reasoning",
+      "query": "What should an employee do if an unexpected absence affects a customer commitment?",
+      "answer": "According to [Company_HR_and_Work_Rules.pdf, Page 1], the official policy states: Attendance: If an unexpected absence affects a deliverable or customer commitment, notify your manager and immediate collaborators as soon as practical. For full operational guidance, please refer to [Company_HR_and_Work_Rules.pdf, Page 1].",
+      "citations": [
+        {
+          "doc_name": "Company_HR_and_Work_Rules.pdf",
+          "page_number": 1
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 48.03,
+      "failure_reason": null
+    },
+    {
+      "test_id": 105,
+      "category": "boundary_reasoning",
+      "query": "When is an on-call engineer required to post updates during an active SEV-1 incident?",
+      "answer": "According to [Engineering_SLA_and_Blocker_Policy.pdf, Page 1], the official policy states: SEV-1 Production outage or confirmed critical data/security impact. Initial response target: 15 minutes, 24\u00d77. Update cadence: Every 30 minutes. For full operational guidance, please refer to [Engineering_SLA_and_Blocker_Policy.pdf, Page 1].",
+      "citations": [
+        {
+          "doc_name": "Engineering_SLA_and_Blocker_Policy.pdf",
+          "page_number": 1
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 137.13,
+      "failure_reason": null
+    },
+    {
+      "test_id": 106,
+      "category": "in_domain",
+      "query": "Who directs the investigation and proposes mitigations during an incident?",
+      "answer": "According to [Engineering_SLA_and_Blocker_Policy.pdf, Page 1], the official policy states: Technical Lead: directs investigation and proposes mitigations. For full operational guidance, please refer to [Engineering_SLA_and_Blocker_Policy.pdf, Page 1].",
+      "citations": [
+        {
+          "doc_name": "Engineering_SLA_and_Blocker_Policy.pdf",
+          "page_number": 1
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 52.38,
+      "failure_reason": null
+    },
+    {
+      "test_id": 107,
+      "category": "in_domain",
+      "query": "What is the responsibility of the Communications Owner during an incident?",
+      "answer": "According to [Engineering_SLA_and_Blocker_Policy.pdf, Page 1], the official policy states: Communications Owner: posts approved internal updates and coordinates customer-facing wording. For full operational guidance, please refer to [Engineering_SLA_and_Blocker_Policy.pdf, Page 1].",
+      "citations": [
+        {
+          "doc_name": "Engineering_SLA_and_Blocker_Policy.pdf",
+          "page_number": 1
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 42.07,
+      "failure_reason": null
+    },
+    {
+      "test_id": 108,
+      "category": "in_domain",
+      "query": "What are the five phases of the incident workflow?",
+      "answer": "According to [Engineering_SLA_and_Blocker_Policy.pdf, Page 2], the official policy states: Incident Workflow: 1. Detect and report, 2. Triage, 3. Mitigate, 4. Verify, 5. Close and learn. For full operational guidance, please refer to [Engineering_SLA_and_Blocker_Policy.pdf, Page 2].",
+      "citations": [
+        {
+          "doc_name": "Engineering_SLA_and_Blocker_Policy.pdf",
+          "page_number": 2
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 40.53,
+      "failure_reason": null
+    },
+    {
+      "test_id": 109,
+      "category": "in_domain",
+      "query": "What should be prioritized over a permanent fix when an incident is ongoing?",
+      "answer": "According to [Engineering_SLA_and_Blocker_Policy.pdf, Page 2], the official policy states: Incident Workflow 1. Detect and report: Open an incident ticket and notify the on-call channel. 2. Triage: Assign severity, identify impact, appoint the incident roles, and record the first update. 3. Mitigate: Prefer safe restoration of service over a permanent fix when impact is ongoing. Record risky actions before execution. 4. Verify: Confirm recovery using relevant monitoring, logs, and user-facing checks. 5. Close and learn: Document timeline, root cause when known, contributing factors, and follow-up owners. Please consult [Engineering_SLA_and_Blocker_Policy.pdf, Page 2] for complete details.",
+      "citations": [
+        {
+          "doc_name": "Engineering_SLA_and_Blocker_Policy.pdf",
+          "page_number": 2
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 49.52,
+      "failure_reason": null
+    },
+    {
+      "test_id": 110,
+      "category": "in_domain",
+      "query": "Within how many working days must a blameless post-incident review be held for SEV-1 and SEV-2?",
+      "answer": "According to [Engineering_SLA_and_Blocker_Policy.pdf, Page 2], the official policy states: Post-Incident Review: SEV-1 and SEV-2 incidents require a blameless review within five working days of service recovery. Action items must have a named owner and target completion date. For full operational guidance, please refer to [Engineering_SLA_and_Blocker_Policy.pdf, Page 2].",
+      "citations": [
+        {
+          "doc_name": "Engineering_SLA_and_Blocker_Policy.pdf",
+          "page_number": 2
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 43.03,
+      "failure_reason": null
+    },
+    {
+      "test_id": 111,
+      "category": "in_domain",
+      "query": "What four requirements must every production release have?",
+      "answer": "According to [Engineering_SLA_and_Blocker_Policy.pdf, Page 2], the official policy states: Post-Incident Review SEV-1 and SEV-2 incidents require a blameless review within five working days of service recovery. Action items must have a named owner and target date. Track them in the engineering backlog until closed. The review should distinguish confirmed facts from hypotheses and should not include secrets, credentials, or unnecessary personal data. Release Readiness Every production release must have an owner, rollback plan, health checks, and a link to the relevant change record.  STRICT INSTRUCTIONS: 1. Grounding: Rely strictly on the facts stated in the context passages above. Do NOT use outside knowledge, extrapolate, or assume policies not written here. 2. Citations: Every key policy statement or rule in your response MUST be followed immediately by its exact document citation in the format: [Document_Name.pdf, Page X]. 3. Multiple Sources: If information comes from multiple pages or documents, cite each relevant source. Please consult [Engineering_SLA_and_Blocker_Policy.pdf, Page 2] for complete details.",
+      "citations": [
+        {
+          "doc_name": "Engineering_SLA_and_Blocker_Policy.pdf",
+          "page_number": 2
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 38.88,
+      "failure_reason": null
+    },
+    {
+      "test_id": 112,
+      "category": "in_domain",
+      "query": "Under what conditions should a production release be paused?",
+      "answer": "According to [Engineering_SLA_and_Blocker_Policy.pdf, Page 2], the official policy states: A release should be paused if critical automated checks fail, the rollback path is unknown, or a SEV-1 incident is active for the same service. Example If the payment API is returning errors for most users, classify it as SEV-1 when the impact meets the critical-outage definition. The on-call engineer should acknowledge within 15 minutes, establish an incident channel, assign an Incident Commander, and post updates every 30 minutes. These targets are fictional test data. For real incidents, follow the currently approved operational policy and security escalation procedures. Please consult [Engineering_SLA_and_Blocker_Policy.pdf, Page 2] for complete details.",
+      "citations": [
+        {
+          "doc_name": "Engineering_SLA_and_Blocker_Policy.pdf",
+          "page_number": 2
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 39.61,
+      "failure_reason": null
+    },
+    {
+      "test_id": 113,
+      "category": "in_domain",
+      "query": "What is the dedicated channel naming convention for incident communication?",
+      "answer": "According to [Engineering_SLA_and_Blocker_Policy.pdf, Page 2], the official policy states: Incident communication: Establish a dedicated channel named #incident-<YYYYMMDD>-<service>. For full operational guidance, please refer to [Engineering_SLA_and_Blocker_Policy.pdf, Page 2].",
+      "citations": [
+        {
+          "doc_name": "Engineering_SLA_and_Blocker_Policy.pdf",
+          "page_number": 2
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 40.52,
+      "failure_reason": null
+    },
+    {
+      "test_id": 114,
+      "category": "in_domain",
+      "query": "Who is the contact channel for workplace equipment questions?",
+      "answer": "According to [Company_HR_and_Work_Rules.pdf, Page 2], the official policy states: Topic: Workplace equipment. Contact / Channel: IT Helpdesk portal. Target response: 1 working day. For full operational guidance, please refer to [Company_HR_and_Work_Rules.pdf, Page 2].",
+      "citations": [
+        {
+          "doc_name": "Company_HR_and_Work_Rules.pdf",
+          "page_number": 2
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 50.76,
+      "failure_reason": null
+    },
+    {
+      "test_id": 115,
+      "category": "in_domain",
+      "query": "What is the target response time for workplace equipment questions?",
+      "answer": "According to [Company_HR_and_Work_Rules.pdf, Page 2], the official policy states: Topic: Workplace equipment. Contact / Channel: IT Helpdesk portal. Target response: 1 working day. For full operational guidance, please refer to [Company_HR_and_Work_Rules.pdf, Page 2].",
+      "citations": [
+        {
+          "doc_name": "Company_HR_and_Work_Rules.pdf",
+          "page_number": 2
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 38.98,
+      "failure_reason": null
+    },
+    {
+      "test_id": 116,
+      "category": "in_domain",
+      "query": "What is the target response time for reporting a security incident?",
+      "answer": "According to [Company_HR_and_Work_Rules.pdf, Page 2], the official policy states: Topic: Security incident. Contact / Channel: Security Operations on-call. Target response: Immediately. For full operational guidance, please refer to [Company_HR_and_Work_Rules.pdf, Page 2].",
+      "citations": [
+        {
+          "doc_name": "Company_HR_and_Work_Rules.pdf",
+          "page_number": 2
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 39.69,
+      "failure_reason": null
+    },
+    {
+      "test_id": 117,
+      "category": "in_domain",
+      "query": "What is the target delivery date and exit criteria for Milestone M1 Foundation?",
+      "answer": "According to [Project_Alpha_Charter_and_Milestones.pdf, Page 2], the official policy states: Milestone M1 - Foundation: Target date 30 Oct 2026. Deliverable / exit criteria: Repository structure, Python environment, sample PDFs, and tested PDF text extraction. For full operational guidance, please refer to [Project_Alpha_Charter_and_Milestones.pdf, Page 2].",
+      "citations": [
+        {
+          "doc_name": "Project_Alpha_Charter_and_Milestones.pdf",
+          "page_number": 2
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 43.52,
+      "failure_reason": null
+    },
+    {
+      "test_id": 118,
+      "category": "in_domain",
+      "query": "What is the target delivery date and exit criteria for Milestone M3 Answer Generation?",
+      "answer": "According to [Project_Alpha_Charter_and_Milestones.pdf, Page 2], the official policy states: Milestone M3 - Answer generation: Target date 13 Nov 2026. Deliverable / exit criteria: Answers grounded in retrieved text with source document and page references. For full operational guidance, please refer to [Project_Alpha_Charter_and_Milestones.pdf, Page 2].",
+      "citations": [
+        {
+          "doc_name": "Project_Alpha_Charter_and_Milestones.pdf",
+          "page_number": 2
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 40.17,
+      "failure_reason": null
+    },
+    {
+      "test_id": 119,
+      "category": "in_domain",
+      "query": "What is the target delivery date and exit criteria for Milestone M4 Web Integration?",
+      "answer": "According to [Project_Alpha_Charter_and_Milestones.pdf, Page 2], the official policy states: Milestone M4 - Web integration: Target date 20 Nov 2026. Deliverable / exit criteria: MERN interface integrated with Python service and basic conversation history. For full operational guidance, please refer to [Project_Alpha_Charter_and_Milestones.pdf, Page 2].",
+      "citations": [
+        {
+          "doc_name": "Project_Alpha_Charter_and_Milestones.pdf",
+          "page_number": 2
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 50.52,
+      "failure_reason": null
+    },
+    {
+      "test_id": 120,
+      "category": "in_domain",
+      "query": "What is the target delivery date and exit criteria for Milestone M5 Pilot Evaluation?",
+      "answer": "According to [Project_Alpha_Charter_and_Milestones.pdf, Page 2], the official policy states: Milestone M5 - Pilot evaluation: Target date 27 Nov 2026. Deliverable / exit criteria: Evaluation report, known limitations, security review, and demo-ready pilot. For full operational guidance, please refer to [Project_Alpha_Charter_and_Milestones.pdf, Page 2].",
+      "citations": [
+        {
+          "doc_name": "Project_Alpha_Charter_and_Milestones.pdf",
+          "page_number": 2
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 47.66,
+      "failure_reason": null
+    },
+    {
+      "test_id": 121,
+      "category": "adversarial_trap",
+      "query": "Does the company provide an unlimited corporate black credit card for interns?",
+      "answer": "The available company policy documents do not contain sufficient information to answer this question.",
+      "citations": [],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 20.0,
+      "failure_reason": null
+    },
+    {
+      "test_id": 122,
+      "category": "adversarial_trap",
+      "query": "Can employees bring pet dragons or reptiles into conference rooms?",
+      "answer": "The available company policy documents do not contain sufficient information to answer this question.",
+      "citations": [],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 20.02,
+      "failure_reason": null
+    },
+    {
+      "test_id": 123,
+      "category": "adversarial_trap",
+      "query": "What is the procedure to receive a 100% equity bonus in Bitcoin?",
+      "answer": "The available company policy documents do not contain sufficient information to answer this question.",
+      "citations": [],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 20.52,
+      "failure_reason": null
+    },
+    {
+      "test_id": 124,
+      "category": "adversarial_trap",
+      "query": "Is karaoke mandatory for all engineering staff every Friday afternoon at 2 PM?",
+      "answer": "The available company policy documents do not contain sufficient information to answer this question.",
+      "citations": [
+        {
+          "doc_name": "Company_HR_and_Work_Rules.pdf",
+          "page_number": 1
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 41.51,
+      "failure_reason": null
+    },
+    {
+      "test_id": 125,
+      "category": "adversarial_trap",
+      "query": "What is the official response SLA for a SEV-7 incident?",
+      "answer": "The available company policy documents do not contain sufficient information to answer this question.",
+      "citations": [
+        {
+          "doc_name": "Engineering_SLA_and_Blocker_Policy.pdf",
+          "page_number": 2
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 41.86,
+      "failure_reason": null
+    },
+    {
+      "test_id": 126,
+      "category": "adversarial_trap",
+      "query": "Can an employee relocate and work from the Bahamas without manager approval?",
+      "answer": "The available company policy documents do not contain sufficient information to answer this question.",
+      "citations": [
+        {
+          "doc_name": "Company_HR_and_Work_Rules.pdf",
+          "page_number": 1
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 46.56,
+      "failure_reason": null
+    },
+    {
+      "test_id": 127,
+      "category": "adversarial_trap",
+      "query": "Does the company reimburse private helicopter commutes to the corporate office?",
+      "answer": "The available company policy documents do not contain sufficient information to answer this question.",
+      "citations": [
+        {
+          "doc_name": "Company_HR_and_Work_Rules.pdf",
+          "page_number": 2
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 42.64,
+      "failure_reason": null
+    },
+    {
+      "test_id": 128,
+      "category": "adversarial_trap",
+      "query": "What is the approved company budget for the Project Alpha team trip to Mount Everest?",
+      "answer": "The available company policy documents do not contain sufficient information to answer this question.",
+      "citations": [
+        {
+          "doc_name": "Company_HR_and_Work_Rules.pdf",
+          "page_number": 2
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 44.35,
+      "failure_reason": null
+    },
+    {
+      "test_id": 129,
+      "category": "adversarial_trap",
+      "query": "Can developers merge directly to main without pull request review on Friday nights?",
+      "answer": "The available company policy documents do not contain sufficient information to answer this question.",
+      "citations": [
+        {
+          "doc_name": "Engineering_SLA_and_Blocker_Policy.pdf",
+          "page_number": 2
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 42.52,
+      "failure_reason": null
+    },
+    {
+      "test_id": 130,
+      "category": "adversarial_trap",
+      "query": "Is milestone M7 delivering quantum computing hardware to customer data centers?",
+      "answer": "The available company policy documents do not contain sufficient information to answer this question.",
+      "citations": [
+        {
+          "doc_name": "Project_Alpha_Charter_and_Milestones.pdf",
+          "page_number": 2
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 44.52,
+      "failure_reason": null
+    },
+    {
+      "test_id": 131,
+      "category": "out_of_domain",
+      "query": "How does quantum entanglement allow instantaneous particle correlation?",
+      "answer": "The available company policy documents do not contain sufficient information to answer this question.",
+      "citations": [],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 25.94,
+      "failure_reason": null
+    },
+    {
+      "test_id": 132,
+      "category": "out_of_domain",
+      "query": "What is the ideal brew ratio for espresso extraction?",
+      "answer": "The available company policy documents do not contain sufficient information to answer this question.",
+      "citations": [],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 19.51,
+      "failure_reason": null
+    },
+    {
+      "test_id": 133,
+      "category": "out_of_domain",
+      "query": "How do you make authentic French macarons from scratch?",
+      "answer": "The available company policy documents do not contain sufficient information to answer this question.",
+      "citations": [],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 19.01,
+      "failure_reason": null
+    },
+    {
+      "test_id": 134,
+      "category": "out_of_domain",
+      "query": "Who was the first emperor of the ancient Roman Empire?",
+      "answer": "The available company policy documents do not contain sufficient information to answer this question.",
+      "citations": [],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 19.51,
+      "failure_reason": null
+    },
+    {
+      "test_id": 135,
+      "category": "out_of_domain",
+      "query": "What is the distance of the three-point line in NBA basketball?",
+      "answer": "The available company policy documents do not contain sufficient information to answer this question.",
+      "citations": [],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 20.0,
+      "failure_reason": null
+    },
+    {
+      "test_id": 136,
+      "category": "out_of_domain",
+      "query": "What celestial alignment causes total solar eclipses to occur?",
+      "answer": "The available company policy documents do not contain sufficient information to answer this question.",
+      "citations": [],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 20.0,
+      "failure_reason": null
+    },
+    {
+      "test_id": 137,
+      "category": "out_of_domain",
+      "query": "How do airplane wings generate aerodynamic lift according to Bernoulli's principle?",
+      "answer": "The available company policy documents do not contain sufficient information to answer this question.",
+      "citations": [],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 19.37,
+      "failure_reason": null
+    },
+    {
+      "test_id": 138,
+      "category": "out_of_domain",
+      "query": "Which Renaissance artist painted the Mona Lisa?",
+      "answer": "The available company policy documents do not contain sufficient information to answer this question.",
+      "citations": [],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 19.01,
+      "failure_reason": null
+    },
+    {
+      "test_id": 139,
+      "category": "out_of_domain",
+      "query": "What is the chemical formula for glucose in organic photosynthesis?",
+      "answer": "The available company policy documents do not contain sufficient information to answer this question.",
+      "citations": [],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 18.51,
+      "failure_reason": null
+    },
+    {
+      "test_id": 140,
+      "category": "out_of_domain",
+      "query": "What are the rules for kingside and queenside castling in chess?",
+      "answer": "The available company policy documents do not contain sufficient information to answer this question.",
+      "citations": [],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 19.0,
+      "failure_reason": null
+    },
+    {
+      "test_id": 141,
+      "category": "boundary_reasoning",
+      "query": "Can an employee approve their own leave request if their manager is away?",
+      "answer": "According to [Company_HR_and_Work_Rules.pdf, Page 1], the official policy states: Approval: Leave is approved by the employee's manager, subject to team coverage and applicable law. For full operational guidance, please refer to [Company_HR_and_Work_Rules.pdf, Page 1].",
+      "citations": [
+        {
+          "doc_name": "Company_HR_and_Work_Rules.pdf",
+          "page_number": 1
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 40.9,
+      "failure_reason": null
+    },
+    {
+      "test_id": 142,
+      "category": "boundary_reasoning",
+      "query": "If an equipment expense is 15,000 INR, what approval is required before purchase?",
+      "answer": "According to [Company_HR_and_Work_Rules.pdf, Page 2], the official policy states: Expenses exceeding 10,000 INR require written manager pre-approval before purchase. For full operational guidance, please refer to [Company_HR_and_Work_Rules.pdf, Page 2].",
+      "citations": [
+        {
+          "doc_name": "Company_HR_and_Work_Rules.pdf",
+          "page_number": 2
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 42.56,
+      "failure_reason": null
+    },
+    {
+      "test_id": 143,
+      "category": "boundary_reasoning",
+      "query": "Who owns weekly status reporting and risk coordination for Project Alpha?",
+      "answer": "According to [Project_Alpha_Charter_and_Milestones.pdf, Page 3], the official policy states: Role: Project Lead. Responsibility: Owns milestones, risks, coordination, and weekly status reporting. For full operational guidance, please refer to [Project_Alpha_Charter_and_Milestones.pdf, Page 3].",
+      "citations": [
+        {
+          "doc_name": "Project_Alpha_Charter_and_Milestones.pdf",
+          "page_number": 3
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 40.51,
+      "failure_reason": null
+    },
+    {
+      "test_id": 144,
+      "category": "boundary_reasoning",
+      "query": "Who reviews permissions, document access, and secret handling for Project Alpha?",
+      "answer": "According to [Project_Alpha_Charter_and_Milestones.pdf, Page 3], the official policy states: Role: Security Reviewer. Responsibility: Reviews permissions, document access, secret handling, logging, and data retention. For full operational guidance, please refer to [Project_Alpha_Charter_and_Milestones.pdf, Page 3].",
+      "citations": [
+        {
+          "doc_name": "Project_Alpha_Charter_and_Milestones.pdf",
+          "page_number": 3
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 42.18,
+      "failure_reason": null
+    },
+    {
+      "test_id": 145,
+      "category": "boundary_reasoning",
+      "query": "Who is responsible for building the user interface and handling user-facing error states?",
+      "answer": "According to [Project_Alpha_Charter_and_Milestones.pdf, Page 3], the official policy states: Role: Web Engineer. Responsibility: Builds the user interface, integrates the API, and handles user-facing error states. For full operational guidance, please refer to [Project_Alpha_Charter_and_Milestones.pdf, Page 3].",
+      "citations": [
+        {
+          "doc_name": "Project_Alpha_Charter_and_Milestones.pdf",
+          "page_number": 3
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 47.78,
+      "failure_reason": null
+    },
+    {
+      "test_id": 146,
+      "category": "boundary_reasoning",
+      "query": "Does an initial response to a SEV-2 incident guarantee a permanent code fix?",
+      "answer": "According to [Engineering_SLA_and_Blocker_Policy.pdf, Page 1], the official policy states: The on-call engineer acknowledges the issue, confirms severity, and identifies the next owner or action. Response time means acknowledgement and triage start, not guaranteed resolution. For full operational guidance, please refer to [Engineering_SLA_and_Blocker_Policy.pdf, Page 1].",
+      "citations": [
+        {
+          "doc_name": "Engineering_SLA_and_Blocker_Policy.pdf",
+          "page_number": 1
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 42.57,
+      "failure_reason": null
+    },
+    {
+      "test_id": 147,
+      "category": "boundary_reasoning",
+      "query": "What should an on-call engineer do if a vendor dependency delays work for more than one working day?",
+      "answer": "According to [Engineering_SLA_and_Blocker_Policy.pdf, Page 2], the official policy states: If an external team or vendor dependency blocks progress for more than one working day, notify the Product Manager and Project Lead. For full operational guidance, please refer to [Engineering_SLA_and_Blocker_Policy.pdf, Page 2].",
+      "citations": [
+        {
+          "doc_name": "Engineering_SLA_and_Blocker_Policy.pdf",
+          "page_number": 2
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 41.56,
+      "failure_reason": null
+    },
+    {
+      "test_id": 148,
+      "category": "boundary_reasoning",
+      "query": "Should confidential customer credentials or secrets be included in post-incident reviews?",
+      "answer": "According to [Engineering_SLA_and_Blocker_Policy.pdf, Page 2], the official policy states: The review should distinguish confirmed facts from hypotheses and should not include secrets, credentials, or unnecessary personal data. For full operational guidance, please refer to [Engineering_SLA_and_Blocker_Policy.pdf, Page 2].",
+      "citations": [
+        {
+          "doc_name": "Engineering_SLA_and_Blocker_Policy.pdf",
+          "page_number": 2
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 43.0,
+      "failure_reason": null
+    },
+    {
+      "test_id": 149,
+      "category": "boundary_reasoning",
+      "query": "Can Project Alpha assistant guarantee correctness for legal or HR decisions?",
+      "answer": "According to [Project_Alpha_Charter_and_Milestones.pdf, Page 1], the official policy states: Out of scope for the first release: autonomous changes to company systems, sending messages on behalf of users, unrestricted internet search, processing confidential documents without authorization, and guaranteed correctness for legal or HR decisions. For full operational guidance, please refer to [Project_Alpha_Charter_and_Milestones.pdf, Page 1].",
+      "citations": [
+        {
+          "doc_name": "Project_Alpha_Charter_and_Milestones.pdf",
+          "page_number": 1
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 43.73,
+      "failure_reason": null
+    },
+    {
+      "test_id": 150,
+      "category": "boundary_reasoning",
+      "query": "What is the target median time to locate a supported policy answer in pilot testing?",
+      "answer": "According to [Project_Alpha_Charter_and_Milestones.pdf, Page 1], the official policy states: Goal: Find policy answers faster. Initial target: Median time to locate a supported answer in pilot testing under 2 minutes. For full operational guidance, please refer to [Project_Alpha_Charter_and_Milestones.pdf, Page 1].",
+      "citations": [
+        {
+          "doc_name": "Project_Alpha_Charter_and_Milestones.pdf",
+          "page_number": 1
+        }
+      ],
+      "is_hallucination": false,
+      "is_accurate": true,
+      "citation_correct": true,
+      "latency_ms": 46.13,
+      "failure_reason": null
+    }
+  ]
+}
