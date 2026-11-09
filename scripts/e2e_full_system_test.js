@@ -1,6 +1,6 @@
 /**
  * Complete End-to-End System Integration Test
- * Starts FastAPI AI Service & Express Gateway, executes 12 multi-tier probes, and exits cleanly.
+ * Starts FastAPI AI Service & Express Gateway, executes 17 multi-tier probes, and exits cleanly.
  */
 
 const { spawn } = require('child_process');
@@ -14,6 +14,7 @@ const PYTHON_EXE = path.join(FASTAPI_DIR, 'venv', 'Scripts', 'python.exe');
 const FASTAPI_URL = 'http://127.0.0.1:8000';
 const GATEWAY_URL = 'http://127.0.0.1:5000';
 const INTERNAL_KEY = 'company_intel_internal_sec_token_2026_9f8e7d';
+const TEST_THREAD_ID = `e2e_thread_${Date.now()}`;
 
 let fastApiProcess = null;
 let expressProcess = null;
@@ -39,9 +40,9 @@ async function waitForServer(url, timeoutMs = 60000) {
 }
 
 async function runTestSuite() {
-  console.log('='.repeat(75));
+  console.log('='.repeat(78));
   console.log('   COMPANY INTELLIGENCE AI - COMPLETE SYSTEM END-TO-END VERIFICATION');
-  console.log('='.repeat(75));
+  console.log('='.repeat(78));
 
   // 1. Launch FastAPI AI Service
   console.log('\n[1/4] Spawning FastAPI AI Service downstream (Port 8000)...');
@@ -57,16 +58,16 @@ async function runTestSuite() {
 
   fastApiProcess.stdout.on('data', (d) => {
     const s = d.toString();
-    if (s.includes('Uvicorn running') || s.includes('Application startup complete')) {
-      console.log('  [FastAPI]', s.trim());
-    }
+    console.log('  [FastAPI stdout]', s.trim());
   });
 
   fastApiProcess.stderr.on('data', (d) => {
     const s = d.toString();
-    if (s.includes('ERROR') || s.includes('Traceback')) {
-      console.error('[FastAPI Error]:', s.trim());
-    }
+    console.log('  [FastAPI stderr]', s.trim());
+  });
+
+  fastApiProcess.on('exit', (code) => {
+    console.log('  [FastAPI exited with code]', code);
   });
 
   await waitForServer(`${FASTAPI_URL}/health`);
@@ -207,6 +208,93 @@ async function runTestSuite() {
         data.data.citations.length >= 1 &&
         data.data.answer.length > 20,
     },
+    {
+      name: 'Express LangGraph Router Evaluation Bridge (/api/query/evaluate)',
+      url: `${GATEWAY_URL}/api/query/evaluate`,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ query: 'What is the vacation policy notice window?' }),
+      validate: (data, status) => {
+        const payload = data.data || data;
+        return (
+          status === 200 &&
+          data.success === true &&
+          (payload.route === 'static_rag' || payload.routing === 'static_rag')
+        );
+      },
+    },
+    {
+      name: 'Express LangGraph Agent: Blocker Discovery (Turn 1)',
+      url: `${GATEWAY_URL}/api/query/agent`,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        query: 'What blocker issue is currently open in Jira?',
+        thread_id: TEST_THREAD_ID,
+        user_id: 'employee_test',
+      }),
+      validate: (data, status) => {
+        const payload = data.data || data;
+        const answerText = payload.answer || payload.response || '';
+        return (
+          status === 200 &&
+          data.success === true &&
+          answerText &&
+          (answerText.includes('ALPHA-101') || answerText.includes('ALPHA-104') || answerText.includes('ALPHA')) &&
+          payload.thread_id === TEST_THREAD_ID
+        );
+      },
+    },
+    {
+      name: 'Express LangGraph Agent: Pronoun Coreference Resolution (Turn 2)',
+      url: `${GATEWAY_URL}/api/query/agent`,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        query: 'What is its priority and status?',
+        thread_id: TEST_THREAD_ID,
+        user_id: 'employee_test',
+      }),
+      validate: (data, status) => {
+        const payload = data.data || data;
+        return (
+          status === 200 &&
+          data.success === true &&
+          payload.resolved_query &&
+          payload.resolved_query.includes('ALPHA')
+        );
+      },
+    },
+    {
+      name: 'Express Checkpoint History Audit (/api/query/threads/:thread_id)',
+      url: `${GATEWAY_URL}/api/query/threads/${TEST_THREAD_ID}`,
+      method: 'GET',
+      headers: {},
+      validate: (data, status) => {
+        const payload = data.data || data;
+        return (
+          status === 200 &&
+          data.success === true &&
+          payload.thread_id === TEST_THREAD_ID &&
+          Array.isArray(payload.history) &&
+          payload.history.length >= 2
+        );
+      },
+    },
+    {
+      name: 'Express Thread Teardown & Purge (DELETE /api/query/threads/:thread_id)',
+      url: `${GATEWAY_URL}/api/query/threads/${TEST_THREAD_ID}`,
+      method: 'DELETE',
+      headers: {},
+      validate: (data, status) => {
+        const payload = data.data || data;
+        return (
+          status === 200 &&
+          data.success === true &&
+          (payload.status === 'cleared' || payload.deleted === true)
+        );
+      },
+    },
   ];
 
   let passed = 0;
@@ -239,9 +327,9 @@ async function runTestSuite() {
     }
   }
 
-  console.log('\n' + '='.repeat(75));
+  console.log('\n' + '='.repeat(78));
   console.log(`[4/4] COMPLETE SYSTEM TEST RESULTS: ${passed} PASSED | ${failed} FAILED`);
-  console.log('='.repeat(75));
+  console.log('='.repeat(78));
 
   if (failed > 0) {
     process.exitCode = 1;

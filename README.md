@@ -320,6 +320,50 @@ company-intelligence-ai/
   - Successfully demonstrated 3-turn stateful flow (Blocker discovery -> Pronoun resolution -> SLA cross-correlation -> Database audit)
 - [x] Full regression test suite expanded: **161 out of 161 tests passing with 0 failures** (10 new tests in `tests/test_conversation_memory.py`)
 
+### Day 14: React Frontend Chat UI (Completed)
+- [x] Vite + React 18 + Tailwind CSS 3 Application (`frontend/`):
+  - High-performance, zero-latency reactive dashboard running on Port 5173
+  - Configured Vite reverse proxy to Express Gateway (`/api` -> `http://localhost:5000`)
+- [x] Interactive Enterprise Knowledge Dashboard:
+  - **Header Component (`src/components/Header.jsx`)**: System health badges, 384-D Vector Index status, 15 Live MCP Tools counter, and new session triggers.
+  - **Sidebar Component (`src/components/Sidebar.jsx`)**: Active dialogue sessions with turn counters, session deletion, and real-time operational status indicators for integrated sources (PDF RAG, Jira, Notion, Gmail).
+  - **Chat Message Component (`src/components/ChatMessage.jsx`)**: User queries vs Agent responses, markdown formatting, copy-to-clipboard, query route pills (`static_rag`, `mcp_live`, `hybrid`, `direct_llm`), and pronoun coreference resolution notice banner.
+  - **Structured Provenance Citations (`src/components/CitationCard.jsx`)**: Collapsible citation drawer displaying document/ticket metadata, relevant excerpts, and vector similarity ranking percentages.
+  - **Mathematical Grounding Badge**: Real-time confidence badge with visual threshold cues ($\ge 70\%$ high grounding indicator).
+  - **LangGraph Execution Trace Modal (`src/components/ExecutionTraceModal.jsx`)**: Interactive modal inspecting LangGraph node transitions, individual step durations, router metrics, and raw JSON diagnostic payloads.
+  - **Chat Input Bar (`src/components/ChatInput.jsx`)**: Auto-resizing textarea with keyboard shortcuts and 1-click prompt suggestion pills.
+- [x] Production Compilation: **1,642 modules transformed, built in 7.78s with 0 errors**.
+
+### Day 15: Docker Compose & Full End-to-End System Verification (Completed)
+- [x] Containerization Architecture:
+  - **AI Service Dockerfile (`ai-service/Dockerfile`)**: Multi-architecture Python 3.11-slim container with pre-warmed embeddings, PyMuPDF, and Uvicorn server on Port 8000.
+  - **Express Gateway Dockerfile (`backend/Dockerfile`)**: Lightweight Node 20-alpine container with production dependency pruning on Port 5000.
+  - **React Frontend Dockerfile (`frontend/Dockerfile`)**: Multi-stage build pairing Vite production builder with Nginx 1.27-alpine web server and reverse proxy (`frontend/nginx.conf`).
+- [x] Root Docker Compose Orchestration (`docker-compose.yml`):
+  - Bridges all 3 containers on isolated `easymark-net` network
+  - Configures environment pass-through, automated healthcheck intervals, and restart policies
+- [x] Automated 17-Probe End-to-End System Test Suite (`scripts/e2e_full_system_test.js`):
+  - Starts FastAPI downstream & Express Gateway upstream
+  - Validates **17 out of 17 multi-tier probes with 100% success (0 failures)**:
+    1. Direct FastAPI Public Liveness Probe (`/health`)
+    2. Direct FastAPI Readiness Probe without Key (`/api/v1/health` -> 401)
+    3. Direct FastAPI Readiness Probe with Key (`/api/v1/health` -> 200)
+    4. Express Gateway Public Liveness (`/health`)
+    5. Express Bridge to FastAPI Readiness Probe (`/api/health`)
+    6. Express Bridge to List MCP Tools (`/api/mcp/tools` -> 15 Tools)
+    7. Express Bridge to OpenAI/Groq Tool Schema (`/api/mcp/schema`)
+    8. Express Bridge to MCP Categories Breakdown (`/api/mcp/categories`)
+    9. Express Tool Execution: Jira blocker discovery (`ALPHA-101`)
+    10. Express Tool Execution: Notion page retrieval (`NOTION-SPEC-01`)
+    11. Express Tool Execution: Gmail escalations (`Acme Corp 504`)
+    12. Express Static RAG Query Bridge (`/api/query`)
+    13. Express LangGraph Router Evaluation Bridge (`/api/query/evaluate`)
+    14. Express LangGraph Agent: Blocker Discovery (`Turn 1`)
+    15. Express LangGraph Agent: Pronoun Coreference Resolution (`Turn 2`)
+    16. Express Checkpoint History Audit (`/api/query/threads/:thread_id`)
+    17. Express Thread Teardown & Purge (`DELETE /api/query/threads/:thread_id`)
+- [x] Complete Regression Verification: **161 / 161 unit & integration tests passing in 26.47s**.
+
 ---
 
 ## Performance & Verification Benchmarks (Sprint 1)
