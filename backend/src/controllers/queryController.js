@@ -188,8 +188,105 @@ async function handleAgentEvaluate(req, res, next) {
   }
 }
 
+/**
+ * GET /api/query/threads/:thread_id
+ * Retrieves multi-turn conversation checkpoints for a session thread.
+ */
+async function handleGetThreadHistory(req, res, next) {
+  try {
+    const { thread_id } = req.params;
+    const limit = req.query.limit ? parseInt(req.query.limit, 10) : 20;
+
+    const response = await axios.get(
+      `${config.aiServiceUrl}/api/v1/agent/threads/${encodeURIComponent(thread_id)}/history?limit=${limit}`,
+      {
+        headers: {
+          'x-internal-key': config.internalApiKey,
+        },
+        timeout: 10000,
+      }
+    );
+
+    return res.status(200).json({
+      success: true,
+      data: response.data,
+    });
+  } catch (error) {
+    if (error.response) {
+      return res.status(error.response.status).json({
+        success: false,
+        error: {
+          code: 'THREAD_HISTORY_ERROR',
+          message: error.response.data?.detail || 'Downstream error fetching thread history',
+        },
+      });
+    }
+
+    if (error.code === 'ECONNREFUSED' || error.code === 'ENOTFOUND') {
+      return res.status(503).json({
+        success: false,
+        error: {
+          code: 'AI_SERVICE_UNAVAILABLE',
+          message: 'The AI compute engine on Port 8000 is unreachable.',
+        },
+      });
+    }
+
+    next(error);
+  }
+}
+
+/**
+ * DELETE /api/query/threads/:thread_id
+ * Deletes all checkpoints and clears conversation memory for a thread.
+ */
+async function handleDeleteThread(req, res, next) {
+  try {
+    const { thread_id } = req.params;
+
+    const response = await axios.delete(
+      `${config.aiServiceUrl}/api/v1/agent/threads/${encodeURIComponent(thread_id)}`,
+      {
+        headers: {
+          'x-internal-key': config.internalApiKey,
+        },
+        timeout: 10000,
+      }
+    );
+
+    return res.status(200).json({
+      success: true,
+      data: response.data,
+    });
+  } catch (error) {
+    if (error.response) {
+      return res.status(error.response.status).json({
+        success: false,
+        error: {
+          code: 'THREAD_DELETE_ERROR',
+          message: error.response.data?.detail || 'Downstream error deleting thread',
+        },
+      });
+    }
+
+    if (error.code === 'ECONNREFUSED' || error.code === 'ENOTFOUND') {
+      return res.status(503).json({
+        success: false,
+        error: {
+          code: 'AI_SERVICE_UNAVAILABLE',
+          message: 'The AI compute engine on Port 8000 is unreachable.',
+        },
+      });
+    }
+
+    next(error);
+  }
+}
+
 module.exports = {
   handlePolicyQuery,
   handleAgentQuery,
   handleAgentEvaluate,
+  handleGetThreadHistory,
+  handleDeleteThread,
 };

@@ -250,18 +250,33 @@ class QuestionEvaluator:
 def evaluate_query_node(state: AgentState) -> AgentState:
     """
     LangGraph Node Function: Evaluates the input query and attaches routing decision.
+    Uses context-resolved query if available from conversation memory.
     """
     start_time = time.time()
     evaluator = QuestionEvaluator()
-    decision = evaluator.evaluate(state.query)
+
+    # Prioritize coreference-resolved query from conversation memory
+    target_query = state.resolved_query or state.query
+    decision = evaluator.evaluate(target_query)
+
+    # Merge accumulated entities from memory if current turn didn't override them
+    merged_entities = dict(decision.extracted_entities)
+    if state.accumulated_entities:
+        for k, v in state.accumulated_entities.items():
+            if k not in merged_entities or not merged_entities[k]:
+                merged_entities[k] = v
+            elif isinstance(v, list) and isinstance(merged_entities[k], list):
+                for item in v:
+                    if item not in merged_entities[k]:
+                        merged_entities[k].append(item)
 
     state.intent = decision.intent
     state.route = decision.route
     state.confidence = decision.confidence
     state.reasoning = decision.reasoning
-    state.extracted_entities = decision.extracted_entities
+    state.extracted_entities = merged_entities
     state.target_tools = decision.target_tools
-    state.doc_filter = decision.doc_filter
+    state.doc_filter = decision.doc_filter or state.accumulated_entities.get("likely_doc")
 
     duration = (time.time() - start_time) * 1000
     state.log_node_execution(

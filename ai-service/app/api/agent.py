@@ -32,7 +32,9 @@ class EvaluateQueryResponse(BaseModel):
 
 class AgentQueryResponse(BaseModel):
     query: str
+    resolved_query: Optional[str] = None
     thread_id: Optional[str]
+    turn_index: int = 1
     intent: str
     route: str
     confidence: float
@@ -44,6 +46,18 @@ class AgentQueryResponse(BaseModel):
     sources_used: List[str]
     execution_trace: List[Dict[str, Any]]
     latency_ms: float
+
+
+class ThreadHistoryResponse(BaseModel):
+    thread_id: str
+    total_turns: int
+    history: List[Dict[str, Any]]
+
+
+class ThreadDeleteResponse(BaseModel):
+    thread_id: str
+    deleted_turns: int
+    status: str
 
 
 @router.post(
@@ -94,7 +108,9 @@ async def execute_agent_query(
 
     return AgentQueryResponse(
         query=state.query,
+        resolved_query=state.resolved_query,
         thread_id=state.thread_id,
+        turn_index=state.turn_index,
         intent=state.intent or "unknown",
         route=state.route or "unknown",
         confidence=state.confidence,
@@ -106,4 +122,47 @@ async def execute_agent_query(
         sources_used=state.sources_used,
         execution_trace=state.execution_trace,
         latency_ms=state.latency_ms,
+    )
+
+
+@router.get(
+    "/threads/{thread_id}/history",
+    response_model=ThreadHistoryResponse,
+    summary="Retrieve multi-turn conversation checkpoints for a session thread",
+)
+async def get_thread_history(
+    thread_id: str,
+    limit: int = 20,
+    _authenticated: str = Depends(verify_internal_key),
+    orchestrator: AgentOrchestrator = Depends(get_agent_orchestrator),
+):
+    """
+    Returns full turn history and state checkpoints for a thread.
+    """
+    history = orchestrator.get_thread_history(thread_id, limit=limit)
+    return ThreadHistoryResponse(
+        thread_id=thread_id,
+        total_turns=len(history),
+        history=history,
+    )
+
+
+@router.delete(
+    "/threads/{thread_id}",
+    response_model=ThreadDeleteResponse,
+    summary="Delete all checkpoints and clear memory for a session thread",
+)
+async def delete_thread(
+    thread_id: str,
+    _authenticated: str = Depends(verify_internal_key),
+    orchestrator: AgentOrchestrator = Depends(get_agent_orchestrator),
+):
+    """
+    Clears all saved turns and entity memory for a thread.
+    """
+    deleted = orchestrator.clear_thread(thread_id)
+    return ThreadDeleteResponse(
+        thread_id=thread_id,
+        deleted_turns=deleted,
+        status="cleared",
     )

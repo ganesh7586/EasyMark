@@ -9,7 +9,7 @@ capabilities with automatic fallback.
 from datetime import datetime, timezone
 from typing import TYPE_CHECKING, Any, Dict, List, Optional, Union
 import numpy as np
-from pymongo import ASCENDING, MongoClient
+from pymongo import ASCENDING, DESCENDING, MongoClient
 from pymongo.collection import Collection
 from pymongo.database import Database
 from pymongo.errors import ConnectionFailure, OperationFailure, PyMongoError
@@ -67,6 +67,7 @@ class DatabaseManager:
         self.db: Database = self.client.get_database(self.db_name)
         self.fingerprints_col: Collection = self.db.get_collection("document_fingerprints")
         self.chunks_col: Collection = self.db.get_collection("document_chunks")
+        self.checkpoints_col: Collection = self.db.get_collection("conversation_checkpoints")
 
     def ping(self) -> bool:
         """Verify database connectivity."""
@@ -88,6 +89,11 @@ class DatabaseManager:
             self.chunks_col.create_index([("doc_name", ASCENDING)])
             self.chunks_col.create_index([("doc_sha256", ASCENDING)])
             self.chunks_col.create_index([("page_number", ASCENDING)])
+
+            # Conversation Checkpoints indexes (Day 13)
+            self.checkpoints_col.create_index([("thread_id", ASCENDING)])
+            self.checkpoints_col.create_index([("thread_id", ASCENDING), ("turn_index", ASCENDING)])
+            self.checkpoints_col.create_index([("created_at", DESCENDING)])
         except (OperationFailure, PyMongoError, Exception) as err:
             # Some mock implementations or restricted environments skip index creation
             pass
@@ -304,6 +310,76 @@ class DatabaseManager:
 
         scored_results.sort(key=lambda x: x["score"], reverse=True)
         return scored_results[:limit]
+
+    # =========================================================================
+    # Conversation Checkpoint & Memory Operations (Day 13)
+    # =========================================================================
+
+    def save_checkpoint(self, thread_id: str, checkpoint_data: Dict[str, Any]) -> str:
+        """
+        Persist a conversation state checkpoint to MongoDB.
+
+        Args:
+            thread_id: Unique conversation thread identifier.
+            checkpoint_data: State dictionary containing query, answer, entities, citations, and trace.
+
+        Returns:
+            The inserted document ID as a string.
+        """
+        doc = dict(checkpoint_data)
+        doc["thread_id"] = thread_id
+        if "created_at" not in doc:
+            doc["created_at"] = datetime.now(timezone.utc).isoformat()
+
+        res = self.checkpoints_col.insert_one(doc)
+        return str(res.inserted_id)
+
+    def get_latest_checkpoint(self, thread_id: str) -> Optional[Dict[str, Any]]:
+        """
+        Retrieve the most recent checkpoint for a given thread_id.
+
+        Args:
+            thread_id: Conversation thread identifier.
+
+        Returns:
+            Dictionary representation of the latest state checkpoint or None.
+        """
+        record = self.checkpoints_col.find_one(
+            {"thread_id": thread_id},
+            {"_id": 0},
+            sort=[("turn_index", DESCENDING), ("created_at", DESCENDING)],
+        )
+        return record
+
+    def get_thread_history(self, thread_id: str, limit: int = 20) -> List[Dict[str, Any]]:
+        """
+        Retrieve chronological conversation turns for a given thread.
+
+        Args:
+            thread_id: Conversation thread identifier.
+            limit: Maximum turns to return.
+
+        Returns:
+            List of conversation turn dictionaries in ascending chronological order.
+        """
+        cursor = self.checkpoints_col.find(
+            {"thread_id": thread_id},
+            {"_id": 0},
+        ).sort("turn_index", ASCENDING).limit(limit)
+        return list(cursor)
+
+    def delete_thread(self, thread_id: str) -> int:
+        """
+        Delete all checkpoints and history associated with a conversation thread.
+
+        Args:
+            thread_id: Conversation thread identifier to clear.
+
+        Returns:
+            Count of deleted checkpoint records.
+        """
+        res = self.checkpoints_col.delete_many({"thread_id": thread_id})
+        return res.deleted_count
 
 
 _db_manager_instance: Optional[DatabaseManager] = None

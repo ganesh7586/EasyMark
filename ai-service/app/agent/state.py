@@ -15,8 +15,21 @@ class AgentState(BaseModel):
 
     # --- Input Fields ---
     query: str = Field(..., description="User's natural language question or request")
+    resolved_query: Optional[str] = Field(
+        default=None,
+        description="Context-enriched query after coreference and entity injection",
+    )
     thread_id: Optional[str] = Field(default=None, description="Conversation session or thread ID")
     user_id: Optional[str] = Field(default="employee_default", description="Identifier for querying user")
+    turn_index: int = Field(default=1, description="Sequential 1-based turn index within this thread session")
+    conversation_history: List[Dict[str, Any]] = Field(
+        default_factory=list,
+        description="Prior conversation turns for multi-turn dialogue context",
+    )
+    accumulated_entities: Dict[str, Any] = Field(
+        default_factory=dict,
+        description="Aggregated entity context from past turns (Jira keys, severities, docs)",
+    )
 
     # --- Evaluator & Routing Metadata ---
     intent: Optional[str] = Field(

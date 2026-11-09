@@ -301,6 +301,25 @@ company-intelligence-ai/
   - Successfully demonstrated all 5 scenarios (Static policy, Live Jira, Hybrid SLA, Adversarial trap, Greeting)
 - [x] Regression test suite expanded: **151 out of 151 tests passing with 0 failures** (15 new tests in `tests/test_evidence_evaluator.py`)
 
+### Day 13: Conversation Memory & State Checkpointing (Completed)
+- [x] MongoDB Checkpointer Collection (`app.core.database.DatabaseManager`):
+  - Created `conversation_checkpoints` collection with indexed `thread_id` and `turn_index`
+  - Added CRUD checkpoint operations: `save_checkpoint()`, `get_latest_checkpoint()`, `get_thread_history()`, `delete_thread()`
+- [x] Memory Manager & Coreference Resolver (`app.memory.manager.MemoryManager`):
+  - Contextual coreference resolution detecting follow-up pronouns (*"it"*, *"that blocker"*, *"the ticket"*, *"its SLA"*) and binding them to active entities from past dialogue turns
+  - Dynamic entity accumulation from both query intent and verified tool citations (Jira issue keys, Notion specs, document names)
+- [x] Stateful Multi-Turn Agent Orchestrator (`app.agent.orchestrator.AgentOrchestrator`):
+  - Pre-load: Fetches thread checkpoints and injects prior dialogue history into `AgentState`
+  - Post-execution: Automatically records state snapshot, final answer, citations, and latency in MongoDB
+- [x] FastAPI REST Transport (`app.api.agent`):
+  - `GET /api/v1/agent/threads/{thread_id}/history`: Returns complete dialogue turn history
+  - `DELETE /api/v1/agent/threads/{thread_id}`: Resets session context and purges checkpoints
+- [x] Node.js Express Gateway Proxies (`backend/src/controllers/queryController.js` and `queryRoutes.js`):
+  - `GET /api/query/threads/:thread_id` and `DELETE /api/query/threads/:thread_id`
+- [x] Interactive CLI verification tool: `python scripts/test_conversation_memory.py`
+  - Successfully demonstrated 3-turn stateful flow (Blocker discovery -> Pronoun resolution -> SLA cross-correlation -> Database audit)
+- [x] Full regression test suite expanded: **161 out of 161 tests passing with 0 failures** (10 new tests in `tests/test_conversation_memory.py`)
+
 ---
 
 ## Performance & Verification Benchmarks (Sprint 1)
@@ -438,5 +457,5 @@ Full export report: `ai-service/scripts/search_chunking_comparison_report.json`.
 Comprehensive verification across the entire project codebase:
 - **Python Syntax & Compilation:** Clean (`ai-service/app`, `ai-service/tests`, `ai-service/scripts`) with 0 syntax errors.
 - **Node.js Express Gateway:** Clean (`backend/src/`) with 0 syntax errors.
-- **Regression Test Suite:** **151 / 151 passed** across all modules in **28.18s**.
+- **Regression Test Suite:** **161 / 161 passed** across all modules in **29.46s**.
 - **Configuration & Security:** Shared `x-internal-key` security header validated across Express Gateway and FastAPI AI Service.
