@@ -361,8 +361,36 @@ company-intelligence-ai/
     14. Express LangGraph Agent: Blocker Discovery (`Turn 1`)
     15. Express LangGraph Agent: Pronoun Coreference Resolution (`Turn 2`)
     16. Express Checkpoint History Audit (`/api/query/threads/:thread_id`)
-    17. Express Thread Teardown & Purge (`DELETE /api/query/threads/:thread_id`)
+    17. Express LangGraph Real-time SSE Token Streaming (`/api/query/agent/stream`)
+    18. Express Thread Teardown & Purge (`DELETE /api/query/threads/:thread_id`)
 - [x] Complete Regression Verification: **161 / 161 unit & integration tests passing in 26.47s**.
+
+---
+
+## Phase 2: Live Cloud Connectors, Real-Time SSE Streaming & CI/CD (Completed)
+
+- [x] **Real-Time Token Streaming Architecture (Server-Sent Events / SSE)**:
+  - Downstream FastAPI endpoint: `POST /api/v1/agent/stream` using `StreamingResponse` emitting typed SSE events (`metadata`, `chunk`, `citations`, `trace`, `done`)
+  - Upstream Express Gateway bridge: `POST /api/query/agent/stream` piping downstream SSE stream directly to web clients
+  - Frontend client streaming service: `streamAgentQuery()` in `src/services/api.js` using web-standard `ReadableStream` reader
+  - Animated pulsing cursor and live markdown token synthesis in `src/components/ChatMessage.jsx`
+- [x] **Dual-Mode Enterprise Architecture**:
+  - **Live Cloud API Mode**: Connects directly to external cloud APIs when credentials are set:
+    - Atlassian Jira Cloud REST API (`JIRA_BASE_URL`, `JIRA_API_TOKEN`, `JIRA_EMAIL`)
+    - Notion Workspace API v1 (`NOTION_API_KEY`, `NOTION_DATABASE_ID`)
+    - Google Workspace Gmail API (`GMAIL_CLIENT_ID`, `GMAIL_REFRESH_TOKEN`)
+    - Groq Cloud LLM (`GROQ_API_KEY`, `llama-3.3-70b-versatile`)
+  - **Deterministic Enterprise Fixture Mode**: Automatic zero-crash fallback to high-fidelity Project Alpha company datasets when running offline or without credentials
+- [x] **Enterprise Integrations & Settings Modal (`src/components/SettingsModal.jsx`)**:
+  - Interactive drawer accessible from the top navigation bar
+  - Real-time status indicators for connected cloud systems (Groq, Jira, Notion, Gmail, MongoDB Vector Index)
+  - Quick guidance for configuring environment variables and API keys
+- [x] **Comprehensive Live API Setup Guide (`docs/LIVE_API_SETUP_GUIDE.md`)**:
+  - Detailed documentation on obtaining free developer API keys for Groq Cloud, Atlassian Jira Cloud, Notion, and Google Workspace Gmail
+- [x] **Automated GitHub Actions CI/CD Pipeline (`.github/workflows/ci.yml`)**:
+  - Runs on every push and pull request across `master` and `main`
+  - 4 automated verification jobs: Python 161 Pytest suite, Express Gateway syntax check, Vite production build, and multi-container Docker Compose build
+- [x] **End-to-End Test Suite Expanded**: **18 out of 18 probes passing with 0 failures** in `scripts/e2e_full_system_test.js`.
 
 ---
 

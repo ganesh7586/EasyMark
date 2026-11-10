@@ -107,6 +107,69 @@ class GroqClient:
             max_tokens=max_tokens,
         )
 
+    def stream_chat_completion(
+        self,
+        messages: List[Dict[str, str]],
+        model: Optional[str] = None,
+        temperature: float = 0.1,
+        max_tokens: int = 1024,
+    ):
+        """
+        Yields text chunks as they arrive from Groq SSE stream or grounded generator.
+        """
+        target_model = model or self.model
+
+        if not self.api_key:
+            full_text = self._mock_completion_from_context(messages)
+            words = full_text.split(" ")
+            for i, word in enumerate(words):
+                yield word + (" " if i < len(words) - 1 else "")
+            return
+
+        headers = {
+            "Authorization": f"Bearer {self.api_key}",
+            "Content-Type": "application/json",
+            "User-Agent": "CompanyIntelligenceAI/1.0",
+        }
+        payload = {
+            "model": target_model,
+            "messages": messages,
+            "temperature": temperature,
+            "max_tokens": max_tokens,
+            "stream": True,
+        }
+
+        try:
+            with httpx.Client(timeout=self.timeout) as client:
+                with client.stream("POST", GROQ_API_URL, headers=headers, json=payload) as response:
+                    if response.status_code != 200:
+                        full_text = self._mock_completion_from_context(messages)
+                        words = full_text.split(" ")
+                        for i, word in enumerate(words):
+                            yield word + (" " if i < len(words) - 1 else "")
+                        return
+
+                    import json
+                    for line in response.iter_lines():
+                        if not line or not line.startswith("data: "):
+                            continue
+                        data_str = line[6:].strip()
+                        if data_str == "[DONE]":
+                            break
+                        try:
+                            parsed = json.loads(data_str)
+                            delta = parsed.get("choices", [{}])[0].get("delta", {})
+                            content = delta.get("content", "")
+                            if content:
+                                yield content
+                        except Exception:
+                            continue
+        except Exception:
+            full_text = self._mock_completion_from_context(messages)
+            words = full_text.split(" ")
+            for i, word in enumerate(words):
+                yield word + (" " if i < len(words) - 1 else "")
+
     def _mock_completion_from_context(self, messages: List[Dict[str, str]]) -> str:
         """
         Deterministic, grounded response generator for offline and sandboxed testing.

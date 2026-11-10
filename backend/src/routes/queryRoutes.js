@@ -12,6 +12,9 @@ router.post('/', queryController.handlePolicyQuery);
 // POST /api/query/agent - Full LangGraph Multi-Agent Orchestrator
 router.post('/agent', queryController.handleAgentQuery);
 
+// POST /api/query/agent/stream - Real-time Server-Sent Events (SSE) Streaming
+router.post('/agent/stream', queryController.handleAgentStreamQuery);
+
 // POST /api/query/evaluate - Fast Diagnostic Question Intent & Routing Evaluation
 router.post('/evaluate', queryController.handleAgentEvaluate);
 

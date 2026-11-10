@@ -51,8 +51,8 @@ async function runTestSuite() {
     ['-m', 'uvicorn', 'app.main:app', '--host', '127.0.0.1', '--port', '8000'],
     {
       cwd: FASTAPI_DIR,
-      env: { ...process.env, PYTHONPATH: FASTAPI_DIR },
-      stdio: 'pipe',
+      env: { ...process.env, PYTHONPATH: FASTAPI_DIR, PYTHONUNBUFFERED: '1', MONGODB_URI: '' },
+      stdio: ['ignore', 'pipe', 'pipe'],
     }
   );
 
@@ -78,7 +78,7 @@ async function runTestSuite() {
   expressProcess = spawn('node', ['src/server.js'], {
     cwd: BACKEND_DIR,
     env: { ...process.env, PORT: '5000', AI_SERVICE_URL: FASTAPI_URL, INTERNAL_API_KEY: INTERNAL_KEY },
-    stdio: 'pipe',
+    stdio: ['ignore', 'pipe', 'pipe'],
   });
 
   expressProcess.stderr.on('data', (d) => {
@@ -282,6 +282,27 @@ async function runTestSuite() {
       },
     },
     {
+      name: 'Express LangGraph Real-time SSE Token Streaming (/api/query/agent/stream)',
+      url: `${GATEWAY_URL}/api/query/agent/stream`,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        query: 'What is the vacation policy notice window?',
+        thread_id: TEST_THREAD_ID,
+        user_id: 'employee_test',
+      }),
+      isStream: true,
+      validateText: (text, status) => {
+        return (
+          status === 200 &&
+          text.includes('event: metadata') &&
+          text.includes('event: chunk') &&
+          text.includes('event: citations') &&
+          text.includes('event: done')
+        );
+      },
+    },
+    {
       name: 'Express Thread Teardown & Purge (DELETE /api/query/threads/:thread_id)',
       url: `${GATEWAY_URL}/api/query/threads/${TEST_THREAD_ID}`,
       method: 'DELETE',
@@ -309,16 +330,26 @@ async function runTestSuite() {
         headers: t.headers,
         body: t.body,
       });
-      const data = await res.json().catch(() => ({}));
       const duration = Date.now() - start;
-      const ok = t.validate(data, res.status);
+      let ok = false;
+      let rawData = null;
+
+      if (t.isStream) {
+        const text = await res.text();
+        rawData = text;
+        ok = t.validateText(text, res.status);
+      } else {
+        const data = await res.json().catch(() => ({}));
+        rawData = data;
+        ok = t.validate(data, res.status);
+      }
 
       if (ok) {
         console.log(`  [PASS] Probe #${i + 1}: ${t.name} (${duration} ms)`);
         passed++;
       } else {
         console.error(`  [FAIL] Probe #${i + 1}: ${t.name} (${duration} ms) - Status: ${res.status}`);
-        console.error('         Received payload:', JSON.stringify(data).slice(0, 160));
+        console.error('         Received payload:', JSON.stringify(rawData).slice(0, 160));
         failed++;
       }
     } catch (err) {

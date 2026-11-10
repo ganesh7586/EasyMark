@@ -5,6 +5,7 @@ Exposes /api/v1/agent/evaluate and /api/v1/agent/query endpoints.
 
 from typing import Any, Dict, List, Optional
 from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi.responses import StreamingResponse
 from pydantic import BaseModel, Field
 
 from app.agent.orchestrator import get_agent_orchestrator, AgentOrchestrator
@@ -122,6 +123,33 @@ async def execute_agent_query(
         sources_used=state.sources_used,
         execution_trace=state.execution_trace,
         latency_ms=state.latency_ms,
+    )
+
+
+@router.post(
+    "/stream",
+    summary="Real-time Server-Sent Events (SSE) streaming for LangGraph Agent",
+)
+async def execute_agent_stream(
+    payload: AgentQueryRequest,
+    _authenticated: str = Depends(verify_internal_key),
+    orchestrator: AgentOrchestrator = Depends(get_agent_orchestrator),
+):
+    """
+    Executes LangGraph agent workflow and streams tokens and provenance events in real-time.
+    """
+    return StreamingResponse(
+        orchestrator.stream_query(
+            query=payload.query,
+            thread_id=payload.thread_id,
+            user_id=payload.user_id,
+        ),
+        media_type="text/event-stream",
+        headers={
+            "Cache-Control": "no-cache",
+            "Connection": "keep-alive",
+            "X-Accel-Buffering": "no",
+        },
     )
 
 

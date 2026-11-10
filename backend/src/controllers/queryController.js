@@ -283,9 +283,83 @@ async function handleDeleteThread(req, res, next) {
   }
 }
 
+/**
+ * POST /api/query/agent/stream
+ * Streams tokens and execution events from downstream FastAPI directly to the client via SSE.
+ */
+async function handleAgentStreamQuery(req, res, next) {
+  try {
+    const { query, thread_id = null, user_id = 'employee_default' } = req.body;
+
+    if (!query || typeof query !== 'string' || !query.trim()) {
+      return res.status(400).json({
+        success: false,
+        error: {
+          code: 'VALIDATION_ERROR',
+          message: "Field 'query' must be a non-empty string.",
+        },
+      });
+    }
+
+    const payload = {
+      query: query.trim(),
+      thread_id: thread_id ? String(thread_id).trim() : null,
+      user_id: user_id ? String(user_id).trim() : 'employee_default',
+    };
+
+    const downstream = await axios.post(`${config.aiServiceUrl}/api/v1/agent/stream`, payload, {
+      headers: {
+        'x-internal-key': config.internalApiKey,
+        'Content-Type': 'application/json',
+      },
+      responseType: 'stream',
+      timeout: 60000,
+    });
+
+    res.setHeader('Content-Type', 'text/event-stream');
+    res.setHeader('Cache-Control', 'no-cache');
+    res.setHeader('Connection', 'keep-alive');
+    res.setHeader('X-Accel-Buffering', 'no');
+
+    downstream.data.pipe(res);
+
+    downstream.data.on('error', (err) => {
+      console.error('[Stream Error]', err);
+      if (!res.headersSent) {
+        res.status(502).json({ success: false, error: 'Stream interrupted' });
+      } else {
+        res.end();
+      }
+    });
+  } catch (error) {
+    if (error.response) {
+      return res.status(error.response.status).json({
+        success: false,
+        error: {
+          code: 'AI_AGENT_ERROR',
+          message: 'Downstream LangGraph agent stream error',
+        },
+      });
+    }
+
+    if (error.code === 'ECONNREFUSED' || error.code === 'ENOTFOUND') {
+      return res.status(503).json({
+        success: false,
+        error: {
+          code: 'AI_SERVICE_UNAVAILABLE',
+          message: 'The AI compute engine on Port 8000 is unreachable.',
+        },
+      });
+    }
+
+    next(error);
+  }
+}
+
 module.exports = {
   handlePolicyQuery,
   handleAgentQuery,
+  handleAgentStreamQuery,
   handleAgentEvaluate,
   handleGetThreadHistory,
   handleDeleteThread,

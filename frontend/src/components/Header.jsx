@@ -6,7 +6,8 @@ import {
   ShieldCheck, 
   Activity, 
   Database,
-  ExternalLink
+  ExternalLink,
+  Settings
 } from 'lucide-react';
 
 export default function Header({ 
@@ -14,7 +15,8 @@ export default function Header({
   onNewChat, 
   healthStatus, 
   toolsCount = 15,
-  onOpenTrace
+  onOpenTrace,
+  onOpenSettings
 }) {
   return (
     <header className="h-16 border-b border-slate-800 bg-slate-900/80 backdrop-blur px-6 flex items-center justify-between z-10">
@@ -58,7 +60,16 @@ export default function Header({
       </div>
 
       {/* Actions */}
-      <div className="flex items-center space-x-3">
+      <div className="flex items-center space-x-2.5">
+        <button
+          onClick={onOpenSettings}
+          className="flex items-center space-x-1.5 px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white text-xs font-medium border border-slate-700/80 transition-colors"
+          title="Integrations & Settings"
+        >
+          <Settings className="w-3.5 h-3.5 text-slate-400" />
+          <span>Settings</span>
+        </button>
+
         <button
           onClick={onNewChat}
           className="flex items-center space-x-1.5 px-3.5 py-1.5 rounded-lg bg-sky-600 hover:bg-sky-500 text-white text-xs font-medium shadow-md shadow-sky-600/20 transition-all duration-150 active:scale-95"

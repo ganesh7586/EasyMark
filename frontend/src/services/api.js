@@ -19,6 +19,79 @@ export async function queryAgent(query, threadId = null, userId = 'employee_defa
   return response.data;
 }
 
+/**
+ * Stream LangGraph Agent response in real-time via Server-Sent Events (SSE).
+ */
+export async function streamAgentQuery(
+  query,
+  threadId = null,
+  userId = 'employee_default',
+  { onMetadata, onChunk, onCitations, onTrace, onDone, onError } = {}
+) {
+  try {
+    const response = await fetch('/api/query/agent/stream', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        query,
+        thread_id: threadId,
+        user_id: userId,
+      }),
+    });
+
+    if (!response.ok) {
+      const err = await response.json().catch(() => ({}));
+      throw new Error(err?.error?.message || `HTTP ${response.status}`);
+    }
+
+    const reader = response.body.getReader();
+    const decoder = new TextDecoder('utf-8');
+    let buffer = '';
+
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+
+      buffer += decoder.decode(value, { stream: true });
+      const events = buffer.split('\n\n');
+      buffer = events.pop(); // Retain remainder in buffer
+
+      for (const eventStr of events) {
+        if (!eventStr.trim()) continue;
+        const lines = eventStr.split('\n');
+        let eventType = 'message';
+        let dataStr = '';
+
+        for (const line of lines) {
+          if (line.startsWith('event: ')) {
+            eventType = line.slice(7).trim();
+          } else if (line.startsWith('data: ')) {
+            dataStr = line.slice(6).trim();
+          }
+        }
+
+        if (dataStr) {
+          try {
+            const parsed = JSON.parse(dataStr);
+            if (eventType === 'metadata' && onMetadata) onMetadata(parsed);
+            if (eventType === 'chunk' && onChunk) onChunk(parsed.token);
+            if (eventType === 'citations' && onCitations) onCitations(parsed);
+            if (eventType === 'trace' && onTrace) onTrace(parsed.execution_trace);
+            if (eventType === 'done' && onDone) onDone(parsed);
+          } catch (e) {
+            console.warn('Could not parse SSE event payload', e);
+          }
+        }
+      }
+    }
+  } catch (error) {
+    if (onError) onError(error);
+    else throw error;
+  }
+}
+
 export async function evaluateQuery(query) {
   const response = await api.post('/query/evaluate', { query });
   return response.data;

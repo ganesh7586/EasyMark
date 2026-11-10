@@ -4,7 +4,8 @@ import Sidebar from './components/Sidebar';
 import ChatMessage from './components/ChatMessage';
 import ChatInput from './components/ChatInput';
 import ExecutionTraceModal from './components/ExecutionTraceModal';
-import { queryAgent, getThreadHistory, deleteThread, getGatewayHealth } from './services/api';
+import SettingsModal from './components/SettingsModal';
+import { queryAgent, streamAgentQuery, getThreadHistory, deleteThread, getGatewayHealth } from './services/api';
 import { 
   Sparkles, 
   Layers, 
@@ -36,6 +37,7 @@ export default function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [healthStatus, setHealthStatus] = useState('healthy');
   const [traceModalOpen, setTraceModalOpen] = useState(false);
+  const [settingsModalOpen, setSettingsModalOpen] = useState(false);
   const [selectedTraceData, setSelectedTraceData] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
 
@@ -139,7 +141,7 @@ export default function App() {
     }
   };
 
-  // Send query to LangGraph Agent via Express Gateway
+  // Send query to LangGraph Agent via Express Gateway (with real-time SSE streaming)
   const handleSendMessage = async (queryText) => {
     if (!queryText.trim() || isLoading) return;
     setErrorMessage(null);
@@ -151,72 +153,169 @@ export default function App() {
       timestamp: new Date().toISOString(),
     };
 
-    const newMessages = [...messages, userMessage];
-    setMessages(newMessages);
+    const asstId = `asst_${Date.now()}`;
+    const placeholderAssistant = {
+      id: asstId,
+      role: 'assistant',
+      content: '',
+      isStreaming: true,
+      routing_decision: 'evaluating...',
+      citations: [],
+      timestamp: new Date().toISOString(),
+    };
+
+    const messagesWithUser = [...messages, userMessage];
+    setMessages([...messagesWithUser, placeholderAssistant]);
     setIsLoading(true);
 
-    try {
-      const response = await queryAgent(queryText, currentThreadId, 'employee_default');
+    let accumulatedContent = '';
+    let currentMetadata = {};
+    let currentCitations = [];
+    let currentGroundingScore = null;
+    let currentTrace = null;
+    let totalLatency = null;
 
-      if (response && response.success) {
-        const payload = response.data || response;
-        const assistantMessage = {
-          id: `asst_${Date.now()}`,
+    try {
+      await streamAgentQuery(queryText, currentThreadId, 'employee_default', {
+        onMetadata: (meta) => {
+          currentMetadata = meta;
+          setMessages((prev) =>
+            prev.map((msg) =>
+              msg.id === asstId
+                ? {
+                    ...msg,
+                    routing_decision: meta.route || meta.intent,
+                    resolved_query: meta.resolved_query,
+                  }
+                : msg
+            )
+          );
+        },
+        onChunk: (token) => {
+          accumulatedContent += token;
+          setMessages((prev) =>
+            prev.map((msg) =>
+              msg.id === asstId
+                ? { ...msg, content: accumulatedContent }
+                : msg
+            )
+          );
+        },
+        onCitations: (citePayload) => {
+          currentCitations = citePayload.citations || [];
+          currentGroundingScore = citePayload.grounding_score;
+          setMessages((prev) =>
+            prev.map((msg) =>
+              msg.id === asstId
+                ? {
+                    ...msg,
+                    citations: currentCitations,
+                    grounding_confidence: currentGroundingScore,
+                  }
+                : msg
+            )
+          );
+        },
+        onTrace: (tracePayload) => {
+          currentTrace = tracePayload;
+          setMessages((prev) =>
+            prev.map((msg) =>
+              msg.id === asstId
+                ? { ...msg, execution_trace: tracePayload }
+                : msg
+            )
+          );
+        },
+        onDone: (donePayload) => {
+          totalLatency = donePayload?.latency_ms;
+          setMessages((prev) =>
+            prev.map((msg) =>
+              msg.id === asstId
+                ? {
+                    ...msg,
+                    isStreaming: false,
+                    latency_ms: totalLatency,
+                  }
+                : msg
+            )
+          );
+        },
+        onError: (err) => {
+          throw err;
+        },
+      });
+
+      // Update thread history in state and localStorage
+      setThreads((prev) => {
+        const title = queryText.length > 36 ? `${queryText.substring(0, 36)}...` : queryText;
+        const finalAsst = {
+          id: asstId,
           role: 'assistant',
-          content: payload.response || payload.answer || 'Execution complete.',
+          content: accumulatedContent,
+          citations: currentCitations,
+          grounding_confidence: currentGroundingScore,
+          routing_decision: currentMetadata.route,
+          resolved_query: currentMetadata.resolved_query,
+          original_query: queryText,
+          execution_trace: currentTrace,
+          latency_ms: totalLatency,
+          timestamp: new Date().toISOString(),
+        };
+        const updatedHistory = [...messagesWithUser, finalAsst];
+        const existing = prev.find((t) => t.id === currentThreadId);
+        if (existing) {
+          return prev.map((t) =>
+            t.id === currentThreadId
+              ? { ...t, turnsCount: updatedHistory.length, messages: updatedHistory }
+              : t
+          );
+        } else {
+          return [
+            {
+              id: currentThreadId,
+              title,
+              turnsCount: updatedHistory.length,
+              messages: updatedHistory,
+              createdAt: new Date().toISOString(),
+            },
+            ...prev,
+          ];
+        }
+      });
+    } catch (err) {
+      console.warn('Streaming notice, falling back to standard queryAgent', err);
+      try {
+        const response = await queryAgent(queryText, currentThreadId, 'employee_default');
+        const payload = response.data || response;
+        const fallbackAsst = {
+          id: asstId,
+          role: 'assistant',
+          content: payload.answer || payload.response || 'Execution complete.',
           citations: payload.citations || [],
-          grounding_confidence: payload.grounding_confidence,
-          routing_decision: payload.routing_decision || payload.route || payload.evaluation?.routing,
+          grounding_confidence: payload.grounding_score ?? payload.grounding_confidence,
+          routing_decision: payload.route || payload.routing_decision,
           resolved_query: payload.resolved_query,
           original_query: queryText,
           execution_trace: payload.execution_trace || payload.trace,
           latency_ms: payload.latency_ms,
           timestamp: new Date().toISOString(),
+          isStreaming: false,
         };
-
-        const updatedHistory = [...newMessages, assistantMessage];
-        setMessages(updatedHistory);
-
-        // Update threads list
-        setThreads((prev) => {
-          const title = queryText.length > 36 ? `${queryText.substring(0, 36)}...` : queryText;
-          const existing = prev.find((t) => t.id === currentThreadId);
-          if (existing) {
-            return prev.map((t) =>
-              t.id === currentThreadId
-                ? { ...t, turnsCount: updatedHistory.length, messages: updatedHistory }
-                : t
-            );
-          } else {
-            return [
-              {
-                id: currentThreadId,
-                title,
-                turnsCount: updatedHistory.length,
-                messages: updatedHistory,
-                createdAt: new Date().toISOString(),
-              },
-              ...prev,
-            ];
-          }
-        });
-      } else {
-        throw new Error(response?.error || 'Unknown error occurred while contacting agent');
+        setMessages([...messagesWithUser, fallbackAsst]);
+      } catch (innerErr) {
+        const errMsg = innerErr.response?.data?.error || innerErr.message || 'Failed to reach agent service';
+        setErrorMessage(errMsg);
+        const errorReply = {
+          id: asstId,
+          role: 'assistant',
+          content: `**Error communicating with Agent Gateway**: ${errMsg}\n\nPlease verify that the backend Gateway (Port 5000) and AI Service (Port 8000) are running.`,
+          routing_decision: 'error',
+          grounding_confidence: 0,
+          timestamp: new Date().toISOString(),
+          isStreaming: false,
+        };
+        setMessages([...messagesWithUser, errorReply]);
       }
-    } catch (err) {
-      console.error('Agent query error:', err);
-      const errMsg = err.response?.data?.error || err.message || 'Failed to reach agent service';
-      setErrorMessage(errMsg);
-
-      const errorReply = {
-        id: `err_${Date.now()}`,
-        role: 'assistant',
-        content: `**Error communicating with Agent Gateway**: ${errMsg}\n\nPlease verify that the backend Gateway (Port 5000) and AI Service (Port 8000) are running.`,
-        routing_decision: 'error',
-        grounding_confidence: 0,
-        timestamp: new Date().toISOString(),
-      };
-      setMessages([...newMessages, errorReply]);
     } finally {
       setIsLoading(false);
     }
@@ -253,6 +352,7 @@ export default function App() {
           onNewChat={handleNewChat}
           healthStatus={healthStatus}
           toolsCount={15}
+          onOpenSettings={() => setSettingsModalOpen(true)}
         />
 
         {/* Messages Scroll Area */}
@@ -363,6 +463,12 @@ export default function App() {
           metadata={selectedTraceData.metadata}
         />
       )}
+
+      {/* Integrations & Live API Settings Modal */}
+      <SettingsModal
+        isOpen={settingsModalOpen}
+        onClose={() => setSettingsModalOpen(false)}
+      />
     </div>
   );
 }

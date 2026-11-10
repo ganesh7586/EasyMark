@@ -185,6 +185,9 @@ export default function ChatMessage({ message, onOpenTrace }) {
           {/* Markdown / Body Content */}
           <div className="prose prose-invert max-w-none text-slate-200 text-sm">
             {formatContent(message.content)}
+            {message.isStreaming && (
+              <span className="inline-block w-1.5 h-4 ml-1 bg-sky-400 animate-pulse rounded-sm align-middle" />
+            )}
           </div>
 
           {/* Structured Provenance Citations */}
