@@ -1,0 +1,68 @@
+services:
+  # EasyMark AI Engine Service: FastAPI + LangGraph StateGraph + Vector RAG + MCP
+  - type: web
+    name: easymark-ai-service
+    runtime: python
+    rootDir: ai-service
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "python -m uvicorn app.main:app --host 0.0.0.0 --port $PORT"
+    healthCheckPath: /health
+    autoDeploy: true
+    plan: starter
+    envVars:
+      - key: PYTHONUNBUFFERED
+        value: "1"
+      - key: EMBEDDING_MODEL_NAME
+        value: all-MiniLM-L6-v2
+      - key: HF_HUB_OFFLINE
+        value: "1"
+      - key: INTERNAL_API_KEY
+        generateValue: true
+      - key: GROQ_API_KEY
+        sync: false
+      - key: MONGO_URI
+        sync: false
+      - key: MONGO_DB_NAME
+        value: company_intelligence
+
+  # EasyMark Express API Gateway: Routing, Security, Streaming & Webhooks
+  - type: web
+    name: easymark-backend
+    runtime: node
+    rootDir: backend
+    buildCommand: "npm ci --only=production"
+    startCommand: "node src/server.js"
+    healthCheckPath: /health
+    autoDeploy: true
+    plan: starter
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: AI_SERVICE_URL
+        fromService:
+          type: web
+          name: easymark-ai-service
+          property: host
+      - key: INTERNAL_API_KEY
+        fromService:
+          type: web
+          name: easymark-ai-service
+          envVarKey: INTERNAL_API_KEY
+
+  # EasyMark React 18 + Vite Production Static Dashboard
+  - type: web
+    name: easymark-frontend
+    runtime: static
+    rootDir: frontend
+    buildCommand: "npm ci && npm run build"
+    staticPublishPath: dist
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+    envVars:
+      - key: VITE_API_BASE_URL
+        fromService:
+          type: web
+          name: easymark-backend
+          property: host

@@ -7,12 +7,56 @@ import {
   Briefcase, 
   FileCode, 
   Mail,
-  Zap
+  Zap,
+  Mic,
+  MicOff
 } from 'lucide-react';
 
 export default function ChatInput({ onSendMessage, isLoading }) {
   const [input, setInput] = useState('');
+  const [isListening, setIsListening] = useState(false);
   const textareaRef = useRef(null);
+  const recognitionRef = useRef(null);
+
+  // Setup Web Speech API for voice input
+  useEffect(() => {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (SpeechRecognition) {
+      const recognition = new SpeechRecognition();
+      recognition.continuous = false;
+      recognition.interimResults = false;
+      recognition.lang = 'en-US';
+
+      recognition.onresult = (event) => {
+        const transcript = event.results[0][0].transcript;
+        setInput((prev) => (prev ? `${prev} ${transcript}` : transcript));
+        setIsListening(false);
+      };
+
+      recognition.onerror = () => setIsListening(false);
+      recognition.onend = () => setIsListening(false);
+
+      recognitionRef.current = recognition;
+    }
+  }, []);
+
+  const toggleListening = () => {
+    if (!recognitionRef.current) {
+      alert('Speech recognition is not supported in this browser. Please use Chrome or Edge.');
+      return;
+    }
+    if (isListening) {
+      recognitionRef.current.stop();
+      setIsListening(false);
+    } else {
+      try {
+        recognitionRef.current.start();
+        setIsListening(true);
+      } catch (err) {
+        setIsListening(false);
+      }
+    }
+  };
 
   // Auto-resize textarea
   useEffect(() => {
@@ -91,11 +135,27 @@ export default function ChatInput({ onSendMessage, isLoading }) {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder="Ask anything across company policies, Jira blockers, Notion docs, and Gmail..."
+            placeholder={isListening ? "Listening to your voice... Speak now." : "Ask anything across company policies, Jira blockers, Notion docs, and Gmail..."}
             rows={1}
             disabled={isLoading}
-            className="w-full pl-4 pr-14 py-3 bg-slate-950 border border-slate-800 focus:border-sky-500 rounded-2xl text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-sky-500 resize-none transition-all"
+            className={`w-full pl-4 pr-24 py-3 bg-slate-950 border rounded-2xl text-sm text-slate-100 placeholder-slate-500 focus:outline-none transition-all resize-none ${
+              isListening ? 'border-rose-500 ring-1 ring-rose-500' : 'border-slate-800 focus:border-sky-500 focus:ring-1 focus:ring-sky-500'
+            }`}
           />
+
+          {/* Voice Input Button */}
+          <button
+            type="button"
+            onClick={toggleListening}
+            className={`absolute right-12 bottom-2.5 p-2 rounded-xl transition-all ${
+              isListening
+                ? 'bg-rose-600 text-white animate-pulse shadow-md shadow-rose-600/30'
+                : 'text-slate-400 hover:text-white hover:bg-slate-800'
+            }`}
+            title={isListening ? 'Listening (Click to stop)' : 'Click to speak'}
+          >
+            <Mic className="w-4 h-4" />
+          </button>
 
           <button
             type="submit"

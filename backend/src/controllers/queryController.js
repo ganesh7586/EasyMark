@@ -356,6 +356,31 @@ async function handleAgentStreamQuery(req, res, next) {
   }
 }
 
+/**
+ * GET /api/query/analytics
+ * Retrieve aggregated agent metrics and vector statistics from downstream AI engine.
+ */
+async function handleGetAnalytics(req, res, next) {
+  try {
+    const response = await axios.get(`${config.aiServiceUrl}/api/v1/agent/analytics`, {
+      headers: { 'x-internal-key': config.internalApiKey },
+      timeout: 10000,
+    });
+    return res.status(200).json({
+      success: true,
+      data: response.data,
+    });
+  } catch (error) {
+    if (error.response) {
+      return res.status(error.response.status).json({
+        success: false,
+        error: error.response.data?.detail || 'Downstream analytics error',
+      });
+    }
+    next(error);
+  }
+}
+
 module.exports = {
   handlePolicyQuery,
   handleAgentQuery,
@@ -363,4 +388,5 @@ module.exports = {
   handleAgentEvaluate,
   handleGetThreadHistory,
   handleDeleteThread,
+  handleGetAnalytics,
 };

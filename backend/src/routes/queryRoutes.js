@@ -24,4 +24,7 @@ router.get('/threads/:thread_id', queryController.handleGetThreadHistory);
 // DELETE /api/query/threads/:thread_id - Reset / Clear Session Memory
 router.delete('/threads/:thread_id', queryController.handleDeleteThread);
 
+// GET /api/query/analytics - Agent Workflow & Vector Store Analytics
+router.get('/analytics', queryController.handleGetAnalytics);
+
 module.exports = router;

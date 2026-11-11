@@ -10,13 +10,34 @@ import {
   Copy, 
   Check, 
   Bot,
-  Compass
+  Compass,
+  Volume2,
+  VolumeX
 } from 'lucide-react';
 import CitationCard from './CitationCard';
 
 export default function ChatMessage({ message, onOpenTrace }) {
   const isUser = message.role === 'user';
   const [copied, setCopied] = React.useState(false);
+  const [isSpeaking, setIsSpeaking] = React.useState(false);
+
+  const toggleSpeak = () => {
+    if (!window.speechSynthesis) return;
+
+    if (isSpeaking) {
+      window.speechSynthesis.cancel();
+      setIsSpeaking(false);
+    } else {
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(message.content);
+      utterance.rate = 1.0;
+      utterance.pitch = 1.0;
+      utterance.onend = () => setIsSpeaking(false);
+      utterance.onerror = () => setIsSpeaking(false);
+      window.speechSynthesis.speak(utterance);
+      setIsSpeaking(true);
+    }
+  };
 
   const handleCopy = () => {
     if (message.content) {
@@ -161,6 +182,16 @@ export default function ChatMessage({ message, onOpenTrace }) {
                   <span>Inspect Trace</span>
                 </button>
               )}
+
+              <button
+                onClick={toggleSpeak}
+                className={`p-1 rounded-md transition-colors ${
+                  isSpeaking ? 'text-sky-400 bg-sky-500/10' : 'text-slate-400 hover:text-white hover:bg-slate-800'
+                }`}
+                title={isSpeaking ? 'Stop speaking' : 'Listen to answer'}
+              >
+                {isSpeaking ? <VolumeX className="w-3.5 h-3.5 text-sky-400 animate-pulse" /> : <Volume2 className="w-3.5 h-3.5" />}
+              </button>
 
               <button
                 onClick={handleCopy}

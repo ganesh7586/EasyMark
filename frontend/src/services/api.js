@@ -117,4 +117,28 @@ export async function getMCPCategories() {
   return response.data;
 }
 
+export async function getDocuments() {
+  const response = await api.get('/documents');
+  return response.data;
+}
+
+export async function uploadDocument(filename, contentBase64 = null, textContent = null) {
+  const response = await api.post('/documents/upload', {
+    filename,
+    content_base64: contentBase64,
+    text_content: textContent,
+  });
+  return response.data;
+}
+
+export async function deleteDocument(docName) {
+  const response = await api.delete(`/documents/${encodeURIComponent(docName)}`);
+  return response.data;
+}
+
+export async function getAnalytics() {
+  const response = await api.get('/query/analytics');
+  return response.data;
+}
+
 export default api;

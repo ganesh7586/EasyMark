@@ -7,7 +7,9 @@ import {
   Activity, 
   Database,
   ExternalLink,
-  Settings
+  Settings,
+  UploadCloud,
+  BarChart3
 } from 'lucide-react';
 
 export default function Header({ 
@@ -16,7 +18,9 @@ export default function Header({
   healthStatus, 
   toolsCount = 15,
   onOpenTrace,
-  onOpenSettings
+  onOpenSettings,
+  onOpenUpload,
+  onOpenAnalytics
 }) {
   return (
     <header className="h-16 border-b border-slate-800 bg-slate-900/80 backdrop-blur px-6 flex items-center justify-between z-10">
@@ -60,14 +64,32 @@ export default function Header({
       </div>
 
       {/* Actions */}
-      <div className="flex items-center space-x-2.5">
+      <div className="flex items-center space-x-2">
+        <button
+          onClick={onOpenUpload}
+          className="flex items-center space-x-1.5 px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white text-xs font-medium border border-slate-700/80 transition-colors"
+          title="Dynamic Document Ingestion"
+        >
+          <UploadCloud className="w-3.5 h-3.5 text-sky-400" />
+          <span className="hidden sm:inline">Upload Docs</span>
+        </button>
+
+        <button
+          onClick={onOpenAnalytics}
+          className="flex items-center space-x-1.5 px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white text-xs font-medium border border-slate-700/80 transition-colors"
+          title="System Analytics & Compliance"
+        >
+          <BarChart3 className="w-3.5 h-3.5 text-indigo-400" />
+          <span className="hidden sm:inline">Analytics</span>
+        </button>
+
         <button
           onClick={onOpenSettings}
           className="flex items-center space-x-1.5 px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white text-xs font-medium border border-slate-700/80 transition-colors"
           title="Integrations & Settings"
         >
           <Settings className="w-3.5 h-3.5 text-slate-400" />
-          <span>Settings</span>
+          <span className="hidden sm:inline">Settings</span>
         </button>
 
         <button

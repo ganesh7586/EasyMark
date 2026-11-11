@@ -9,6 +9,8 @@ const config = require('./config/environment');
 const healthRoutes = require('./routes/healthRoutes');
 const queryRoutes = require('./routes/queryRoutes');
 const mcpRoutes = require('./routes/mcpRoutes');
+const documentRoutes = require('./routes/documentRoutes');
+const webhookRoutes = require('./routes/webhookRoutes');
 const { notFoundHandler, globalErrorHandler } = require('./middleware/errorHandler');
 
 const app = express();
@@ -60,6 +62,8 @@ app.get('/health', (req, res) => {
 app.use('/api/health', healthRoutes);
 app.use('/api/query', queryRoutes);
 app.use('/api/mcp', mcpRoutes);
+app.use('/api/documents', documentRoutes);
+app.use('/api/webhooks', webhookRoutes);
 
 // Fallthrough 404 & Global Error Handling
 app.use(notFoundHandler);

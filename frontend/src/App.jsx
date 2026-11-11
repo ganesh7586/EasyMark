@@ -5,6 +5,8 @@ import ChatMessage from './components/ChatMessage';
 import ChatInput from './components/ChatInput';
 import ExecutionTraceModal from './components/ExecutionTraceModal';
 import SettingsModal from './components/SettingsModal';
+import UploadModal from './components/UploadModal';
+import AnalyticsModal from './components/AnalyticsModal';
 import { queryAgent, streamAgentQuery, getThreadHistory, deleteThread, getGatewayHealth } from './services/api';
 import { 
   Sparkles, 
@@ -38,6 +40,8 @@ export default function App() {
   const [healthStatus, setHealthStatus] = useState('healthy');
   const [traceModalOpen, setTraceModalOpen] = useState(false);
   const [settingsModalOpen, setSettingsModalOpen] = useState(false);
+  const [uploadModalOpen, setUploadModalOpen] = useState(false);
+  const [analyticsModalOpen, setAnalyticsModalOpen] = useState(false);
   const [selectedTraceData, setSelectedTraceData] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
 
@@ -353,6 +357,8 @@ export default function App() {
           healthStatus={healthStatus}
           toolsCount={15}
           onOpenSettings={() => setSettingsModalOpen(true)}
+          onOpenUpload={() => setUploadModalOpen(true)}
+          onOpenAnalytics={() => setAnalyticsModalOpen(true)}
         />
 
         {/* Messages Scroll Area */}
@@ -468,6 +474,19 @@ export default function App() {
       <SettingsModal
         isOpen={settingsModalOpen}
         onClose={() => setSettingsModalOpen(false)}
+      />
+
+      {/* Dynamic Document Upload & Real-Time Ingestion Modal */}
+      <UploadModal
+        isOpen={uploadModalOpen}
+        onClose={() => setUploadModalOpen(false)}
+        onDocumentUpdated={() => getGatewayHealth().catch(() => {})}
+      />
+
+      {/* Enterprise Analytics & Routing Observability Modal */}
+      <AnalyticsModal
+        isOpen={analyticsModalOpen}
+        onClose={() => setAnalyticsModalOpen(false)}
       />
     </div>
   );

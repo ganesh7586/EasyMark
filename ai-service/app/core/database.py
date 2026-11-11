@@ -43,7 +43,7 @@ class DatabaseManager:
 
         if client is not None:
             self.client = client
-        elif self.uri:
+        elif self.uri and str(self.uri).strip().lower() not in ("mock", "inmemory", "none", "", "false", "0"):
             try:
                 self.client = MongoClient(
                     self.uri,
@@ -60,7 +60,7 @@ class DatabaseManager:
                 import mongomock
                 self.client = mongomock.MongoClient()
         else:
-            # Fallback to in-memory mongomock when no URI is provided
+            # Fallback to in-memory mongomock when no URI is provided or mock requested
             import mongomock
             self.client = mongomock.MongoClient()
 

@@ -1,6 +1,6 @@
 /**
  * Complete End-to-End System Integration Test
- * Starts FastAPI AI Service & Express Gateway, executes 17 multi-tier probes, and exits cleanly.
+ * Starts FastAPI AI Service & Express Gateway, executes 24 multi-tier probes, and exits cleanly.
  */
 
 const { spawn } = require('child_process');
@@ -23,7 +23,7 @@ function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-async function waitForServer(url, timeoutMs = 60000) {
+async function waitForServer(url, timeoutMs = 90000) {
   const start = Date.now();
   while (Date.now() - start < timeoutMs) {
     try {
@@ -48,23 +48,13 @@ async function runTestSuite() {
   console.log('\n[1/4] Spawning FastAPI AI Service downstream (Port 8000)...');
   fastApiProcess = spawn(
     PYTHON_EXE,
-    ['-m', 'uvicorn', 'app.main:app', '--host', '127.0.0.1', '--port', '8000'],
+    ['-u', '-m', 'uvicorn', 'app.main:app', '--host', '127.0.0.1', '--port', '8000'],
     {
       cwd: FASTAPI_DIR,
-      env: { ...process.env, PYTHONPATH: FASTAPI_DIR, PYTHONUNBUFFERED: '1', MONGODB_URI: '' },
-      stdio: ['ignore', 'pipe', 'pipe'],
+      env: { ...process.env, PYTHONPATH: FASTAPI_DIR, PYTHONUNBUFFERED: '1', MONGODB_URI: 'mock' },
+      stdio: 'inherit',
     }
   );
-
-  fastApiProcess.stdout.on('data', (d) => {
-    const s = d.toString();
-    console.log('  [FastAPI stdout]', s.trim());
-  });
-
-  fastApiProcess.stderr.on('data', (d) => {
-    const s = d.toString();
-    console.log('  [FastAPI stderr]', s.trim());
-  });
 
   fastApiProcess.on('exit', (code) => {
     console.log('  [FastAPI exited with code]', code);
@@ -78,14 +68,7 @@ async function runTestSuite() {
   expressProcess = spawn('node', ['src/server.js'], {
     cwd: BACKEND_DIR,
     env: { ...process.env, PORT: '5000', AI_SERVICE_URL: FASTAPI_URL, INTERNAL_API_KEY: INTERNAL_KEY },
-    stdio: ['ignore', 'pipe', 'pipe'],
-  });
-
-  expressProcess.stderr.on('data', (d) => {
-    const s = d.toString();
-    if (s.includes('Error')) {
-      console.error('[Express Error]:', s.trim());
-    }
+    stdio: 'inherit',
   });
 
   await waitForServer(`${GATEWAY_URL}/health`);
@@ -299,6 +282,107 @@ async function runTestSuite() {
           text.includes('event: chunk') &&
           text.includes('event: citations') &&
           text.includes('event: done')
+        );
+      },
+    },
+    {
+      name: 'Express Dynamic Document Catalog Listing (GET /api/documents)',
+      url: `${GATEWAY_URL}/api/documents`,
+      method: 'GET',
+      headers: {},
+      validate: (data, status) => {
+        return (
+          status === 200 &&
+          data.success === true &&
+          Array.isArray(data.data) &&
+          data.data.length >= 1
+        );
+      },
+    },
+    {
+      name: 'Express Dynamic Ingestion of Markdown Document (POST /api/documents/upload)',
+      url: `${GATEWAY_URL}/api/documents/upload`,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        filename: 'e2e_security_sop.md',
+        text_content: '# Enterprise Security SOP\nAll production cluster deployments require mandatory hardware key MFA and dual-engineer signoff.',
+      }),
+      validate: (data, status) => {
+        return (
+          status === 200 &&
+          data.success === true &&
+          data.data.filename === 'e2e_security_sop.md' &&
+          data.data.total_chunks >= 1 &&
+          data.data.status === 'indexed'
+        );
+      },
+    },
+    {
+      name: 'Express Dynamic Document Purge / Teardown (DELETE /api/documents/:doc_name)',
+      url: `${GATEWAY_URL}/api/documents/e2e_security_sop.md`,
+      method: 'DELETE',
+      headers: {},
+      validate: (data, status) => {
+        return (
+          status === 200 &&
+          data.success === true &&
+          data.data.doc_name === 'e2e_security_sop.md' &&
+          data.data.status === 'purged'
+        );
+      },
+    },
+    {
+      name: 'Express Enterprise Analytics & Routing Observability (GET /api/query/analytics)',
+      url: `${GATEWAY_URL}/api/query/analytics`,
+      method: 'GET',
+      headers: {},
+      validate: (data, status) => {
+        return (
+          status === 200 &&
+          data.success === true &&
+          data.data.status === 'operational' &&
+          data.data.vector_store != null &&
+          data.data.benchmarks != null &&
+          Array.isArray(data.data.supported_routes)
+        );
+      },
+    },
+    {
+      name: 'Express Slack Webhook Slash Command (/easymark) with Block Kit',
+      url: `${GATEWAY_URL}/api/webhooks/slack`,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        text: 'What are the core work hours?',
+        user_name: 'slack_alice',
+        channel_id: 'general_ops',
+      }),
+      validate: (data, status) => {
+        return (
+          status === 200 &&
+          data.response_type === 'in_channel' &&
+          Array.isArray(data.blocks) &&
+          data.blocks.length >= 2
+        );
+      },
+    },
+    {
+      name: 'Express Microsoft Teams Webhook Adapter with Adaptive Card',
+      url: `${GATEWAY_URL}/api/webhooks/teams`,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        text: 'What is the vacation policy?',
+        from: { name: 'teams_bob' },
+      }),
+      validate: (data, status) => {
+        return (
+          status === 200 &&
+          data.type === 'message' &&
+          Array.isArray(data.attachments) &&
+          data.attachments[0].contentType === 'application/vnd.microsoft.card.adaptive' &&
+          data.attachments[0].content.type === 'AdaptiveCard'
         );
       },
     },
